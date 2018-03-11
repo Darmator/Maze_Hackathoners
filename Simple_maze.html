@@ -187,17 +187,17 @@ function updateGameArea() {
 	myObstacle[i].speedX = 5;
     }
 	}
-    if (myGameArea.keys && myGameArea.keys[39] && !crashRight ) {
+    else if (myGameArea.keys && myGameArea.keys[39] && !crashRight ) {
 		    for (i = 0; i < myObstacle.length; i++){
 	myObstacle[i].speedX = -5;
     }
 	}
-    if (myGameArea.keys && myGameArea.keys[38] && !crashBottom ) {
+    else if (myGameArea.keys && myGameArea.keys[38] && !crashBottom ) {
 		    for (i = 0; i < myObstacle.length; i++){
 	myObstacle[i].speedY = 5;
     }
 	}
-    if (myGameArea.keys && myGameArea.keys[40] && !crashTop ){
+    else if (myGameArea.keys && myGameArea.keys[40] && !crashTop ){
 		    for (i = 0; i < myObstacle.length; i++){
 	myObstacle[i].speedY = -5;
     }
