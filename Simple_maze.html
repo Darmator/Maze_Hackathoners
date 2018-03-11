@@ -21,7 +21,8 @@ var wallColor = "green";
 var pieceColor = "red";
 
 var myGamePiece;
-var myObstacle = [];
+var myObstacle =[];
+var end = false;
 
 
 function startGame() {
@@ -81,6 +82,9 @@ var myGameArea = { //COMMENT
     }, 
     clear : function(){
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    },
+	stop : function() {
+        clearInterval(this.interval);
     }
 };
 
@@ -129,6 +133,10 @@ function component(block1x, block1y, block2x, block2y, wall) {
         ctx = myGameArea.context;
         ctx.fillStyle = color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
+		if (end){
+		ctx.font = "30px Arial";
+	ctx.fillText("You win!!",myObstacle[21].x - 100,myObstacle[21].y + 60);
+		}
     };
     this.newPos = function() {
         this.x += this.speedX;
@@ -202,15 +210,27 @@ function updateGameArea() {
     for (i= 0; i< myObstacle.length;i++){
         if (myGamePiece.crashLeft(myObstacle[i])){
             crashLeft = true;
+			if (i === myObstacle.length -1){
+			end = true;
+			}
         }
         if (myGamePiece.crashRight(myObstacle[i])){
             crashRight = true;
+			if (i === myObstacle.length -1){
+			end = true;
+			}
         }
         if (myGamePiece.crashTop(myObstacle[i])){
             crashTop = true;
+			if (i === myObstacle.length -1){
+			end = true;
+			}
         }
         if (myGamePiece.crashBottom(myObstacle[i])){
             crashBottom = true;
+			if (i === myObstacle.length -1){
+			end = true;
+			}
         }
     }
     if (myGameArea.keys && myGameArea.keys[37] && !crashLeft ) {
@@ -218,17 +238,17 @@ function updateGameArea() {
 	myObstacle[i].speedX = 5;
     }
 	}
-    if (myGameArea.keys && myGameArea.keys[39] && !crashRight ) {
+    else if (myGameArea.keys && myGameArea.keys[39] && !crashRight ) {
 		    for (i = 0; i < myObstacle.length; i++){
 	myObstacle[i].speedX = -5;
     }
 	}
-    if (myGameArea.keys && myGameArea.keys[38] && !crashBottom ) {
+    else if (myGameArea.keys && myGameArea.keys[38] && !crashBottom ) {
 		    for (i = 0; i < myObstacle.length; i++){
 	myObstacle[i].speedY = 5;
     }
 	}
-    if (myGameArea.keys && myGameArea.keys[40] && !crashTop ){
+    else if (myGameArea.keys && myGameArea.keys[40] && !crashTop ){
 		    for (i = 0; i < myObstacle.length; i++){
 	myObstacle[i].speedY = -5;
     }
@@ -238,6 +258,10 @@ function updateGameArea() {
     myObstacle[i].update();
 	myObstacle[i].speedY = 0;
 	myObstacle[i].speedX = 0;
+	if (end){
+	update();
+	myGameArea.stop();
+	}
     }
     
     myGamePiece.update();
