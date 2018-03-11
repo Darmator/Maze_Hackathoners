@@ -13,12 +13,14 @@ canvas {
 
 <script>
 
+//the last wall is the end wall.
 var Cwidth = 8; //8 cells
 var Cheight = 4; //4 cells
 var cellSize = 100;
 var wallWidth = 10;
 var wallColor = "green";
 var pieceColor = "red";
+var endColor = "blue";
 
 var myGamePiece;
 var myObstacle =[];
@@ -27,48 +29,47 @@ var end = false;
 
 function startGame() {
     myGameArea.start();
-    myGamePiece = new component(60, 60, 10, 120, true);
+    myGamePiece = new component(60, 60, 10, 120, "piece");
 	
 	
 	//horizontal border walls
 	for(var i = 0; i < Cwidth; i++){
-		myObstacle.push(new component(i,-1,i,0, false));
-		myObstacle.push(new component(i,Cheight-1,i,Cheight, false));
+		myObstacle.push(new component(i,-1,i,0, "wall"));
+		myObstacle.push(new component(i,Cheight-1,i,Cheight, "wall"));
 	}
 	
 	//vertical border walls
 	for(var i = 0; i < Cheight; i++){
-		myObstacle.push(new component(-1,i,0,i, false));
-		myObstacle.push(new component(Cwidth-1,i,Cwidth,i, false));
+		myObstacle.push(new component(-1,i,0,i, "wall"));
+		myObstacle.push(new component(Cwidth-1,i,Cwidth,i, "wall"));
 	}
-	
-	
-		myObstacle.push(new component(0,1,0,2, false));
-		myObstacle.push(new component(0,3,1,3, false));
-		myObstacle.push(new component(1,1,1,2, false));
-		myObstacle.push(new component(1,3,1,4, false));
-		myObstacle.push(new component(1,1,2,1, false));
-		myObstacle.push(new component(2,1,2,2, false));
-		myObstacle.push(new component(2,1,3,1, false));
-		myObstacle.push(new component(3,2,3,3, false));
-		myObstacle.push(new component(3,3,4,3, false));
-		myObstacle.push(new component(4,0,4,1, false));
-		myObstacle.push(new component(4,1,4,2, false));
-		myObstacle.push(new component(4,2,5,2, false));
-		myObstacle.push(new component(5,0,5,1, false));
-		myObstacle.push(new component(5,2,5,3, false));
-		myObstacle.push(new component(5,2,6,2, false));
-		myObstacle.push(new component(5,0,6,0, false));
-		myObstacle.push(new component(6,0,6,1, false));
-		myObstacle.push(new component(6,1,6,2, false));
 
+		myObstacle.push(new component(0,1,0,2, "wall"));
+		myObstacle.push(new component(0,3,1,3, "wall"));
+		myObstacle.push(new component(1,1,1,2, "wall"));
+		myObstacle.push(new component(1,3,1,4, "wall"));
+		myObstacle.push(new component(1,1,2,1, "wall"));
+		myObstacle.push(new component(2,1,2,2, "wall"));
+		myObstacle.push(new component(2,1,3,1, "wall"));
+		myObstacle.push(new component(3,2,3,3, "wall"));
+		myObstacle.push(new component(3,3,4,3, "wall"));
+		myObstacle.push(new component(4,0,4,1, "wall"));
+		myObstacle.push(new component(4,1,4,2, "wall"));
+		myObstacle.push(new component(4,2,5,2, "wall"));
+		myObstacle.push(new component(5,0,5,1, "wall"));
+		myObstacle.push(new component(5,2,5,3, "wall"));
+		myObstacle.push(new component(5,2,6,2, "wall"));
+		myObstacle.push(new component(5,0,6,0, "wall"));
+		myObstacle.push(new component(6,0,6,1, "wall"));
+		myObstacle.push(new component(6,1,6,2, "wall"));
+		myObstacle.push(new component(7,1,7,2, "end")); //last one not displaying.
 }
 
 var myGameArea = { //COMMENT 
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 200;
-        this.canvas.height = 200;
+        this.canvas.width = 800;
+        this.canvas.height = 400;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 20);
@@ -93,7 +94,7 @@ function component(block1x, block1y, block2x, block2y, wall) {
 	
 	var width = 0, height = 0, x = 0, y = 0, color;
 	
-	if(!wall){
+	if(wall == "wall"){
 		//first make sure that the two cells are not the same, and are directly beside each other
 		if(((block1x == block2x) && (block1y+1 == block2y))
 			|| ((block1y == block1y) && (block1x+1 == block2x))){
@@ -112,9 +113,10 @@ function component(block1x, block1y, block2x, block2y, wall) {
 		
 		x = block2x*cellSize;
 		y = block2y*cellSize;
-		color = wallColor;
+		if(wall == "end") {color = endColor;}
+		else{color = wallColor;}
 	}
-	else{
+	else if(wall == "piece"){
 		width = block1x;
 		height = block1y;
 		x = block2x;
@@ -135,13 +137,12 @@ function component(block1x, block1y, block2x, block2y, wall) {
         ctx.fillRect(this.x, this.y, this.width, this.height);
 		if (end){
 		ctx.font = "30px Arial";
-	ctx.fillText("You win!!",myObstacle[21].x - 100,myObstacle[21].y + 60);
+	ctx.fillText("You win!!",myObstacle[myObstacle.length-1].x - 100,myObstacle[myObstacle.length-1].y + 60);
 		}
     };
     this.newPos = function() {
         this.x += this.speedX;
         this.y += this.speedY; 
-	
 			
     };
         this.crashLeft = function(otherobj){
