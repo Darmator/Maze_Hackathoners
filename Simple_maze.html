@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+canvas {
+    border:1px solid #d3d3d3;
+    background-color: #f1f1f1;
+}
+</style>
+</head>
+<body onload="startGame()">
+
+<script>
+
+var myGamePiece;
+var myObstacle =[];
+
+
+function startGame() {
+    myGameArea.start();
+    myGamePiece = new component(60, 60, "red", 10, 120);
+    myObstacle[0] =new component(100, 10, "green", 0, 100);
+    myObstacle[1] = new component(300, 10, "green", 0, 200);
+    myObstacle[2] = new component(10, 100, "green", 100, 300);
+    myObstacle[3] = new component(10, 100, "green", 200, 100);
+    myObstacle[4] = new component(10, 100, "green", 200, 300);
+    myObstacle[5] = new component(10, 110, "green", 300, 100);
+    myObstacle[6] = new component(100, 10, "green", 300, 300);
+    myObstacle[7] = new component(10, 100, "green", 400, 300);
+    myObstacle[8] = new component(10, 100, "green", 100, 300);
+    myObstacle[9] = new component(300, 10, "green", 400, 100);
+    myObstacle[10] = new component(100, 10, "green", 400, 200);
+    myObstacle[11] = new component(10, 100, "green", 500, 200);
+    myObstacle[12] = new component(100, 10, "green", 500, 300);
+    myObstacle[13] = new component(10, 100, "green", 600, 0);
+    myObstacle[14] = new component(10, 110, "green", 600, 200);
+    myObstacle[15] = new component(100, 10, "green", 600, 200);
+    myObstacle[16] = new component(100, 10, "green", 700, 200);
+    myObstacle[17] = new component(100, 10, "green", 700, 300);
+    
+}
+
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 800;
+        this.canvas.height = 400;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.interval = setInterval(updateGameArea, 20);
+        window.addEventListener('keydown', function (e) {
+            myGameArea.keys = (myGameArea.keys || []);
+            myGameArea.keys[e.keyCode] = (e.type == "keydown");
+        });
+        window.addEventListener('keyup', function (e) {
+            myGameArea.keys[e.keyCode] = (e.type == "keydown");            
+        });
+    }, 
+    clear : function(){
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+};
+
+function component(width, height, color, x, y) {
+    this.gamearea = myGameArea;
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;    
+    this.x = x;
+    this.y = y;    
+    this.update = function() {
+        ctx = myGameArea.context;
+        ctx.fillStyle = color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.font = "30px Arial";
+        ctx.fillText("End",725,265);
+
+    };
+    this.newPos = function() {
+        this.x += this.speedX;
+        this.y += this.speedY;        
+    };
+        this.crashLeft = function(otherobj){
+            var myLeft = this.x;
+            var otherRight = otherobj.x + (otherobj.width);
+            var myTop = this.y;
+            var otherBottom = otherobj.y + (otherobj.height);
+            var myBottom = this.y + (this.height);
+            var otherTop = otherobj.y;
+            var crashLeft = true;
+            if ((myLeft !== otherRight) ||(myTop >= otherBottom ) || (myBottom <= otherTop )){
+                crashLeft = false;
+            }
+            return crashLeft;
+        };
+         this.crashRight = function(otherobj){
+            var myRight = this.x + (this.width);
+            var otherLeft = otherobj.x;
+            var myTop = this.y;
+            var otherBottom = otherobj.y + (otherobj.height);
+            var myBottom = this.y + (this.height);
+            var otherTop = otherobj.y;
+            var crashRight = true;
+            if ((myRight !== otherLeft) ||(myTop >= otherBottom ) || (myBottom <= otherTop )){
+                crashRight = false;
+            }
+            return crashRight;
+        };
+        this.crashBottom = function(otherobj){
+            var myTop = this.y;
+            var otherBottom = otherobj.y + (otherobj.height);
+            var myLeft = this.x;
+            var otherRight = otherobj.x + (otherobj.width);
+            var myRight = this.x + (this.width);
+            var otherLeft = otherobj.x;
+            var crashBottom = true;
+            if ((myTop !== otherBottom) || (myLeft >= otherRight )||(myRight <= otherLeft)){
+                crashBottom = false;
+            }
+            return crashBottom;
+        };
+       this.crashTop = function(otherobj){
+            var myBottom = this.y + (this.height);
+            var otherTop = otherobj.y;
+            var myLeft = this.x;
+            var otherRight = otherobj.x + (otherobj.width);
+            var myRight = this.x + (this.width);
+            var otherLeft = otherobj.x;
+            var crashTop = true;
+            if ((myBottom !== otherTop) || (myLeft >= otherRight)|| (myRight <= otherLeft)){
+                crashTop = false;
+            }
+            return crashTop;
+        };
+    
+}
+
+function updateGameArea() {
+    myGameArea.clear();
+    myGamePiece.speedX = 0;
+    myGamePiece.speedY = 0;
+    var crashLeft = false;
+    var crashRight = false;
+    var crashTop = false;
+    var crashBottom = false;
+    for (i= 0; i< myObstacle.length;i++){
+        if (myGamePiece.crashLeft(myObstacle[i])){
+            crashLeft = true;
+        }
+        if (myGamePiece.crashRight(myObstacle[i])){
+            crashRight = true;
+        }
+        if (myGamePiece.crashTop(myObstacle[i])){
+            crashTop = true;
+        }
+        if (myGamePiece.crashBottom(myObstacle[i])){
+            crashBottom = true;
+        }
+    }
+    if (myGameArea.keys && myGameArea.keys[37] && !crashLeft && myGamePiece.x !== 0) {myGamePiece.speedX = -5; }
+    if (myGameArea.keys && myGameArea.keys[39] && !crashRight && myGamePiece.x !== 720) {myGamePiece.speedX = 5; }
+    if (myGameArea.keys && myGameArea.keys[38] && !crashBottom && myGamePiece.y !== 0) {myGamePiece.speedY = -5; }
+    if (myGameArea.keys && myGameArea.keys[40] && !crashTop && myGamePiece.y !== 320){myGamePiece.speedY = 5; }
+    for (i = 0; i < myObstacle.length; i++){
+    myObstacle[i].update();
+    }
+    myGamePiece.newPos();   
+    myGamePiece.update();
+}
+</script>
+        <h1>Simple Maze</h1>
+<p>Use the arrow keys and try to hit the wall.</p>
+<p>When pressing both the left and the down arrow, the red square will move both down and to the left.</p>
+</body>
+</html>
