@@ -62,7 +62,7 @@ function startGame() {
 		myObstacle.push(new component(5,0,6,0, "wall"));
 		myObstacle.push(new component(6,0,6,1, "wall"));
 		myObstacle.push(new component(6,1,6,2, "wall"));
-		myObstacle.push(new component(7,1,7,2, "end")); //last one not displaying.
+		myObstacle.push(new component(7,1,7,2, "ending"));
 }
 
 var myGameArea = { //COMMENT 
@@ -94,7 +94,7 @@ function component(block1x, block1y, block2x, block2y, wall) {
 	
 	var width = 0, height = 0, x = 0, y = 0, color;
 	
-	if(wall == "wall"){
+	if((wall == "wall") || (wall == "ending")){
 		//first make sure that the two cells are not the same, and are directly beside each other
 		if(((block1x == block2x) && (block1y+1 == block2y))
 			|| ((block1y == block1y) && (block1x+1 == block2x))){
@@ -113,7 +113,7 @@ function component(block1x, block1y, block2x, block2y, wall) {
 		
 		x = block2x*cellSize;
 		y = block2y*cellSize;
-		if(wall == "end") {color = endColor;}
+		if(wall == "ending") {color = endColor;}
 		else{color = wallColor;}
 	}
 	else if(wall == "piece"){
@@ -137,7 +137,7 @@ function component(block1x, block1y, block2x, block2y, wall) {
         ctx.fillRect(this.x, this.y, this.width, this.height);
 		if (end){
 		ctx.font = "30px Arial";
-	ctx.fillText("You win!!",myObstacle[myObstacle.length-1].x - 100,myObstacle[myObstacle.length-1].y + 60);
+	ctx.fillText("You win!!",myObstacle[myObstacle.length-1].x,myObstacle[myObstacle.length-1].y + 60);
 		}
     };
     this.newPos = function() {
