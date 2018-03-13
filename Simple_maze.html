@@ -18,6 +18,11 @@ var myObstacle =new Array();//This are going to be the obstacles
 var map = new Array();//This is going to be the maze written with, 0, 1 and 2, then the program will translate it into squares
 //and store it in myObstacle variable
 //These are the textures
+var character_image = new Image();
+character_image.src = "https://i.imgur.com/sCrkzvs.png";
+var foot = 0;
+var begin = true;
+var character_look = "down";
 var win_image = new Image();
 win_image.src ="http://orig07.deviantart.net/17c7/f/2013/145/f/6/game_over_wallpaper_by_3971450-d66kbai.png";
 var wall_image = new Image();
@@ -26,9 +31,9 @@ var ground_image = new Image();
 ground_image.src = "https://opengameart.org/sites/default/files/grass.png";
 var sign_image = new Image ();
 sign_image.src = "https://opengameart.org/sites/default/files/oga-textures/greendragon.jpg";
-var mazeWidth = 49;//Width of the maze (41 squares) WRITE IN THIS TWO VARIABLES ODD NUMBERS
-var mazeHeigth = 23;//Heigth of the maze (41 squares)
-var squareSurface = 30;//length of one square WRITE IN THIS VARIABLE WITH EVEN NEUMBERS
+var mazeWidth = 11;//Width of the maze (41 squares) WRITE IN THIS TWO VARIABLES ODD NUMBERS
+var mazeHeigth = 11;//Heigth of the maze (41 squares)
+var squareSurface = 50;//length of one square WRITE IN THIS VARIABLE WITH EVEN NEUMBERS
 var direction = [];//This array will be used to generate random mazes,
 // it will tell the program what paths can it follow
 var posX;//x position of the square that the program is going to modify in order to create the map
@@ -97,10 +102,10 @@ function menu(){
 //Start the game
 function startGame() {
     myGameArea.start();//Load the canvas and all that stuff
-    myGameArea.interval = setInterval(updateGameArea, 5);
+    myGameArea.interval = setInterval(updateGameArea, 50);
 	sketch_map();//Write 0, 1 and 2, inside the map array using an algorithm
     draw_map();//Translate the map array into objects and store it into my obstacle array
-	myGamePiece = new component(squareSurface / 2, squareSurface/2, "red", myObstacle[1][1].x, myObstacle[1][1].y);
+	myGamePiece = new component(squareSurface / 2, squareSurface/2, "character", myObstacle[1][1].x, myObstacle[1][1].y);
 	//Create the red square, it will have half of the size of the green blocks, and,it will be placed at the beginning of the maze
 	//the square [1][1] will always be the beggining of the maze
 }
@@ -233,7 +238,6 @@ function carve(){
 		map[posY+2][posX] = 0;
 		posY += 2;
 		break;
-
 	}
 	move++;
 }
@@ -282,6 +286,63 @@ function component(width, height, color, x, y) {
 		}
 		else if (color === "sign"){
 		ctx.drawImage(sign_image, this.x, this.y, this.width, this.height);
+		}
+		else if (color === "character"){
+		if (begin === true){
+			ctx.drawImage(character_image, 0, 0, 55, 60, this.x, this.y, this.width, this.height);// down 
+		}
+		else {
+			switch (character_look){
+			case "down":
+				if (myGameArea.keys[40]  && foot <= 10){
+					ctx.drawImage(character_image, 62, 0, 55, 60, this.x, this.y, this.width, this.height);//down 1
+				}
+				else if (myGameArea.keys[40]  && foot > 10){
+					ctx.drawImage(character_image, 190, 0, 55, 60, this.x, this.y, this.width, this.height);// down 2
+				}
+				else {
+					ctx.drawImage(character_image, 0, 0, 55, 60, this.x, this.y, this.width, this.height);// down 
+				}
+				break;
+			case "up":
+				if (myGameArea.keys[38] && foot <= 10){
+					ctx.drawImage(character_image, 62, 190, 55, 60, this.x, this.y, this.width, this.height);//up 1
+				}
+				else if (myGameArea.keys[38] && foot > 10){
+					ctx.drawImage(character_image, 190, 190, 55, 60, this.x, this.y, this.width, this.height);//up 2
+				}
+				else {
+					ctx.drawImage(character_image, 0, 190, 55, 60, this.x, this.y, this.width, this.height);//up
+				}
+				break;
+			case "right":
+				if (myGameArea.keys[39] && foot <= 10){
+					ctx.drawImage(character_image, 62, 126, 55, 60, this.x, this.y, this.width, this.height);//right 1
+				}
+				else if (myGameArea.keys[39] && foot > 10){
+					ctx.drawImage(character_image, 190, 126, 55, 60, this.x, this.y, this.width, this.height);//right 2
+				}
+				else {
+					ctx.drawImage(character_image, 0, 126, 55, 60, this.x, this.y, this.width, this.height);//right
+				}
+				break;
+			case "left":
+				if (myGameArea.keys[37] && foot <= 10){
+					ctx.drawImage(character_image, 62, 62, 55, 60, this.x, this.y, this.width, this.height);//left 1
+				}
+				else if (myGameArea.keys[37] && foot > 10){
+					ctx.drawImage(character_image, 190, 62, 55, 60, this.x, this.y, this.width, this.height);//left 2
+				}
+				else {
+					ctx.drawImage(character_image, 0, 62, 55, 60, this.x, this.y, this.width, this.height);//left
+				}
+				break;
+			}
+			foot++;
+			if (foot  >= 20 ){
+			foot = 0;
+			}
+		}
 		}
 		else{
         ctx.fillStyle = color;
@@ -387,15 +448,23 @@ function updateGameArea() {
 	//move the red square
 	    if (myGameArea.keys && myGameArea.keys[37] && !crashLeft ) {
 				myGamePiece.speedX = -(squareSurface/2);
+				character_look = "left";
+				begin = false;
 	}
     else if (myGameArea.keys && myGameArea.keys[39] && !crashRight ) {
 				myGamePiece.speedX = squareSurface/2;
+				character_look = "right";
+				begin = false;
 	}
     else if (myGameArea.keys && myGameArea.keys[38] && !crashBottom ) {
-	myGamePiece.speedY = -(squareSurface/2);
+				myGamePiece.speedY = -(squareSurface/2);
+				character_look = "up";
+				begin = false;
 	}
     else if (myGameArea.keys && myGameArea.keys[40] && !crashTop ){
-	myGamePiece.speedY = squareSurface/2;
+				myGamePiece.speedY = squareSurface/2;
+				character_look = "down";
+				begin = false;
 	}
 	//Update myObtacle position
     for (i = 0; i < mazeHeigth; i++){
@@ -406,7 +475,7 @@ function updateGameArea() {
 //Update the red square position	
 	myGamePiece.newPos();
     myGamePiece.update();
-	if (end){//if end is true stop the game and write You win!!!
+	if (end){//if end is true stop the game and write Game Over!!!
 	myGameArea.stop();
 	 ctx = myGameArea.context;
 	ctx.drawImage(win_image, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
