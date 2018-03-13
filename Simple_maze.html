@@ -5,125 +5,266 @@
 <style>
 canvas {
     border:1px solid #d3d3d3;
-    background-color: #f1f1f1;
+    background-color: #f1f1f1; 
 }
 </style>
 </head>
-<body onload="startGame()">
+<body onload="menu()" >
 
 <script>
-
-//the last wall is the end wall.
-var Cwidth = 8; //8 cells
-var Cheight = 4; //4 cells
-var cellSize = 100;
-var wallWidth = 10;
-var wallColor = "green";
-var pieceColor = "red";
-var endColor = "blue";
-
-var myGamePiece;
-var myObstacle =[];
-var end = false;
-
-
-function startGame() {
-    myGameArea.start();
-    myGamePiece = new component(60, 60, 10, 120, "piece");
-	
-	
-	//horizontal border walls
-	for(var i = 0; i < Cwidth; i++){
-		myObstacle.push(new component(i,-1,i,0, "wall"));
-		myObstacle.push(new component(i,Cheight-1,i,Cheight, "wall"));
-	}
-	
-	//vertical border walls
-	for(var i = 0; i < Cheight; i++){
-		myObstacle.push(new component(-1,i,0,i, "wall"));
-		myObstacle.push(new component(Cwidth-1,i,Cwidth,i, "wall"));
-	}
-
-		myObstacle.push(new component(0,1,0,2, "wall"));
-		myObstacle.push(new component(0,3,1,3, "wall"));
-		myObstacle.push(new component(1,1,1,2, "wall"));
-		myObstacle.push(new component(1,3,1,4, "wall"));
-		myObstacle.push(new component(1,1,2,1, "wall"));
-		myObstacle.push(new component(2,1,2,2, "wall"));
-		myObstacle.push(new component(2,1,3,1, "wall"));
-		myObstacle.push(new component(3,2,3,3, "wall"));
-		myObstacle.push(new component(3,3,4,3, "wall"));
-		myObstacle.push(new component(4,0,4,1, "wall"));
-		myObstacle.push(new component(4,1,4,2, "wall"));
-		myObstacle.push(new component(4,2,5,2, "wall"));
-		myObstacle.push(new component(5,0,5,1, "wall"));
-		myObstacle.push(new component(5,2,5,3, "wall"));
-		myObstacle.push(new component(5,2,6,2, "wall"));
-		myObstacle.push(new component(5,0,6,0, "wall"));
-		myObstacle.push(new component(6,0,6,1, "wall"));
-		myObstacle.push(new component(6,1,6,2, "wall"));
-		myObstacle.push(new component(7,1,7,2, "ending"));
+var startGameVar = false;
+var myGamePiece;//This is our red square
+var myObstacle =new Array();//This are going to be the obstacles
+var map = new Array();//This is going to be the maze written with, 0, 1 and 2, then the program will translate it into squares
+//and store it in myObstacle variable
+//These are the textures
+var win_image = new Image();
+win_image.src ="http://orig07.deviantart.net/17c7/f/2013/145/f/6/game_over_wallpaper_by_3971450-d66kbai.png";
+var wall_image = new Image();
+wall_image.src = "https://opengameart.org/sites/default/files/grndcobblestone.jpg";
+var ground_image = new Image();
+ground_image.src = "https://opengameart.org/sites/default/files/grass.png";
+var sign_image = new Image ();
+sign_image.src = "https://opengameart.org/sites/default/files/oga-textures/greendragon.jpg";
+var mazeWidth = 49;//Width of the maze (41 squares) WRITE IN THIS TWO VARIABLES ODD NUMBERS
+var mazeHeigth = 23;//Heigth of the maze (41 squares)
+var squareSurface = 30;//length of one square WRITE IN THIS VARIABLE WITH EVEN NEUMBERS
+var direction = [];//This array will be used to generate random mazes,
+// it will tell the program what paths can it follow
+var posX;//x position of the square that the program is going to modify in order to create the map
+var posY;//y position of the square that the program is going to modify in order to create the map
+var last_px = [];//This two arrays will let the program remember where are the squares that it has already
+var last_py = [];//modify in order to make more than just one path
+move = 0;//This variable will make the last_p arrays work
+//This for loop transforms the array myObstacle into a 2d array, because, there isn't a code to make them
+for (n=0;n<mazeHeigth;n++) {
+ myObstacle[n]=new Array();
+ for (m=0;m<mazeWidth;m++) {
+  myObstacle[n][m]=0;
+ }
 }
-
-var myGameArea = { //COMMENT 
-    canvas : document.createElement("canvas"),
+//This for loop transforms the array map, into a 2d array
+for (n=0;n<mazeHeigth;n++) {
+ map[n]=new Array();
+ for (m=0;m<mazeWidth;m++) {
+  map[n][m]=0;
+ }
+}
+    
+//Menu
+function menu(){
+    myGameArea.start();
+    ctx = myGameArea.context;
+    ctx.fillStyle="green";
+    ctx.fillRect(0,0,myGameArea.canvas.width,myGameArea.canvas.height);
+    ctx.fillStyle="yellow";
+    ctx.fillRect((myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-(100/2),200,100);
+    ctx.fillStyle="black";
+    ctx.font = "15px Arial";
+    ctx.fillText("Click Here To Begin",(myGameArea.canvas.width/2)-(200/2)+35,(myGameArea.canvas.height/2)+5);
+    window.addEventListener('mouseup', function(e) {
+    var x = e.clientX;
+    var y = e.clientY;
+        if (x>((myGameArea.canvas.width/2)-(200/2)) && x<((myGameArea.canvas.width/2)-(200/2)+200) && y>((myGameArea.canvas.height/2)-(100/2)) && y<((myGameArea.canvas.height/2)-(100/2)+100) && startGameVar == false){
+            startGameVar = true;
+            startGame();
+        }
+    });
+    window.addEventListener('mousemove', function inBox(e) {
+        var j = e.clientX;
+        var k = e.clientY;
+        if (j>((myGameArea.canvas.width/2)-(200/2)) && j<((myGameArea.canvas.width/2)-(200/2)+200) && k>((myGameArea.canvas.height/2)-(100/2)) && k<((myGameArea.canvas.height/2)-(100/2)+100)){
+            if(startGameVar == false){
+            ctx.fillStyle="#FFD700";
+            ctx.fillRect((myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-(100/2),200,100);
+            ctx.fillStyle="black";
+            ctx.font = "15px Arial";
+            ctx.fillText("Click Here To Begin",(myGameArea.canvas.width/2)-(200/2)+35,(myGameArea.canvas.height/2)+5);
+            }
+        }
+        else{
+            if(startGameVar == false){
+            ctx.fillStyle="yellow";
+            ctx.fillRect((myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-(100/2),200,100);
+            ctx.fillStyle="black";
+            ctx.font = "15px Arial";
+            ctx.fillText("Click Here To Begin",(myGameArea.canvas.width/2)-(200/2)+35,(myGameArea.canvas.height/2)+5);
+            }
+        }
+    });  
+}
+    
+//Start the game
+function startGame() {
+    myGameArea.start();//Load the canvas and all that stuff
+    myGameArea.interval = setInterval(updateGameArea, 5);
+	sketch_map();//Write 0, 1 and 2, inside the map array using an algorithm
+    draw_map();//Translate the map array into objects and store it into my obstacle array
+	myGamePiece = new component(squareSurface / 2, squareSurface/2, "red", myObstacle[1][1].x, myObstacle[1][1].y);
+	//Create the red square, it will have half of the size of the green blocks, and,it will be placed at the beginning of the maze
+	//the square [1][1] will always be the beggining of the maze
+}
+//Start loading things
+var myGameArea = {  
+    canvas : document.createElement("canvas"),//Load the canvas
     start : function() {
-        this.canvas.width = 800;
-        this.canvas.height = 400;
+        this.canvas.width = mazeWidth * squareSurface;//The canvas width will be equal to the number of squares times their width
+        this.canvas.height = mazeHeigth * squareSurface;//The canvas height will be equal to the number of squares times their heigth
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 20);
+        
+		//Check if no keys are pressed
         window.addEventListener('keydown', function (e) {
             myGameArea.keys = (myGameArea.keys || []);
             myGameArea.keys[e.keyCode] = (e.type == "keydown");
         });
+		//Check if any keys are pressed
         window.addEventListener('keyup', function (e) {
             myGameArea.keys[e.keyCode] = (e.type == "keydown");            
         });
     }, 
+	//Clear the canvas
     clear : function(){
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
+	//Stop the game
 	stop : function() {
         clearInterval(this.interval);
     }
 };
+//This function will manage the algorithm that will write ones, or zeroes to the screen
+function sketch_map(){
+	//This for loop will set all the elements of map to 1,
+//	basically how this algorithm works is that you start from a canvas fll of squares and the algorithm "carves" the maze
+	for (v = 0; v < mazeHeigth; v++){
+		for(n = 0; n < mazeWidth; n++){
+		map[v][n] = 1;
+		}
+	}
+	//Set he beggining position of the algorithm at map[1][1]
+	posX = 1;
+	posY = 1;
+	map[posX][posY] = 0;
+	/*How this algorithm works is like this:
+	1. State a beginning position
+	2. Check what directions can you choose to go from that direction
+	3. If there are directions available choose one randomly
+	4. Continue till there are not directions available
+	5. When there aren't any new directions available follow your path backwards till you find new directions
+	6. Continue from step 2
+	7. If there aren´t any new directions in the maze you have finished*/
+	do {
+	while(check_carve()){
+		carve();
+		direction.length = 0;
+	} 
+	} while (!ultimate_check());
+	
+  }
+  //Check if there's any direction that you can choose
+  function check_carve (){
+	var direction_carve = false;
+	//Check if you can go north
+	if (posY - 2 > 0 && map[posY - 2][posX] == 1 && map[posY-1][posX] == 1){
+		direction.push("N");
+		direction_carve = true;
+	}
+	//Check if you can go south
+	if (posY + 2 < mazeHeigth && map[posY + 2][posX] == 1 && map[posY +1][posX] == 1){
+		direction.push("S");
+		direction_carve = true;
+	}
+	//Check if you can go west
+	if (posX - 2 > 0 && map[posY][posX - 2] == 1 && map[posY][posX - 1] == 1){
+		direction.push("W");
+		direction_carve = true;
+	}
+	//Check if you can go east
+	if (posX + 2 < mazeWidth && map[posY][posX + 2] && map[posY][posX + 1] == 1){ 
+		direction.push("E");
+		direction_carve = true;
+	}
+	//Output there are any directions available
+	return direction_carve;
+}
+//Follow your path backwards
+function ultimate_check(){
+	var end_sketching = true;
+	move--;
+	//If you can keep following backwards the path
+	if (move !== 0){
+	posY = last_py[move];//Go to the last square that you carved
+	posX = last_px[move];
+	end_sketching = false;
+	}
+	//Output if there's still path for you to follow
+	return end_sketching;
+	
+}
+//Carve the maze, carving is done by changing the values of map from 1 to 0
+function carve(){
+//	Pick your available directions and choose one randomly
+	var choose= Math.floor(Math.random() * direction.length);
+	last_py[move] = posY;//Record your square
+	last_px[move] = posX;
+	switch (direction[choose]){
+	//	carve the squares at your left
+		case "W":
+		map[posY][posX-1] = 0;
+		map[posY][posX-2] = 0;
+		posX -= 2;
+		break;
+		// carve the squares at your right
+	case "E":
+		map[posY][posX+1] = 0;
+		map[posY][posX+2] = 0;
+		posX +=2;
+		break;
+		//carve the squares over you
+	case "N":
+		map[posY-1][posX] = 0;
+		map[posY-2][posX] = 0;
+		last_py[move] = posY;
+		posY -= 2;
+		break;
+		//carve the squares under you
+	case "S":
+		map[posY+1][posX] = 0;
+		map[posY+2][posX] = 0;
+		posY += 2;
+		break;
 
-function component(block1x, block1y, block2x, block2y, wall) {  
-	//create components between 2 blocks
-	
-	var width = 0, height = 0, x = 0, y = 0, color;
-	
-	if((wall == "wall") || (wall == "ending")){
-		//first make sure that the two cells are not the same, and are directly beside each other
-		if(((block1x == block2x) && (block1y+1 == block2y))
-			|| ((block1y == block1y) && (block1x+1 == block2x))){
-			if(block1x == block2x){
-				width = cellSize;
-				height = wallWidth;
-			}
-			else if(block1y == block2y){
-				width = wallWidth;
-				height = cellSize;
-			}
-		}
-		else{
-			//invalid coordinates.
-		}
-		
-		x = block2x*cellSize;
-		y = block2y*cellSize;
-		if(wall == "ending") {color = endColor;}
-		else{color = wallColor;}
 	}
-	else if(wall == "piece"){
-		width = block1x;
-		height = block1y;
-		x = block2x;
-		y = block2y;
-		color = pieceColor;
-	}
-	
+	move++;
+}
+//This fuction will translate the 1 and 0, of the map array into objects inside the myObstacle array
+function draw_map(){
+	//Make the furthest square to the beginning the end of the maze by changing its value to 2
+	map[mazeHeigth - 2][mazeWidth - 2] = 2;
+	var horizontal = 0;//horizontal coordinates
+	var vertical = 0;//vertical coordinates
+	//Look all the values of the map array
+	for (var y = 0;  y < mazeHeigth; y++){
+		for (var x = 0; x < mazeWidth; x++){
+		if (map[y][x] > 0){//Square surface is the size of the square and horizontal and vertical their coordinates
+		if (map[y][x] > 1){//if a value is bigger than one
+		myObstacle[y][x] = new component (squareSurface, squareSurface, "sign", horizontal, vertical);
+		}
+		else{//if a value is bigger than 0 but less than 2
+		myObstacle[y][x] = new component (squareSurface, squareSurface, "wall", horizontal, vertical);
+		}
+		}
+		else {//if a value is less than 1
+		myObstacle[y][x] = new component (squareSurface, squareSurface, "ground", horizontal, vertical);
+		}
+		horizontal += squareSurface;//move the width of a square to the right
+		}
+		horizontal = 0;//go back to the beginning
+		vertical += squareSurface;//move the heigth of a square down
+		}
+}
+//This function will allow the different objects have characteristics
+function component(width, height, color, x, y) {
     this.gamearea = myGameArea;
     this.width = width;
     this.height = height;
@@ -133,17 +274,23 @@ function component(block1x, block1y, block2x, block2y, wall) {
     this.y = y;    
     this.update = function() {
         ctx = myGameArea.context;
+		if (color === "wall"){
+			ctx.drawImage(wall_image, this.x, this.y, this.width, this.height);
+		}
+		else if (color === "ground"){
+		ctx.drawImage(ground_image, this.x, this.y, this.width, this.height);
+		}
+		else if (color === "sign"){
+		ctx.drawImage(sign_image, this.x, this.y, this.width, this.height);
+		}
+		else{
         ctx.fillStyle = color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
-		if (end){
-		ctx.font = "30px Arial";
-	ctx.fillText("You win!!",myObstacle[myObstacle.length-1].x,myObstacle[myObstacle.length-1].y + 60);
 		}
     };
     this.newPos = function() {
         this.x += this.speedX;
-        this.y += this.speedY; 
-			
+        this.y += this.speedY;        
     };
         this.crashLeft = function(otherobj){
             var myLeft = this.x;
@@ -153,7 +300,7 @@ function component(block1x, block1y, block2x, block2y, wall) {
             var myBottom = this.y + (this.height);
             var otherTop = otherobj.y;
             var crashLeft = true;
-            if ((myLeft !== otherRight) ||(myTop >= otherBottom ) || (myBottom <= otherTop )){
+            if ((myLeft !== otherRight) ||(myTop >= otherBottom ) || (myBottom <= otherTop ))  {
                 crashLeft = false;
             }
             return crashLeft;
@@ -199,77 +346,72 @@ function component(block1x, block1y, block2x, block2y, wall) {
         };
     
 }
-
 function updateGameArea() {
     myGameArea.clear();
-    myGamePiece.speedX = 0;
-    myGamePiece.speedY = 0;
     var crashLeft = false;
     var crashRight = false;
     var crashTop = false;
     var crashBottom = false;
-    for (i= 0; i< myObstacle.length;i++){
-        if (myGamePiece.crashLeft(myObstacle[i])){
+	var end = false;
+	myGamePiece.speedX = 0;
+	myGamePiece.speedY = 0;
+	//Check for collisions, and, if there's a collision with a blue block, set end value to true
+    for (i= 0; i< mazeHeigth;i++){
+		for (var b = 0; b <mazeWidth; b++){
+        if (myGamePiece.crashLeft(myObstacle[i][b]) && map[i][b] !== 0){
             crashLeft = true;
-			if (i === myObstacle.length -1){
+			if (map[i][b] === 2){
 			end = true;
 			}
         }
-        if (myGamePiece.crashRight(myObstacle[i])){
+        if (myGamePiece.crashRight(myObstacle[i][b])&& map[i][b] !== 0){
             crashRight = true;
-			if (i === myObstacle.length -1){
+			if (map[i][b] === 2){
 			end = true;
 			}
         }
-        if (myGamePiece.crashTop(myObstacle[i])){
+        if (myGamePiece.crashTop(myObstacle[i][b])&& map[i][b] !== 0){
             crashTop = true;
-			if (i === myObstacle.length -1){
+			if (map[i][b] === 2){
 			end = true;
 			}
         }
-        if (myGamePiece.crashBottom(myObstacle[i])){
+        if (myGamePiece.crashBottom(myObstacle[i][b])&& map[i][b] !== 0){
             crashBottom = true;
-			if (i === myObstacle.length -1){
+			if (map[i][b] === 2){
 			end = true;
 			}
         }
+		}
     }
-    if (myGameArea.keys && myGameArea.keys[37] && !crashLeft ) {
-	    for (i = 0; i < myObstacle.length; i++){
-	myObstacle[i].speedX = 5;
-    }
+	//move the red square
+	    if (myGameArea.keys && myGameArea.keys[37] && !crashLeft ) {
+				myGamePiece.speedX = -(squareSurface/2);
 	}
     else if (myGameArea.keys && myGameArea.keys[39] && !crashRight ) {
-		    for (i = 0; i < myObstacle.length; i++){
-	myObstacle[i].speedX = -5;
-    }
+				myGamePiece.speedX = squareSurface/2;
 	}
     else if (myGameArea.keys && myGameArea.keys[38] && !crashBottom ) {
-		    for (i = 0; i < myObstacle.length; i++){
-	myObstacle[i].speedY = 5;
-    }
+	myGamePiece.speedY = -(squareSurface/2);
 	}
     else if (myGameArea.keys && myGameArea.keys[40] && !crashTop ){
-		    for (i = 0; i < myObstacle.length; i++){
-	myObstacle[i].speedY = -5;
-    }
+	myGamePiece.speedY = squareSurface/2;
 	}
-    for (i = 0; i < myObstacle.length; i++){
-	myObstacle[i].newPos();
-    myObstacle[i].update();
-	myObstacle[i].speedY = 0;
-	myObstacle[i].speedX = 0;
-	if (end){
-	update();
-	myGameArea.stop();
+	//Update myObtacle position
+    for (i = 0; i < mazeHeigth; i++){
+		for (var c=0; c <mazeWidth; c++){
+    myObstacle[i][c].update();
 	}
-    }
-    
+    } 
+//Update the red square position	
+	myGamePiece.newPos();
     myGamePiece.update();
+	if (end){//if end is true stop the game and write You win!!!
+	myGameArea.stop();
+	 ctx = myGameArea.context;
+	ctx.drawImage(win_image, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
+	}
 }
 </script>
-        <h1>Simple Maze</h1>
-<p>Use the arrow keys and try to hit the wall.</p>
-<p>When pressing both the left and the down arrow, the red square will move both down and to the left.</p>
 </body>
 </html>
