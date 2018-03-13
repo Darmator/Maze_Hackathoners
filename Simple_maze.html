@@ -109,6 +109,21 @@ function startGame() {
 	//Create the red square, it will have half of the size of the green blocks, and,it will be placed at the beginning of the maze
 	//the square [1][1] will always be the beggining of the maze
 }
+
+function reset_game(){
+for (i = 0; i <mazeHeigth; i++){
+	for (u= 0; u <mazeWidth; u++){
+		myObstacle[i][u] = 0;
+	}
+}
+end = false;
+begin = true;
+sketch_map();
+draw_map();
+myGamePiece.x = myObstacle[1][1].x;
+myGamePiece.y = myObstacle[1][1].y;
+}
+
 //Start loading things
 var myGameArea = {  
     canvas : document.createElement("canvas"),//Load the canvas
@@ -476,9 +491,10 @@ function updateGameArea() {
 	myGamePiece.newPos();
     myGamePiece.update();
 	if (end){//if end is true stop the game and write Game Over!!!
-	myGameArea.stop();
+	reset_game();
+	/*myGameArea.stop();
 	 ctx = myGameArea.context;
-	ctx.drawImage(win_image, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
+	ctx.drawImage(win_image, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);*/
 	}
 }
 </script>
