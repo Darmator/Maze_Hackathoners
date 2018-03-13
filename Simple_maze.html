@@ -102,7 +102,7 @@ function menu(){
 //Start the game
 function startGame() {
     myGameArea.start();//Load the canvas and all that stuff
-    myGameArea.interval = setInterval(updateGameArea, 50);
+    myGameArea.interval = setInterval(updateGameArea, 10);
 	sketch_map();//Write 0, 1 and 2, inside the map array using an algorithm
     draw_map();//Translate the map array into objects and store it into my obstacle array
 	myGamePiece = new component(squareSurface / 2, squareSurface/2, "character", myObstacle[1][1].x, myObstacle[1][1].y);
@@ -447,22 +447,22 @@ function updateGameArea() {
     }
 	//move the red square
 	    if (myGameArea.keys && myGameArea.keys[37] && !crashLeft ) {
-				myGamePiece.speedX = -(squareSurface/2);
+				myGamePiece.speedX = -1;
 				character_look = "left";
 				begin = false;
 	}
     else if (myGameArea.keys && myGameArea.keys[39] && !crashRight ) {
-				myGamePiece.speedX = squareSurface/2;
+				myGamePiece.speedX =1;
 				character_look = "right";
 				begin = false;
 	}
     else if (myGameArea.keys && myGameArea.keys[38] && !crashBottom ) {
-				myGamePiece.speedY = -(squareSurface/2);
+				myGamePiece.speedY = -1;
 				character_look = "up";
 				begin = false;
 	}
     else if (myGameArea.keys && myGameArea.keys[40] && !crashTop ){
-				myGamePiece.speedY = squareSurface/2;
+				myGamePiece.speedY = 1;
 				character_look = "down";
 				begin = false;
 	}
