@@ -19,8 +19,10 @@ var map = new Array();//This is going to be the maze written with, 0, 1 and 2, t
 //and store it in myObstacle variable
 //These are the textures
 var character_image = new Image();
-character_image.src = "https://opengameart.org/sites/default/files/styles/medium/public/blocky_walkleft-scaled.png";
+character_image.src = "https://i.imgur.com/sCrkzvs.png";
 var foot = 0;
+var begin = true;
+var character_look = "down";
 var win_image = new Image();
 win_image.src ="http://orig07.deviantart.net/17c7/f/2013/145/f/6/game_over_wallpaper_by_3971450-d66kbai.png";
 var wall_image = new Image();
@@ -286,16 +288,60 @@ function component(width, height, color, x, y) {
 		ctx.drawImage(sign_image, this.x, this.y, this.width, this.height);
 		}
 		else if (color === "character"){
-		if (foot <= 10){
-		ctx.drawImage(character_image, 60, 0, 60, 80, this.x,this.y, this.width, this.height);
-		foot++;
+		if (begin === true){
+			ctx.drawImage(character_image, 0, 0, 55, 60, this.x, this.y, this.width, this.height);// down 
 		}
 		else {
-		ctx.drawImage(character_image, 0, 0, 60, 80, this.x,this.y, this.width, this.height);
-		foot++;
-		if (foot > 20 ){
-		foot = 0;
-		}
+			switch (character_look){
+			case "down":
+				if (myGameArea.keys[40]  && foot <= 10){
+					ctx.drawImage(character_image, 62, 0, 55, 60, this.x, this.y, this.width, this.height);//down 1
+				}
+				else if (myGameArea.keys[40]  && foot > 10){
+					ctx.drawImage(character_image, 190, 0, 55, 60, this.x, this.y, this.width, this.height);// down 2
+				}
+				else {
+					ctx.drawImage(character_image, 0, 0, 55, 60, this.x, this.y, this.width, this.height);// down 
+				}
+				break;
+			case "up":
+				if (myGameArea.keys[38] && foot <= 10){
+					ctx.drawImage(character_image, 62, 190, 55, 60, this.x, this.y, this.width, this.height);//up 1
+				}
+				else if (myGameArea.keys[38] && foot > 10){
+					ctx.drawImage(character_image, 190, 190, 55, 60, this.x, this.y, this.width, this.height);//up 2
+				}
+				else {
+					ctx.drawImage(character_image, 0, 190, 55, 60, this.x, this.y, this.width, this.height);//up
+				}
+				break;
+			case "right":
+				if (myGameArea.keys[39] && foot <= 10){
+					ctx.drawImage(character_image, 62, 126, 55, 60, this.x, this.y, this.width, this.height);//right 1
+				}
+				else if (myGameArea.keys[39] && foot > 10){
+					ctx.drawImage(character_image, 190, 126, 55, 60, this.x, this.y, this.width, this.height);//right 2
+				}
+				else {
+					ctx.drawImage(character_image, 0, 126, 55, 60, this.x, this.y, this.width, this.height);//right
+				}
+				break;
+			case "left":
+				if (myGameArea.keys[37] && foot <= 10){
+					ctx.drawImage(character_image, 62, 62, 55, 60, this.x, this.y, this.width, this.height);//left 1
+				}
+				else if (myGameArea.keys[37] && foot > 10){
+					ctx.drawImage(character_image, 190, 62, 55, 60, this.x, this.y, this.width, this.height);//left 2
+				}
+				else {
+					ctx.drawImage(character_image, 0, 62, 55, 60, this.x, this.y, this.width, this.height);//left
+				}
+				break;
+			}
+			foot++;
+			if (foot  >= 20 ){
+			foot = 0;
+			}
 		}
 		}
 		else{
@@ -402,15 +448,23 @@ function updateGameArea() {
 	//move the red square
 	    if (myGameArea.keys && myGameArea.keys[37] && !crashLeft ) {
 				myGamePiece.speedX = -(squareSurface/2);
+				character_look = "left";
+				begin = false;
 	}
     else if (myGameArea.keys && myGameArea.keys[39] && !crashRight ) {
 				myGamePiece.speedX = squareSurface/2;
+				character_look = "right";
+				begin = false;
 	}
     else if (myGameArea.keys && myGameArea.keys[38] && !crashBottom ) {
-	myGamePiece.speedY = -(squareSurface/2);
+				myGamePiece.speedY = -(squareSurface/2);
+				character_look = "up";
+				begin = false;
 	}
     else if (myGameArea.keys && myGameArea.keys[40] && !crashTop ){
-	myGamePiece.speedY = squareSurface/2;
+				myGamePiece.speedY = squareSurface/2;
+				character_look = "down";
+				begin = false;
 	}
 	//Update myObtacle position
     for (i = 0; i < mazeHeigth; i++){
