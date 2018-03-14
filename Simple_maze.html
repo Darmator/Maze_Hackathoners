@@ -449,7 +449,7 @@ function check_crash( i, b){
         crashTop = true;
 		any_crash = true;
     }
-    if (myGamePiece.crashBottom(myObstacle[i][b])&& map[i][b] !== 0){
+    if (myGamePiece.crashBottom(myObstacle[i][b])){
         crashBottom = true;
 		any_crash = true;
 	}
