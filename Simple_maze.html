@@ -278,9 +278,23 @@ function draw_map(){
 	var horizontal = 0;//horizontal coordinates
 	var vertical = 0;//vertical coordinates
 	//Look all the values of the map array
+	var finish_line_location = Math.floor(Math.random() * 3 );
+	switch  (finish_line_location){
+	case 0:
+		map[1][1] = 2;
+		break;
+	case 1:
+		map[1][mazeWidth - 2] = 2;
+		break;
+	case 2:
+		map[mazeHeigth - 2][1] = 2;
+		break;
+	case 3:
+		map[mazeHeigth - 2][mazeWidth - 2] = 2;
+		break;
+	}
 	for (var y = 0;  y < mazeHeigth; y++){
 		for (var x = 0; x < mazeWidth; x++){
-			map[mazeHeigth - 2][mazeWidth - 2] = 2;
 			switch (map[y][x]){
 			case 0:
 				myObstacle[y][x] = new component (squareSurface, squareSurface, "ground", horizontal, vertical);
