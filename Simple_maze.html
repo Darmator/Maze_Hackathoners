@@ -18,6 +18,8 @@ var myObstacle =new Array();//This are going to be the obstacles
 var map = new Array();//This is going to be the maze written with, 0, 1 and 2, then the program will translate it into squares
 //and store it in myObstacle variable
 //These are the textures
+var question_image = new Image ();
+question_image.src = "https://sites.google.com/site/darmatorsprites/home/question.PNG";
 var character_image = new Image();
 character_image.src = "https://i.imgur.com/sCrkzvs.png";
 var foot = 0;
@@ -41,6 +43,10 @@ var posY;//y position of the square that the program is going to modify in order
 var last_px = [];//This two arrays will let the program remember where are the squares that it has already
 var last_py = [];//modify in order to make more than just one path
 move = 0;//This variable will make the last_p arrays work
+var crashLeft = false;
+var crashRight = false;
+var crashTop = false;
+var crashBottom = false;
 //This for loop transforms the array myObstacle into a 2d array, because, there isn't a code to make them
 for (n=0;n<mazeHeigth;n++) {
  myObstacle[n]=new Array();
@@ -258,28 +264,35 @@ function carve(){
 }
 //This fuction will translate the 1 and 0, of the map array into objects inside the myObstacle array
 function draw_map(){
-	//Make the furthest square to the beginning the end of the maze by changing its value to 2
-	map[mazeHeigth - 2][mazeWidth - 2] = 2;
+	
 	var horizontal = 0;//horizontal coordinates
 	var vertical = 0;//vertical coordinates
 	//Look all the values of the map array
 	for (var y = 0;  y < mazeHeigth; y++){
 		for (var x = 0; x < mazeWidth; x++){
-		if (map[y][x] > 0){//Square surface is the size of the square and horizontal and vertical their coordinates
-		if (map[y][x] > 1){//if a value is bigger than one
-		myObstacle[y][x] = new component (squareSurface, squareSurface, "sign", horizontal, vertical);
-		}
-		else{//if a value is bigger than 0 but less than 2
-		myObstacle[y][x] = new component (squareSurface, squareSurface, "wall", horizontal, vertical);
-		}
-		}
-		else {//if a value is less than 1
-		myObstacle[y][x] = new component (squareSurface, squareSurface, "ground", horizontal, vertical);
-		}
-		horizontal += squareSurface;//move the width of a square to the right
-		}
-		horizontal = 0;//go back to the beginning
-		vertical += squareSurface;//move the heigth of a square down
+			var choose = Math.floor(Math.random() * 15);
+			if (choose === 1 && map[y][x] === 0){
+				map[y][x] = 3;
+			}
+			map[mazeHeigth - 2][mazeWidth - 2] = 2;
+			switch (map[y][x]){
+			case 0:
+				myObstacle[y][x] = new component (squareSurface, squareSurface, "ground", horizontal, vertical);
+				break;
+			case 1:
+				myObstacle[y][x] = new component (squareSurface, squareSurface, "wall", horizontal, vertical);
+				break;
+			case 2:
+				myObstacle[y][x] = new component (squareSurface, squareSurface, "sign", horizontal, vertical);
+				break;
+			case 3:
+				myObstacle[y][x] = new component (squareSurface, squareSurface, "question", horizontal, vertical);
+				break;
+			}
+			horizontal += squareSurface;
+			}
+		horizontal = 0;
+		vertical += squareSurface;
 		}
 }
 //This function will allow the different objects have characteristics
@@ -297,10 +310,13 @@ function component(width, height, color, x, y) {
 			ctx.drawImage(wall_image, this.x, this.y, this.width, this.height);
 		}
 		else if (color === "ground"){
-		ctx.drawImage(ground_image, this.x, this.y, this.width, this.height);
+			ctx.drawImage(ground_image, this.x, this.y, this.width, this.height);
 		}
 		else if (color === "sign"){
-		ctx.drawImage(sign_image, this.x, this.y, this.width, this.height);
+			ctx.drawImage(sign_image, this.x, this.y, this.width, this.height);
+		}
+		else if (color === "question"){
+			ctx.drawImage(question_image, this.x, this.y, this.width, this.height);
 		}
 		else if (color === "character"){
 		if (begin === true){
@@ -422,44 +438,61 @@ function component(width, height, color, x, y) {
         };
     
 }
+
+function check_crash( i, b){
+	var any_crash = false;
+	if (myGamePiece.crashLeft(myObstacle[i][b])){
+        crashLeft = true;
+		any_crash = true;
+    }
+    if (myGamePiece.crashRight(myObstacle[i][b])){
+        crashRight = true;
+		any_crash = true;
+    }
+    if (myGamePiece.crashTop(myObstacle[i][b])){
+        crashTop = true;
+		any_crash = true;
+    }
+    if (myGamePiece.crashBottom(myObstacle[i][b])&& map[i][b] !== 0){
+        crashBottom = true;
+		any_crash = true;
+	}
+	return any_crash;
+}
+
 function updateGameArea() {
     myGameArea.clear();
-    var crashLeft = false;
-    var crashRight = false;
-    var crashTop = false;
-    var crashBottom = false;
-	var end = false;
+    crashLeft = false;
+    crashRight = false;
+    crashTop = false;
+    crashBottom = false;
+	end = false;
 	myGamePiece.speedX = 0;
 	myGamePiece.speedY = 0;
 	//Check for collisions, and, if there's a collision with a blue block, set end value to true
     for (i= 0; i< mazeHeigth;i++){
 		for (var b = 0; b <mazeWidth; b++){
-        if (myGamePiece.crashLeft(myObstacle[i][b]) && map[i][b] !== 0){
-            crashLeft = true;
-			if (map[i][b] === 2){
-			end = true;
+			switch (map[i][b]){
+			case 0:
+				break;
+			case 1:
+				check_crash(i,b);
+				break;
+			case 2:
+				if (check_crash(i,b)){
+					end = true;
+				}
+				break;
+			case 3:
+				if (check_crash(i,b)){
+				function SOMETHING ();//CHANGE THE NAME OF THE FUNCTION AND CREATE A NEW FUNCTION TO IMPLEMENT THE QUIZ CODE
+				//THIS IF STATEMENT WILL HAPPEN IF THE CHARACTER TOUCHES A QUESTION BLOCK, WHICH HAVE A 1/15 PROBABIBLITY OF APPEAR
+				}
+				break;
 			}
+
         }
-        if (myGamePiece.crashRight(myObstacle[i][b])&& map[i][b] !== 0){
-            crashRight = true;
-			if (map[i][b] === 2){
-			end = true;
-			}
-        }
-        if (myGamePiece.crashTop(myObstacle[i][b])&& map[i][b] !== 0){
-            crashTop = true;
-			if (map[i][b] === 2){
-			end = true;
-			}
-        }
-        if (myGamePiece.crashBottom(myObstacle[i][b])&& map[i][b] !== 0){
-            crashBottom = true;
-			if (map[i][b] === 2){
-			end = true;
-			}
-        }
-		}
-    }
+	}
 	//move the red square
 	    if (myGameArea.keys && myGameArea.keys[37] && !crashLeft ) {
 				myGamePiece.speedX = -1;
