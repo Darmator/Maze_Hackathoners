@@ -21,7 +21,7 @@ var map = new Array();//This is going to be the maze written with, 0, 1 and 2, t
 var question_image = new Image ();
 question_image.src = "https://sites.google.com/site/darmatorsprites/home/question.PNG";
 var character_image = new Image();
-character_image.src = "https://i.imgur.com/sCrkzvs.png";
+character_image.src = "https://sites.google.com/site/darmatorsprites/home/sprite.png";
 var foot = 0;
 var begin = true;
 var character_look = "down";
@@ -33,13 +33,15 @@ var ground_image = new Image();
 ground_image.src = "https://opengameart.org/sites/default/files/grass.png";
 var sign_image = new Image ();
 sign_image.src = "https://opengameart.org/sites/default/files/oga-textures/greendragon.jpg";
-var mazeWidth = 11;//Width of the maze (41 squares) WRITE IN THIS TWO VARIABLES ODD NUMBERS
+var mazeWidth = 15;//Width of the maze (41 squares) WRITE IN THIS TWO VARIABLES ODD NUMBERS
 var mazeHeigth = 11;//Heigth of the maze (41 squares)
 var squareSurface = 50;//length of one square WRITE IN THIS VARIABLE WITH EVEN NEUMBERS
 var direction = [];//This array will be used to generate random mazes,
 // it will tell the program what paths can it follow
 var posX;//x position of the square that the program is going to modify in order to create the map
 var posY;//y position of the square that the program is going to modify in order to create the map
+var characterX;
+var characterY;
 var last_px = [];//This two arrays will let the program remember where are the squares that it has already
 var last_py = [];//modify in order to make more than just one path
 move = 0;//This variable will make the last_p arrays work
@@ -111,25 +113,28 @@ function startGame() {
     myGameArea.interval = setInterval(updateGameArea, 10);
 	sketch_map();//Write 0, 1 and 2, inside the map array using an algorithm
     draw_map();//Translate the map array into objects and store it into my obstacle array
-	myGamePiece = new component(squareSurface / 2, squareSurface/2, "character", myObstacle[1][1].x, myObstacle[1][1].y);
+	get_character_position();
+	myGamePiece = new component(35, 35, "character", myObstacle[characterY][characterX].x, myObstacle[characterY][characterX].y);
 	//Create the red square, it will have half of the size of the green blocks, and,it will be placed at the beginning of the maze
 	//the square [1][1] will always be the beggining of the maze
 }
-
 function reset_game(){
-for (i = 0; i <mazeHeigth; i++){
-	for (u= 0; u <mazeWidth; u++){
-		myObstacle[i][u] = 0;
+mazeHeigth += 2//This codes increment the size of the map, you need to do a few things, first, make the canvas increment too, second, all over the code
+mazeWidth +=2//I use the mazeHeigth and mazeWidth, in for loops for the array myObstacle and map, and sometimes, they give me undefined errors, I'm not 
+end = false;//really sure how to fix it, third, since the screen of a computer is a rectangle, you should program something, to make this maze funcions, increase
+sketch_map();// in different rates(remember that the maze variables need always to be odd numbers), fourth, the variable squareSurface controls the size
+draw_map();//of the square, once the maze is too big you could make the squares smaller, in order to make the maze bigger, but, if you make the squares smaller
+get_character_position();//remember to make the main character smaller in the same ratio
+myGamePiece.x = myObstacle[characterY][characterX].x;
+myGamePiece.y = myObstacle[characterY][characterX].y;
+}
+function get_character_position(){
+	do {
+	characterX = Math.floor(Math.random() * mazeWidth );
+	characterY = Math.floor(Math.random() * mazeHeigth );
 	}
+	while (map[characterY][characterX] !== 0);
 }
-end = false;
-begin = true;
-sketch_map();
-draw_map();
-myGamePiece.x = myObstacle[1][1].x;
-myGamePiece.y = myObstacle[1][1].y;
-}
-
 //Start loading things
 var myGameArea = {  
     canvas : document.createElement("canvas"),//Load the canvas
@@ -268,9 +273,23 @@ function draw_map(){
 	var horizontal = 0;//horizontal coordinates
 	var vertical = 0;//vertical coordinates
 	//Look all the values of the map array
+	var finish_line_location = Math.floor(Math.random() * 3 );
+	switch  (finish_line_location){
+	case 0:
+		map[1][1] = 2;
+		break;
+	case 1:
+		map[1][mazeWidth - 2] = 2;
+		break;
+	case 2:
+		map[mazeHeigth - 2][1] = 2;
+		break;
+	case 3:
+		map[mazeHeigth - 2][mazeWidth - 2] = 2;
+		break;
+	}
 	for (var y = 0;  y < mazeHeigth; y++){
 		for (var x = 0; x < mazeWidth; x++){
-			map[mazeHeigth - 2][mazeWidth - 2] = 2;
 			switch (map[y][x]){
 			case 0:
 				myObstacle[y][x] = new component (squareSurface, squareSurface, "ground", horizontal, vertical);
@@ -316,52 +335,52 @@ function component(width, height, color, x, y) {
 		}
 		else if (color === "character"){
 		if (begin === true){
-			ctx.drawImage(character_image, 0, 0, 55, 60, this.x, this.y, this.width, this.height);// down 
+			ctx.drawImage(character_image, 0, 0, 60, 70, this.x, this.y, this.width, this.height);// down 
 		}
 		else {
 			switch (character_look){
 			case "down":
 				if (myGameArea.keys[40]  && foot <= 10){
-					ctx.drawImage(character_image, 62, 0, 55, 60, this.x, this.y, this.width, this.height);//down 1
+					ctx.drawImage(character_image, 207, 638, 50, 70, this.x, this.y, this.width, this.height);//down 1
 				}
 				else if (myGameArea.keys[40]  && foot > 10){
-					ctx.drawImage(character_image, 190, 0, 55, 60, this.x, this.y, this.width, this.height);// down 2
+					ctx.drawImage(character_image, 461, 638, 50, 70, this.x, this.y, this.width, this.height);// down 2
 				}
 				else {
-					ctx.drawImage(character_image, 0, 0, 55, 60, this.x, this.y, this.width, this.height);// down 
+					ctx.drawImage(character_image, 78, 638, 50, 70, this.x, this.y, this.width, this.height);// down 
 				}
 				break;
 			case "up":
 				if (myGameArea.keys[38] && foot <= 10){
-					ctx.drawImage(character_image, 62, 190, 55, 60, this.x, this.y, this.width, this.height);//up 1
+					ctx.drawImage(character_image, 200, 520, 50, 69, this.x, this.y, this.width, this.height);//up 1
 				}
 				else if (myGameArea.keys[38] && foot > 10){
-					ctx.drawImage(character_image, 190, 190, 55, 60, this.x, this.y, this.width, this.height);//up 2
+					ctx.drawImage(character_image, 455, 520, 50, 69, this.x, this.y, this.width, this.height);//up 2
 				}
 				else {
-					ctx.drawImage(character_image, 0, 190, 55, 60, this.x, this.y, this.width, this.height);//up
+					ctx.drawImage(character_image, 72, 520, 50, 69, this.x, this.y, this.width, this.height);//up
 				}
 				break;
 			case "right":
 				if (myGameArea.keys[39] && foot <= 10){
-					ctx.drawImage(character_image, 62, 126, 55, 60, this.x, this.y, this.width, this.height);//right 1
+					ctx.drawImage(character_image, 128, 707, 50, 70, this.x, this.y, this.width, this.height);//right 1
 				}
 				else if (myGameArea.keys[39] && foot > 10){
-					ctx.drawImage(character_image, 190, 126, 55, 60, this.x, this.y, this.width, this.height);//right 2
+					ctx.drawImage(character_image, 381, 707, 50, 70, this.x, this.y, this.width, this.height);//right 2
 				}
 				else {
-					ctx.drawImage(character_image, 0, 126, 55, 60, this.x, this.y, this.width, this.height);//right
+					ctx.drawImage(character_image, 0, 707, 50, 70, this.x, this.y, this.width, this.height);//right
 				}
 				break;
 			case "left":
 				if (myGameArea.keys[37] && foot <= 10){
-					ctx.drawImage(character_image, 62, 62, 55, 60, this.x, this.y, this.width, this.height);//left 1
+					ctx.drawImage(character_image, 147, 580, 50, 70, this.x, this.y, this.width, this.height);//left 1
 				}
 				else if (myGameArea.keys[37] && foot > 10){
-					ctx.drawImage(character_image, 190, 62, 55, 60, this.x, this.y, this.width, this.height);//left 2
+					ctx.drawImage(character_image, 402, 580, 50, 70, this.x, this.y, this.width, this.height);//left 2
 				}
 				else {
-					ctx.drawImage(character_image, 0, 62, 55, 60, this.x, this.y, this.width, this.height);//left
+					ctx.drawImage(character_image, 20, 580, 50, 70, this.x, this.y, this.width, this.height);//left
 				}
 				break;
 			}
@@ -434,7 +453,6 @@ function component(width, height, color, x, y) {
         };
     
 }
-
 function check_crash( i, b){
 	var any_crash = false;
 	if (myGamePiece.crashLeft(myObstacle[i][b])){
@@ -455,7 +473,6 @@ function check_crash( i, b){
 	}
 	return any_crash;
 }
-
 function updateGameArea() {
     myGameArea.clear();
     crashLeft = false;
@@ -480,7 +497,6 @@ function updateGameArea() {
 				}
 				break;
 			}
-
         }
 	}
 	//move the red square
