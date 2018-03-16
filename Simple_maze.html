@@ -14,7 +14,8 @@ canvas {
 <script>
 var startGameVar = false;
 var myGamePiece;//This is our red square
-var myEnemy;
+var myEnemy = [];
+var enemy_amount = 4;
 var myObstacle =new Array();//This are going to be the obstacles
 var map = new Array();//This is going to be the maze written with, 0, 1 and 2, then the program will translate it into squares
 var visited = new Array()
@@ -22,16 +23,27 @@ var visited = new Array()
 //These are the textures
 var enemy_image = new Image();
 enemy_image.src = "https://sites.google.com/site/darmatorsprites/home/orc%20sprite.png";
-var move_to_x;
-var move_to_y;
+var move_to_x = [];
+var move_to_y = [];
 var question_image = new Image ();
 question_image.src = "https://sites.google.com/site/darmatorsprites/home/question.PNG";
 var hero_image = new Image();
 hero_image.src = "https://sites.google.com/site/darmatorsprites/home/sprite.png";
-var enemy_foot = 0;
+var enemy_foot = [];
+var enemy_look = [];
+var enemy_direction = [];
+for (t = 0; t < enemy_amount; t++){
+	enemy_foot[t] = 0
+	enemy_look[t] = "down";
+	enemy_direction[t] = new Array();
+	for (v = 0; v < 4; v++){
+		enemy_direction[t][v] = 0;
+	}
+	enemy_direction[t].length = 0;
+}
+
 var foot = 0;
 var hero_look = "down";
-var enemy_look = "down";
 var win_image = new Image();
 win_image.src ="http://orig07.deviantart.net/17c7/f/2013/145/f/6/game_over_wallpaper_by_3971450-d66kbai.png";
 var wall_image = new Image();
@@ -40,8 +52,8 @@ var ground_image = new Image();
 ground_image.src = "https://opengameart.org/sites/default/files/grass.png";
 var sign_image = new Image ();
 sign_image.src = "https://opengameart.org/sites/default/files/oga-textures/greendragon.jpg";
-var mazeWidth = 29;//Width of the maze (41 squares) WRITE IN THIS TWO VARIABLES ODD NUMBERS
-var mazeHeigth = 13;//Heigth of the maze (41 squares)
+var mazeWidth = 29;//Width of the maze  WRITE IN THIS TWO VARIABLES ODD NUMBERS
+var mazeHeigth = 13;//Heigth of the maze 
 var squareSurface = 50;//length of one square WRITE IN THIS VARIABLE WITH EVEN NEUMBERS
 var direction = [];//This array will be used to generate random mazes,
 // it will tell the program what paths can it follow
@@ -49,6 +61,8 @@ var posX;//x position of the square that the program is going to modify in order
 var posY;//y position of the square that the program is going to modify in order to create the map
 var locationX;
 var locationY;
+var enemy_locationX = [];
+var enemy_locationY = [];
 var last_px = [];//This two arrays will let the program remember where are the squares that it has already
 var last_py = [];//modify in order to make more than just one path
 move = 0;//This variable will make the last_p arrays work
@@ -59,22 +73,20 @@ var crashBottom = false;
 //This for loop transforms the array myObstacle into a 2d array, because, there isn't a code to make them
 for (n=0;n<mazeHeigth;n++) {
  myObstacle[n]=new Array();
+  map[n]=new Array();
  for (m=0;m<mazeWidth;m++) {
   myObstacle[n][m]=0;
- }
-}
-for (n = 0; n < mazeHeigth; n++){
-	visited[n] = new Array();
-	for (m = 0; m < mazeWidth; m++){
-		visited[n][m] = false;
-	}
-}
-//This for loop transforms the array map, into a 2d array
-for (n=0;n<mazeHeigth;n++) {
- map[n]=new Array();
- for (m=0;m<mazeWidth;m++) {
   map[n][m]=0;
  }
+}
+for (j = 0; j < enemy_amount; j++){
+	visited[j] = new Array();
+	for (n = 0; n < mazeHeigth; n++){
+		visited[j][n] = new Array();
+		for (m = 0; m < mazeWidth; m++){
+			visited[j][n][m];
+		}
+	}
 }
     
 //Menu
@@ -128,10 +140,14 @@ function startGame() {
     draw_map();//Translate the map array into objects and store it into my obstacle array
 	get_location();
 	myGamePiece = new component(squareSurface/2, squareSurface/2, "hero", myObstacle[locationY][locationX].x , myObstacle[locationY][locationX].y );
-	get_location();
-	myEnemy = new component(squareSurface/2, squareSurface/2, "enemy", myObstacle[locationY][locationX].x  , myObstacle[locationY][locationX].y );
-	move_to_x = myObstacle[locationY][locationX].x ;
-	move_to_y = myObstacle[locationY][locationX].y ;
+	for (t = 0; t < enemy_amount; t++){
+		get_location();
+		enemy_locationX[t] = locationX
+		enemy_locationY[t] = locationY
+		myEnemy[t] = new component(squareSurface/2, squareSurface/2, "enemy", myObstacle[locationY][locationX].x  , myObstacle[locationY][locationX].y, t );
+		move_to_x[t] = myObstacle[locationY][locationX].x ;
+		move_to_y[t] = myObstacle[locationY][locationX].y ;
+	}
 }
 function reset_game(){
 	end = false;
@@ -140,11 +156,15 @@ function reset_game(){
 	get_location();
 	myGamePiece.x = myObstacle[locationY][locationX].x;
 	myGamePiece.y = myObstacle[locationY][locationX].y;
-	get_location();
-	myEnemy.x = myObstacle[locationY][locationX].x;
-	myEnemy.y = myObstacle[locationY][locationX].y;
-	move_to_x = myObstacle[locationY][locationX].x ;
-	move_to_y = myObstacle[locationY][locationX].y ;
+	for (t = 0; t < enemy_amount; t++){
+		get_location();
+		enemy_locationX[t] = locationX
+		enemy_locationY[t] = locationY
+		myEnemy[t].x = myObstacle[locationY][locationX].x;
+		myEnemy[t].y = myObstacle[locationY][locationX].y;
+		move_to_x[t] = myObstacle[locationY][locationX].x ;
+		move_to_y[t] = myObstacle[locationY][locationX].y ;
+	}
 }
 function get_location(){
 	do {
@@ -329,7 +349,7 @@ function draw_map(){
 		}
 }
 //This function will allow the different objects have characteristics
-function component(width, height, color, x, y) {
+function component(width, height, color, x, y, number) {
     this.gamearea = myGameArea;
     this.width = width;
     this.height = height;
@@ -356,7 +376,7 @@ function component(width, height, color, x, y) {
 			hero_sprites( this.x, this.y, this.width, this.height);
 			break;
 		case "enemy":
-			enemy_sprites( this.x, this.y, this.width, this.height);
+			enemy_sprites( this.x, this.y, this.width, this.height, number);
 			break;
 		default:
 			ctx.fillStyle = color;
@@ -422,50 +442,50 @@ function component(width, height, color, x, y) {
         };
     
 }
-function hero_sprites( cha_x, cha_y, cha_width, cha_height){
+function hero_sprites(  x,  y,  width,  height){
 			switch (hero_look){
 			case "down":
 				if ( myGamePiece.speedY === 1  && foot <= 10){
-					ctx.drawImage(hero_image, 205, 638, 50, 70, cha_x, cha_y, cha_width, cha_height);//down 1
+					ctx.drawImage(hero_image, 205, 638, 50, 70,  x,  y,  width,  height);//down 1
 				}
 				else if ( myGamePiece.speedY === 1  && foot > 10){
-					ctx.drawImage(hero_image, 459, 638, 50, 70, cha_x, cha_y, cha_width, cha_height);// down 2
+					ctx.drawImage(hero_image, 459, 638, 50, 70,  x,  y,  width,  height);// down 2
 				}
 				else {
-					ctx.drawImage(hero_image, 76, 638, 50, 70, cha_x, cha_y, cha_width, cha_height);// down 
+					ctx.drawImage(hero_image, 76, 638, 50, 70,  x,  y,  width,  height);// down 
 				}
 				break;
 			case "up":
 				if ( myGamePiece.speedY === -1 && foot <= 10){
-					ctx.drawImage(hero_image, 198, 519, 50, 69, cha_x, cha_y, cha_width, cha_height);//up 1
+					ctx.drawImage(hero_image, 198, 519, 50, 69,  x,  y,  width,  height);//up 1
 				}
 				else if ( myGamePiece.speedY === -1 && foot > 10){
-					ctx.drawImage(hero_image,453, 519, 50, 69, cha_x, cha_y, cha_width, cha_height);//up 2
+					ctx.drawImage(hero_image,453, 519, 50, 69,  x,  y,  width,  height);//up 2
 				}
 				else {
-					ctx.drawImage(hero_image, 70, 519, 50, 69, cha_x, cha_y, cha_width, cha_height);//up
+					ctx.drawImage(hero_image, 70, 519, 50, 69,  x,  y,  width,  height);//up
 				}
 				break;
 			case "right":
 				if ( myGamePiece.speedX === 1 && foot <= 10){
-					ctx.drawImage(hero_image, 128, 707, 50, 70, cha_x, cha_y, cha_width, cha_height);//right 1
+					ctx.drawImage(hero_image, 128, 707, 50, 70,  x,  y,  width,  height);//right 1
 				}
 				else if (myGamePiece.speedX === 1 && foot > 10){
-					ctx.drawImage(hero_image, 381, 707, 50, 70, cha_x, cha_y, cha_width, cha_height);//right 2
+					ctx.drawImage(hero_image, 381, 707, 50, 70,  x,  y,  width,  height);//right 2
 				}
 				else {
-					ctx.drawImage(hero_image, 0, 707, 50, 70, cha_x, cha_y, cha_width, cha_height);//right
+					ctx.drawImage(hero_image, 0, 707, 50, 70,  x,  y,  width,  height);//right
 				}
 				break;
 			case "left":
 				if ( myGamePiece.speedX === -1 && foot <= 10){
-					ctx.drawImage(hero_image, 147, 580, 50, 70, cha_x, cha_y, cha_width, cha_height);//left 1
+					ctx.drawImage(hero_image, 147, 580, 50, 70,  x,  y,  width,  height);//left 1
 				}
 				else if ( myGamePiece.speedX === -1 && foot > 10){
-					ctx.drawImage(hero_image, 402, 580, 50, 70, cha_x, cha_y, cha_width, cha_height);//left 2
+					ctx.drawImage(hero_image, 402, 580, 50, 70,  x,  y,  width,  height);//left 2
 				}
 				else {
-					ctx.drawImage(hero_image, 20, 580, 50, 70, cha_x, cha_y, cha_width, cha_height);//left
+					ctx.drawImage(hero_image, 20, 580, 50, 70,  x,  y,  width,  height);//left
 				}
 				break;
 			}
@@ -474,44 +494,44 @@ function hero_sprites( cha_x, cha_y, cha_width, cha_height){
 			foot = 0;
 			}
 }
-function enemy_sprites(cha_x, cha_y, cha_width, cha_height){
-				switch (enemy_look){
+function enemy_sprites( x,  y,  width,  height, number){
+				switch (enemy_look[number]){
 			case "down":
-				if ( myEnemy.speedY === 1  && enemy_foot <= 10){
-					ctx.drawImage(enemy_image, 207, 638, 50, 70, cha_x, cha_y, cha_width, cha_height);//down 1
+				if ( myEnemy[number].speedY === 1  && enemy_foot[number] <= 10){
+					ctx.drawImage(enemy_image, 207, 638, 50, 70,  x,  y,  width,  height);//down 1
 				}
-				else if ( myEnemy.speedY === 1  && enemy_foot > 10){
-					ctx.drawImage(enemy_image, 461, 638, 50, 70, cha_x, cha_y, cha_width, cha_height);// down 2
+				else if ( myEnemy[number].speedY === 1  && enemy_foot[number] > 10){
+					ctx.drawImage(enemy_image, 461, 638, 50, 70,  x,  y,  width,  height);// down 2
 				}
 				break;
 			case "up":
-				if ( myEnemy.speedY === -1 && enemy_foot <= 10){
-					ctx.drawImage(enemy_image, 204, 519, 50, 69, cha_x, cha_y, cha_width, cha_height);//up 1
+				if ( myEnemy[number].speedY === -1 && enemy_foot[number] <= 10){
+					ctx.drawImage(enemy_image, 204, 519, 50, 69,  x,  y,  width,  height);//up 1
 				}
-				else if ( myEnemy.speedY === -1 && enemy_foot > 10){
-					ctx.drawImage(enemy_image, 459, 519, 50, 69, cha_x, cha_y, cha_width, cha_height);//up 2
+				else if ( myEnemy[number].speedY === -1 && enemy_foot[number] > 10){
+					ctx.drawImage(enemy_image, 459, 519, 50, 69,  x,  y,  width,  height);//up 2
 				}
 				break;
 			case "right":
-				if ( myEnemy.speedX === 1 && enemy_foot <= 10){
-					ctx.drawImage(enemy_image, 128, 707, 50, 70, cha_x, cha_y, cha_width, cha_height);//right 1
+				if ( myEnemy[number].speedX === 1 && enemy_foot[number] <= 10){
+					ctx.drawImage(enemy_image, 128, 707, 50, 70,  x,  y,  width,  height);//right 1
 				}
-				else if (myEnemy.speedX === 1 && enemy_foot > 10){
-					ctx.drawImage(enemy_image, 381, 707, 50, 70, cha_x, cha_y, cha_width, cha_height);//right 2
+				else if (myEnemy[number].speedX === 1 && enemy_foot[number] > 10){
+					ctx.drawImage(enemy_image, 381, 707, 50, 70,  x,  y,  width,  height);//right 2
 				}
 				break;
 			case "left":
-				if ( myEnemy.speedX === -1 && enemy_foot <= 10){
-					ctx.drawImage(enemy_image, 147, 580, 50, 70, cha_x, cha_y, cha_width, cha_height);//left 1
+				if ( myEnemy[number].speedX === -1 && enemy_foot[number] <= 10){
+					ctx.drawImage(enemy_image, 147, 580, 50, 70,  x,  y,  width,  height);//left 1
 				}
-				else if ( myEnemy.speedX === -1 && enemy_foot > 10){
-					ctx.drawImage(enemy_image, 402, 580, 50, 70, cha_x, cha_y, cha_width, cha_height);//left 2
+				else if ( myEnemy[number].speedX === -1 && enemy_foot[number] > 10){
+					ctx.drawImage(enemy_image, 402, 580, 50, 70,  x,  y,  width,  height);//left 2
 				}
 				break;
 			}
-			enemy_foot++;
-			if (enemy_foot  >= 20 ){
-			enemy_foot = 0;
+			enemy_foot[number]++;
+			if (enemy_foot[number]  >= 20 ){
+			enemy_foot[number] = 0;
 			}
 }
 function check_obstacle_crash( i, b, object){
@@ -534,78 +554,80 @@ function check_obstacle_crash( i, b, object){
 	}
 	return any_crash;
 }
-function check_enemy_crash(){
-	if (myGamePiece.crashLeft(myEnemy)){
+function check_enemy_crash(number){
+	if (myGamePiece.crashLeft(myEnemy[number])){
 		end = true;
     }
-    if (myGamePiece.crashRight(myEnemy)){
+    if (myGamePiece.crashRight(myEnemy[number])){
         end = true;
     }
-    if (myGamePiece.crashTop(myEnemy)){
+    if (myGamePiece.crashTop(myEnemy[number])){
         end = true;
     }
-    if (myGamePiece.crashBottom(myEnemy)){
+    if (myGamePiece.crashBottom(myEnemy[number])){
         end = true;
 	}
 }
-function check_enemy_direction(){
-	visited[locationY][locationX] = true;
+function check_enemy_direction(number){
+
+	visited[number][enemy_locationY[number]][enemy_locationX[number]] = true;
 	var walk = false;
-	if (map[locationY - 1][locationX] === 0 && !visited[locationY - 1][locationX]){
-		direction.push("N");
+	if (map[enemy_locationY[number] - 1][enemy_locationX[number]] === 0 && !visited[number][enemy_locationY[number] - 1][enemy_locationX[number]]){
+		enemy_direction[number].push("N");
 		walk = true;
 	}
-	if (map[locationY + 1][locationX] === 0 && !visited[locationY + 1][locationX]){
-		direction.push("S");
+	if (map[enemy_locationY[number] + 1][enemy_locationX[number]] === 0 && !visited[number][enemy_locationY[number] + 1][enemy_locationX[number]]){
+		enemy_direction[number].push("S");
 		walk = true
 	}
-	if (map[locationY][locationX - 1] === 0 && !visited[locationY][locationX - 1]){
-		direction.push("W");
+	if (map[enemy_locationY[number]][enemy_locationX[number] - 1] === 0 && !visited[number][enemy_locationY[number]][enemy_locationX[number] - 1]){
+		enemy_direction[number].push("W");
 		walk = true;
 	}
-	if (map[locationY][locationX + 1] === 0 && !visited[locationY][locationX + 1]){
-		direction.push("E");
+	if (map[enemy_locationY[number]][enemy_locationX[number] + 1] === 0 && !visited[number][enemy_locationY[number]][enemy_locationX[number] + 1]){
+		enemy_direction[number].push("E");
 		walk = true;
 	}
 	if (!walk) {
 		for (n = 0; n < mazeHeigth; n++){
 			for (m = 0; m < mazeWidth; m++){
-				visited[n][m] = false;
+				visited[number][n][m] = false;
 			}
 		}
 	}
+
 }
-function enemy_move(){
-	myEnemy.speedX = 0;
-	myEnemy.speedY = 0;
-	var choose_direction = Math.floor(Math.random() * direction.length );
-	switch (direction[choose_direction]){
+function enemy_move(number){
+	myEnemy[number].speedX = 0;
+	myEnemy[number].speedY = 0;
+	var choose_direction = Math.floor(Math.random() * enemy_direction[number].length );
+	switch (enemy_direction[number][choose_direction]){
 	case "N":
-		enemy_look = "up";
-		myEnemy.speedY = -1;
-		locationY--;
-		move_to_y = myObstacle[locationY][locationX].y;
+		enemy_look[number] = "up";
+		myEnemy[number].speedY = -1;
+		enemy_locationY[number]--;
+		move_to_y[number] = myObstacle[enemy_locationY[number]][enemy_locationX[number]].y;
 		break;
 	case "S":
-		enemy_look = "down";
-		myEnemy.speedY = 1;
-		locationY++;
-		move_to_y = myObstacle[locationY][locationX].y;
+		enemy_look[number] = "down";
+		myEnemy[number].speedY = 1;
+		enemy_locationY[number]++;
+		move_to_y[number] = myObstacle[enemy_locationY[number]][enemy_locationX[number]].y;
 		break;
 	case "W":
-		enemy_look = "left";
-		myEnemy.speedX = -1;
-		locationX--;
-		move_to_x = myObstacle[locationY][locationX].x;
+		enemy_look[number] = "left";
+		myEnemy[number].speedX = -1;
+		enemy_locationX[number]--;
+		move_to_x[number] = myObstacle[enemy_locationY[number]][enemy_locationX[number]].x;
 		break;
 	case "E":
-		enemy_look = "right";
-		myEnemy.speedX = 1;
-		locationX++;
-		move_to_x = myObstacle[locationY][locationX].x;
+		enemy_look[number] = "right";
+		myEnemy[number].speedX = 1;
+		enemy_locationX[number]++;
+		move_to_x[number] = myObstacle[enemy_locationY[number]][enemy_locationX[number]].x;
 		break;
 	}
-	direction.length = 0;
+	enemy_direction[number].length = 0;
 }
 function updateGameArea() {
     myGameArea.clear();
@@ -633,7 +655,8 @@ function updateGameArea() {
 			}
         }
 	}
-	check_enemy_crash();
+	
+	
 	//move the red square
 	    if (myGameArea.keys && myGameArea.keys[37] && !crashLeft ) {
 				myGamePiece.speedX = -1;
@@ -660,15 +683,17 @@ function updateGameArea() {
 //Update the red square position	
 	myGamePiece.newPos();
     myGamePiece.update();
-	if (myEnemy.x === move_to_x && myEnemy.y === move_to_y){
-	check_enemy_direction();
-	enemy_move();
+	for ( t = 0; t < enemy_amount; t++){
+		check_enemy_crash(t);
+		if (myEnemy[t].x === move_to_x[t] && myEnemy[t].y === move_to_y[t]){
+			check_enemy_direction(t);
+			enemy_move(t);
+		}
+		myEnemy[t].newPos();
+		myEnemy[t].update();
 	}
-	myEnemy.newPos();
-	myEnemy.update();
 	if (end){//if end is true stop the game and write Game Over!!!
 	reset_game();
-	
 	}
 }
 </script>
