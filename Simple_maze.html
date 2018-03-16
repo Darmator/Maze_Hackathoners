@@ -40,8 +40,8 @@ var ground_image = new Image();
 ground_image.src = "https://opengameart.org/sites/default/files/grass.png";
 var sign_image = new Image ();
 sign_image.src = "https://opengameart.org/sites/default/files/oga-textures/greendragon.jpg";
-var mazeWidth = 29;//Width of the maze (41 squares) WRITE IN THIS TWO VARIABLES ODD NUMBERS
-var mazeHeigth = 13;//Heigth of the maze (41 squares)
+var mazeWidth = 15;//Width of the maze (41 squares) WRITE IN THIS TWO VARIABLES ODD NUMBERS
+var mazeHeigth = 11;//Heigth of the maze (41 squares)
 var squareSurface = 50;//length of one square WRITE IN THIS VARIABLE WITH EVEN NEUMBERS
 var direction = [];//This array will be used to generate random mazes,
 // it will tell the program what paths can it follow
@@ -57,11 +57,13 @@ var crashRight = false;
 var crashTop = false;
 var crashBottom = false;
 //This for loop transforms the array myObstacle into a 2d array, because, there isn't a code to make them
-function turnMyObsticleInto2d(){
+function turn_into_2d(){
 for (n=0;n<mazeHeigth;n++) {
  myObstacle[n]=new Array();
+ map[n]=new Array();
  for (m=0;m<mazeWidth;m++) {
   myObstacle[n][m]=0;
+  map[n][m]=0;
  }
 }
 }
@@ -72,15 +74,6 @@ function turnVisitedInto2d(){
             visited[n][m] = false;
         }
     }
-}
-//This for loop transforms the array map, into a 2d array
-function turnMapInto2d(){
-for (n=0;n<mazeHeigth;n++) {
- map[n]=new Array();
- for (m=0;m<mazeWidth;m++) {
-  map[n][m]=0;
- }
-}
 }
     
 //Menu
@@ -130,8 +123,7 @@ function menu(){
 function startGame() {
     myGameArea.start();//Load the canvas and all that stuff
     myGameArea.interval = setInterval(updateGameArea, 10);
-    turnMapInto2d();
-    turnMyObsticleInto2d();
+    turn_into_2d();
     turnVisitedInto2d();
 	sketch_map();//Write 0, 1 and 2, inside the map array using an algorithm
     draw_map();//Translate the map array into objects and store it into my obstacle array
@@ -145,8 +137,7 @@ function startGame() {
 function reset_game(){
     mazeHeigth=mazeHeigth+2;
     mazeWidth=mazeWidth+2;
-    turnMapInto2d();
-    turnMyObsticleInto2d();
+    turn_into_2d();
     turnVisitedInto2d();
 	end = false;
     myGameArea.start();
