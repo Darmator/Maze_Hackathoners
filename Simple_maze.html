@@ -33,13 +33,15 @@ var ground_image = new Image();
 ground_image.src = "https://opengameart.org/sites/default/files/grass.png";
 var sign_image = new Image ();
 sign_image.src = "https://opengameart.org/sites/default/files/oga-textures/greendragon.jpg";
-var mazeWidth = 11;//Width of the maze (41 squares) WRITE IN THIS TWO VARIABLES ODD NUMBERS
+var mazeWidth = 15;//Width of the maze (41 squares) WRITE IN THIS TWO VARIABLES ODD NUMBERS
 var mazeHeigth = 11;//Heigth of the maze (41 squares)
 var squareSurface = 50;//length of one square WRITE IN THIS VARIABLE WITH EVEN NEUMBERS
 var direction = [];//This array will be used to generate random mazes,
 // it will tell the program what paths can it follow
 var posX;//x position of the square that the program is going to modify in order to create the map
 var posY;//y position of the square that the program is going to modify in order to create the map
+var characterX;
+var characterY;
 var last_px = [];//This two arrays will let the program remember where are the squares that it has already
 var last_py = [];//modify in order to make more than just one path
 move = 0;//This variable will make the last_p arrays work
@@ -111,7 +113,8 @@ function startGame() {
     myGameArea.interval = setInterval(updateGameArea, 10);
 	sketch_map();//Write 0, 1 and 2, inside the map array using an algorithm
     draw_map();//Translate the map array into objects and store it into my obstacle array
-	myGamePiece = new component(squareSurface / 2, squareSurface/2, "character", myObstacle[1][1].x, myObstacle[1][1].y);
+	get_character_position();
+	myGamePiece = new component(squareSurface / 2, squareSurface/2, "character", myObstacle[characterY][characterX].x, myObstacle[characterY][characterX].y);
 	//Create the red square, it will have half of the size of the green blocks, and,it will be placed at the beginning of the maze
 	//the square [1][1] will always be the beggining of the maze
 }
@@ -126,10 +129,17 @@ end = false;
 begin = true;
 sketch_map();
 draw_map();
-myGamePiece.x = myObstacle[1][1].x;
-myGamePiece.y = myObstacle[1][1].y;
+get_character_position();
+myGamePiece.x = myObstacle[characterY][characterX].x;
+myGamePiece.y = myObstacle[characterY][characterX].y;
 }
-
+function get_character_position(){
+	do {
+	characterX = Math.floor(Math.random() * mazeWidth );
+	characterY = Math.floor(Math.random() * mazeHeigth );
+	}
+	while (map[characterY][characterX] !== 0);
+}
 //Start loading things
 var myGameArea = {  
     canvas : document.createElement("canvas"),//Load the canvas
@@ -268,9 +278,23 @@ function draw_map(){
 	var horizontal = 0;//horizontal coordinates
 	var vertical = 0;//vertical coordinates
 	//Look all the values of the map array
+	var finish_line_location = Math.floor(Math.random() * 3 );
+	switch  (finish_line_location){
+	case 0:
+		map[1][1] = 2;
+		break;
+	case 1:
+		map[1][mazeWidth - 2] = 2;
+		break;
+	case 2:
+		map[mazeHeigth - 2][1] = 2;
+		break;
+	case 3:
+		map[mazeHeigth - 2][mazeWidth - 2] = 2;
+		break;
+	}
 	for (var y = 0;  y < mazeHeigth; y++){
 		for (var x = 0; x < mazeWidth; x++){
-			map[mazeHeigth - 2][mazeWidth - 2] = 2;
 			switch (map[y][x]){
 			case 0:
 				myObstacle[y][x] = new component (squareSurface, squareSurface, "ground", horizontal, vertical);
