@@ -14,17 +14,24 @@ canvas {
 <script>
 var startGameVar = false;
 var myGamePiece;//This is our red square
+var myEnemy;
 var myObstacle =new Array();//This are going to be the obstacles
 var map = new Array();//This is going to be the maze written with, 0, 1 and 2, then the program will translate it into squares
+var visited = new Array()
 //and store it in myObstacle variable
 //These are the textures
+var enemy_image = new Image();
+enemy_image.src = "https://sites.google.com/site/darmatorsprites/home/orc%20sprite.png";
+var move_to_x;
+var move_to_y;
 var question_image = new Image ();
 question_image.src = "https://sites.google.com/site/darmatorsprites/home/question.PNG";
-var character_image = new Image();
-character_image.src = "https://sites.google.com/site/darmatorsprites/home/sprite.png";
+var hero_image = new Image();
+hero_image.src = "https://sites.google.com/site/darmatorsprites/home/sprite.png";
+var enemy_foot = 0;
 var foot = 0;
-var begin = true;
-var character_look = "down";
+var hero_look = "down";
+var enemy_look = "down";
 var win_image = new Image();
 win_image.src ="http://orig07.deviantart.net/17c7/f/2013/145/f/6/game_over_wallpaper_by_3971450-d66kbai.png";
 var wall_image = new Image();
@@ -33,15 +40,15 @@ var ground_image = new Image();
 ground_image.src = "https://opengameart.org/sites/default/files/grass.png";
 var sign_image = new Image ();
 sign_image.src = "https://opengameart.org/sites/default/files/oga-textures/greendragon.jpg";
-var mazeWidth = 15;//Width of the maze (41 squares) WRITE IN THIS TWO VARIABLES ODD NUMBERS
-var mazeHeigth = 11;//Heigth of the maze (41 squares)
+var mazeWidth = 29;//Width of the maze (41 squares) WRITE IN THIS TWO VARIABLES ODD NUMBERS
+var mazeHeigth = 13;//Heigth of the maze (41 squares)
 var squareSurface = 50;//length of one square WRITE IN THIS VARIABLE WITH EVEN NEUMBERS
 var direction = [];//This array will be used to generate random mazes,
 // it will tell the program what paths can it follow
 var posX;//x position of the square that the program is going to modify in order to create the map
 var posY;//y position of the square that the program is going to modify in order to create the map
-var characterX;
-var characterY;
+var locationX;
+var locationY;
 var last_px = [];//This two arrays will let the program remember where are the squares that it has already
 var last_py = [];//modify in order to make more than just one path
 move = 0;//This variable will make the last_p arrays work
@@ -50,18 +57,30 @@ var crashRight = false;
 var crashTop = false;
 var crashBottom = false;
 //This for loop transforms the array myObstacle into a 2d array, because, there isn't a code to make them
+function turnMyObsticleInto2d(){
 for (n=0;n<mazeHeigth;n++) {
  myObstacle[n]=new Array();
  for (m=0;m<mazeWidth;m++) {
   myObstacle[n][m]=0;
  }
 }
+}
+function turnVisitedInto2d(){
+    for (n = 0; n < mazeHeigth; n++){
+        visited[n] = new Array();
+        for (m = 0; m < mazeWidth; m++){
+            visited[n][m] = false;
+        }
+    }
+}
 //This for loop transforms the array map, into a 2d array
+function turnMapInto2d(){
 for (n=0;n<mazeHeigth;n++) {
  map[n]=new Array();
  for (m=0;m<mazeWidth;m++) {
   map[n][m]=0;
  }
+}
 }
     
 //Menu
@@ -111,29 +130,43 @@ function menu(){
 function startGame() {
     myGameArea.start();//Load the canvas and all that stuff
     myGameArea.interval = setInterval(updateGameArea, 10);
+    turnMapInto2d();
+    turnMyObsticleInto2d();
+    turnVisitedInto2d();
 	sketch_map();//Write 0, 1 and 2, inside the map array using an algorithm
     draw_map();//Translate the map array into objects and store it into my obstacle array
-	get_character_position();
-	myGamePiece = new component(35, 35, "character", myObstacle[characterY][characterX].x, myObstacle[characterY][characterX].y);
-	//Create the red square, it will have half of the size of the green blocks, and,it will be placed at the beginning of the maze
-	//the square [1][1] will always be the beggining of the maze
+	get_location();
+	myGamePiece = new component(squareSurface/2, squareSurface/2, "hero", myObstacle[locationY][locationX].x , myObstacle[locationY][locationX].y );
+	get_location();
+	myEnemy = new component(squareSurface/2, squareSurface/2, "enemy", myObstacle[locationY][locationX].x  , myObstacle[locationY][locationX].y );
+	move_to_x = myObstacle[locationY][locationX].x ;
+	move_to_y = myObstacle[locationY][locationX].y ;
 }
 function reset_game(){
-mazeHeigth += 2//This codes increment the size of the map, you need to do a few things, first, make the canvas increment too, second, all over the code
-mazeWidth +=2//I use the mazeHeigth and mazeWidth, in for loops for the array myObstacle and map, and sometimes, they give me undefined errors, I'm not 
-end = false;//really sure how to fix it, third, since the screen of a computer is a rectangle, you should program something, to make this maze funcions, increase
-sketch_map();// in different rates(remember that the maze variables need always to be odd numbers), fourth, the variable squareSurface controls the size
-draw_map();//of the square, once the maze is too big you could make the squares smaller, in order to make the maze bigger, but, if you make the squares smaller
-get_character_position();//remember to make the main character smaller in the same ratio
-myGamePiece.x = myObstacle[characterY][characterX].x;
-myGamePiece.y = myObstacle[characterY][characterX].y;
+    mazeHeigth=mazeHeigth+2;
+    mazeWidth=mazeWidth+2;
+    turnMapInto2d();
+    turnMyObsticleInto2d();
+    turnVisitedInto2d();
+	end = false;
+    myGameArea.start();
+	sketch_map();
+	draw_map();
+	get_location();
+	myGamePiece.x = myObstacle[locationY][locationX].x;
+	myGamePiece.y = myObstacle[locationY][locationX].y;
+	get_location();
+	myEnemy.x = myObstacle[locationY][locationX].x;
+	myEnemy.y = myObstacle[locationY][locationX].y;
+	move_to_x = myObstacle[locationY][locationX].x ;
+	move_to_y = myObstacle[locationY][locationX].y ;
 }
-function get_character_position(){
+function get_location(){
 	do {
-	characterX = Math.floor(Math.random() * mazeWidth );
-	characterY = Math.floor(Math.random() * mazeHeigth );
+	locationX = Math.floor(Math.random() * mazeWidth );
+	locationY = Math.floor(Math.random() * mazeHeigth );
 	}
-	while (map[characterY][characterX] !== 0);
+	while (map[locationY][locationX] !== 0);
 }
 //Start loading things
 var myGameArea = {  
@@ -276,16 +309,16 @@ function draw_map(){
 	var finish_line_location = Math.floor(Math.random() * 3 );
 	switch  (finish_line_location){
 	case 0:
-		map[1][1] = 2;
+		map[0][1] = 2;
 		break;
 	case 1:
-		map[1][mazeWidth - 2] = 2;
+		map[0][mazeWidth - 2] = 2;
 		break;
 	case 2:
-		map[mazeHeigth - 2][1] = 2;
+		map[mazeHeigth - 2][0] = 2;
 		break;
 	case 3:
-		map[mazeHeigth - 2][mazeWidth - 2] = 2;
+		map[mazeHeigth - 2][mazeWidth - 1] = 2;
 		break;
 	}
 	for (var y = 0;  y < mazeHeigth; y++){
@@ -321,78 +354,29 @@ function component(width, height, color, x, y) {
     this.y = y;    
     this.update = function() {
         ctx = myGameArea.context;
-		if (color === "wall"){
+		switch (color) {
+		case "wall":
 			ctx.drawImage(wall_image, this.x, this.y, this.width, this.height);
-		}
-		else if (color === "ground"){
+			break;
+		case "ground":
 			ctx.drawImage(ground_image, this.x, this.y, this.width, this.height);
-		}
-		else if (color === "sign"){
+			break;
+		case "sign":
 			ctx.drawImage(sign_image, this.x, this.y, this.width, this.height);
-		}
-		else if (color === "question"){
+			break;
+		case "question":
 			ctx.drawImage(question_image, this.x, this.y, this.width, this.height);
-		}
-		else if (color === "character"){
-		if (begin === true){
-			ctx.drawImage(character_image, 0, 0, 60, 70, this.x, this.y, this.width, this.height);// down 
-		}
-		else {
-			switch (character_look){
-			case "down":
-				if (myGameArea.keys[40]  && foot <= 10){
-					ctx.drawImage(character_image, 207, 638, 50, 70, this.x, this.y, this.width, this.height);//down 1
-				}
-				else if (myGameArea.keys[40]  && foot > 10){
-					ctx.drawImage(character_image, 461, 638, 50, 70, this.x, this.y, this.width, this.height);// down 2
-				}
-				else {
-					ctx.drawImage(character_image, 78, 638, 50, 70, this.x, this.y, this.width, this.height);// down 
-				}
-				break;
-			case "up":
-				if (myGameArea.keys[38] && foot <= 10){
-					ctx.drawImage(character_image, 200, 520, 50, 69, this.x, this.y, this.width, this.height);//up 1
-				}
-				else if (myGameArea.keys[38] && foot > 10){
-					ctx.drawImage(character_image, 455, 520, 50, 69, this.x, this.y, this.width, this.height);//up 2
-				}
-				else {
-					ctx.drawImage(character_image, 72, 520, 50, 69, this.x, this.y, this.width, this.height);//up
-				}
-				break;
-			case "right":
-				if (myGameArea.keys[39] && foot <= 10){
-					ctx.drawImage(character_image, 128, 707, 50, 70, this.x, this.y, this.width, this.height);//right 1
-				}
-				else if (myGameArea.keys[39] && foot > 10){
-					ctx.drawImage(character_image, 381, 707, 50, 70, this.x, this.y, this.width, this.height);//right 2
-				}
-				else {
-					ctx.drawImage(character_image, 0, 707, 50, 70, this.x, this.y, this.width, this.height);//right
-				}
-				break;
-			case "left":
-				if (myGameArea.keys[37] && foot <= 10){
-					ctx.drawImage(character_image, 147, 580, 50, 70, this.x, this.y, this.width, this.height);//left 1
-				}
-				else if (myGameArea.keys[37] && foot > 10){
-					ctx.drawImage(character_image, 402, 580, 50, 70, this.x, this.y, this.width, this.height);//left 2
-				}
-				else {
-					ctx.drawImage(character_image, 20, 580, 50, 70, this.x, this.y, this.width, this.height);//left
-				}
-				break;
-			}
-			foot++;
-			if (foot  >= 20 ){
-			foot = 0;
-			}
-		}
-		}
-		else{
-        ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+			break;
+		case "hero":
+			hero_sprites( this.x, this.y, this.width, this.height);
+			break;
+		case "enemy":
+			enemy_sprites( this.x, this.y, this.width, this.height);
+			break;
+		default:
+			ctx.fillStyle = color;
+			ctx.fillRect(this.x, this.y, this.width, this.height);
+			break;
 		}
     };
     this.newPos = function() {
@@ -453,25 +437,190 @@ function component(width, height, color, x, y) {
         };
     
 }
-function check_crash( i, b){
+function hero_sprites( cha_x, cha_y, cha_width, cha_height){
+			switch (hero_look){
+			case "down":
+				if ( myGamePiece.speedY === 1  && foot <= 10){
+					ctx.drawImage(hero_image, 205, 638, 50, 70, cha_x, cha_y, cha_width, cha_height);//down 1
+				}
+				else if ( myGamePiece.speedY === 1  && foot > 10){
+					ctx.drawImage(hero_image, 459, 638, 50, 70, cha_x, cha_y, cha_width, cha_height);// down 2
+				}
+				else {
+					ctx.drawImage(hero_image, 76, 638, 50, 70, cha_x, cha_y, cha_width, cha_height);// down 
+				}
+				break;
+			case "up":
+				if ( myGamePiece.speedY === -1 && foot <= 10){
+					ctx.drawImage(hero_image, 198, 519, 50, 69, cha_x, cha_y, cha_width, cha_height);//up 1
+				}
+				else if ( myGamePiece.speedY === -1 && foot > 10){
+					ctx.drawImage(hero_image,453, 519, 50, 69, cha_x, cha_y, cha_width, cha_height);//up 2
+				}
+				else {
+					ctx.drawImage(hero_image, 70, 519, 50, 69, cha_x, cha_y, cha_width, cha_height);//up
+				}
+				break;
+			case "right":
+				if ( myGamePiece.speedX === 1 && foot <= 10){
+					ctx.drawImage(hero_image, 128, 707, 50, 70, cha_x, cha_y, cha_width, cha_height);//right 1
+				}
+				else if (myGamePiece.speedX === 1 && foot > 10){
+					ctx.drawImage(hero_image, 381, 707, 50, 70, cha_x, cha_y, cha_width, cha_height);//right 2
+				}
+				else {
+					ctx.drawImage(hero_image, 0, 707, 50, 70, cha_x, cha_y, cha_width, cha_height);//right
+				}
+				break;
+			case "left":
+				if ( myGamePiece.speedX === -1 && foot <= 10){
+					ctx.drawImage(hero_image, 147, 580, 50, 70, cha_x, cha_y, cha_width, cha_height);//left 1
+				}
+				else if ( myGamePiece.speedX === -1 && foot > 10){
+					ctx.drawImage(hero_image, 402, 580, 50, 70, cha_x, cha_y, cha_width, cha_height);//left 2
+				}
+				else {
+					ctx.drawImage(hero_image, 20, 580, 50, 70, cha_x, cha_y, cha_width, cha_height);//left
+				}
+				break;
+			}
+			foot++;
+			if (foot  >= 20 ){
+			foot = 0;
+			}
+}
+function enemy_sprites(cha_x, cha_y, cha_width, cha_height){
+				switch (enemy_look){
+			case "down":
+				if ( myEnemy.speedY === 1  && enemy_foot <= 10){
+					ctx.drawImage(enemy_image, 207, 638, 50, 70, cha_x, cha_y, cha_width, cha_height);//down 1
+				}
+				else if ( myEnemy.speedY === 1  && enemy_foot > 10){
+					ctx.drawImage(enemy_image, 461, 638, 50, 70, cha_x, cha_y, cha_width, cha_height);// down 2
+				}
+				break;
+			case "up":
+				if ( myEnemy.speedY === -1 && enemy_foot <= 10){
+					ctx.drawImage(enemy_image, 204, 519, 50, 69, cha_x, cha_y, cha_width, cha_height);//up 1
+				}
+				else if ( myEnemy.speedY === -1 && enemy_foot > 10){
+					ctx.drawImage(enemy_image, 459, 519, 50, 69, cha_x, cha_y, cha_width, cha_height);//up 2
+				}
+				break;
+			case "right":
+				if ( myEnemy.speedX === 1 && enemy_foot <= 10){
+					ctx.drawImage(enemy_image, 128, 707, 50, 70, cha_x, cha_y, cha_width, cha_height);//right 1
+				}
+				else if (myEnemy.speedX === 1 && enemy_foot > 10){
+					ctx.drawImage(enemy_image, 381, 707, 50, 70, cha_x, cha_y, cha_width, cha_height);//right 2
+				}
+				break;
+			case "left":
+				if ( myEnemy.speedX === -1 && enemy_foot <= 10){
+					ctx.drawImage(enemy_image, 147, 580, 50, 70, cha_x, cha_y, cha_width, cha_height);//left 1
+				}
+				else if ( myEnemy.speedX === -1 && enemy_foot > 10){
+					ctx.drawImage(enemy_image, 402, 580, 50, 70, cha_x, cha_y, cha_width, cha_height);//left 2
+				}
+				break;
+			}
+			enemy_foot++;
+			if (enemy_foot  >= 20 ){
+			enemy_foot = 0;
+			}
+}
+function check_obstacle_crash( i, b, object){
 	var any_crash = false;
-	if (myGamePiece.crashLeft(myObstacle[i][b])){
+	if (object.crashLeft(myObstacle[i][b])){
         crashLeft = true;
 		any_crash = true;
     }
-    if (myGamePiece.crashRight(myObstacle[i][b])){
+    if (object.crashRight(myObstacle[i][b])){
         crashRight = true;
 		any_crash = true;
     }
-    if (myGamePiece.crashTop(myObstacle[i][b])){
+    if (object.crashTop(myObstacle[i][b])){
         crashTop = true;
 		any_crash = true;
     }
-    if (myGamePiece.crashBottom(myObstacle[i][b])){
+    if (object.crashBottom(myObstacle[i][b])){
         crashBottom = true;
 		any_crash = true;
 	}
 	return any_crash;
+}
+function check_enemy_crash(){
+	if (myGamePiece.crashLeft(myEnemy)){
+		end = true;
+    }
+    if (myGamePiece.crashRight(myEnemy)){
+        end = true;
+    }
+    if (myGamePiece.crashTop(myEnemy)){
+        end = true;
+    }
+    if (myGamePiece.crashBottom(myEnemy)){
+        end = true;
+	}
+}
+function check_enemy_direction(){
+	visited[locationY][locationX] = true;
+	var walk = false;
+	if (map[locationY - 1][locationX] === 0 && !visited[locationY - 1][locationX]){
+		direction.push("N");
+		walk = true;
+	}
+	if (map[locationY + 1][locationX] === 0 && !visited[locationY + 1][locationX]){
+		direction.push("S");
+		walk = true
+	}
+	if (map[locationY][locationX - 1] === 0 && !visited[locationY][locationX - 1]){
+		direction.push("W");
+		walk = true;
+	}
+	if (map[locationY][locationX + 1] === 0 && !visited[locationY][locationX + 1]){
+		direction.push("E");
+		walk = true;
+	}
+	if (!walk) {
+		for (n = 0; n < mazeHeigth; n++){
+			for (m = 0; m < mazeWidth; m++){
+				visited[n][m] = false;
+			}
+		}
+	}
+}
+function enemy_move(){
+	myEnemy.speedX = 0;
+	myEnemy.speedY = 0;
+	var choose_direction = Math.floor(Math.random() * direction.length );
+	switch (direction[choose_direction]){
+	case "N":
+		enemy_look = "up";
+		myEnemy.speedY = -1;
+		locationY--;
+		move_to_y = myObstacle[locationY][locationX].y;
+		break;
+	case "S":
+		enemy_look = "down";
+		myEnemy.speedY = 1;
+		locationY++;
+		move_to_y = myObstacle[locationY][locationX].y;
+		break;
+	case "W":
+		enemy_look = "left";
+		myEnemy.speedX = -1;
+		locationX--;
+		move_to_x = myObstacle[locationY][locationX].x;
+		break;
+	case "E":
+		enemy_look = "right";
+		myEnemy.speedX = 1;
+		locationX++;
+		move_to_x = myObstacle[locationY][locationX].x;
+		break;
+	}
+	direction.length = 0;
 }
 function updateGameArea() {
     myGameArea.clear();
@@ -489,36 +638,33 @@ function updateGameArea() {
 			case 0:
 				break;
 			case 1:
-				check_crash(i,b);
+				check_obstacle_crash(i,b, myGamePiece);
 				break;
 			case 2:
-				if (check_crash(i,b)){
+				if (check_obstacle_crash(i,b, myGamePiece)){
 					end = true;
 				}
 				break;
 			}
         }
 	}
+	check_enemy_crash();
 	//move the red square
 	    if (myGameArea.keys && myGameArea.keys[37] && !crashLeft ) {
 				myGamePiece.speedX = -1;
-				character_look = "left";
-				begin = false;
+				hero_look = "left";
 	}
     else if (myGameArea.keys && myGameArea.keys[39] && !crashRight ) {
 				myGamePiece.speedX =1;
-				character_look = "right";
-				begin = false;
+				hero_look = "right";
 	}
     else if (myGameArea.keys && myGameArea.keys[38] && !crashBottom ) {
 				myGamePiece.speedY = -1;
-				character_look = "up";
-				begin = false;
+				hero_look = "up";
 	}
     else if (myGameArea.keys && myGameArea.keys[40] && !crashTop ){
 				myGamePiece.speedY = 1;
-				character_look = "down";
-				begin = false;
+				hero_look = "down";
 	}
 	//Update myObtacle position
     for (i = 0; i < mazeHeigth; i++){
@@ -529,11 +675,15 @@ function updateGameArea() {
 //Update the red square position	
 	myGamePiece.newPos();
     myGamePiece.update();
+	if (myEnemy.x === move_to_x && myEnemy.y === move_to_y){
+	check_enemy_direction();
+	enemy_move();
+	}
+	myEnemy.newPos();
+	myEnemy.update();
 	if (end){//if end is true stop the game and write Game Over!!!
 	reset_game();
-	/*myGameArea.stop();
-	 ctx = myGameArea.context;
-	ctx.drawImage(win_image, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);*/
+	
 	}
 }
 </script>
