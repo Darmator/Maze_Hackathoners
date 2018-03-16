@@ -377,8 +377,8 @@ function component(width, height, color, x, y, number) {
     this.y = y;    
     this.update = function() {
         ctx = myGameArea.context;
-		if ((this.x >= myGamePiece.x -(squareSurface * hero_vision) && this.x <= myGamePiece.x +(squareSurface * hero_vision))
-		&& (this.y <= myGamePiece.y +(squareSurface * hero_vision) && this.y >= myGamePiece.y -(squareSurface * hero_vision) )){
+		if ((this.x + squareSurface >= myGamePiece.x + 5-(squareSurface * hero_vision) && this.x <= myGamePiece.x +(squareSurface * hero_vision))
+		&& (this.y  <= myGamePiece.y +(squareSurface * hero_vision) && this.y + squareSurface >= myGamePiece.y + 5 -(squareSurface * hero_vision) )){
 			switch (color) {
 			case "wall":
 				ctx.drawImage(wall_image, this.x, this.y, this.width, this.height);
