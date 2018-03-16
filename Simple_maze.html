@@ -29,6 +29,7 @@ var question_image = new Image ();
 question_image.src = "https://sites.google.com/site/darmatorsprites/home/question.PNG";
 var hero_image = new Image();
 hero_image.src = "https://sites.google.com/site/darmatorsprites/home/sprite.png";
+var hero_vision = 2;
 var enemy_foot = [];
 var enemy_look = [];
 var enemy_direction = [];
@@ -376,29 +377,36 @@ function component(width, height, color, x, y, number) {
     this.y = y;    
     this.update = function() {
         ctx = myGameArea.context;
-		switch (color) {
-		case "wall":
-			ctx.drawImage(wall_image, this.x, this.y, this.width, this.height);
-			break;
-		case "ground":
-			ctx.drawImage(ground_image, this.x, this.y, this.width, this.height);
-			break;
-		case "sign":
-			ctx.drawImage(sign_image, this.x, this.y, this.width, this.height);
-			break;
-		case "question":
-			ctx.drawImage(question_image, this.x, this.y, this.width, this.height);
-			break;
-		case "hero":
-			hero_sprites( this.x, this.y, this.width, this.height);
-			break;
-		case "enemy":
-			enemy_sprites( this.x, this.y, this.width, this.height, number);
-			break;
-		default:
-			ctx.fillStyle = color;
+		if ((this.x >= myGamePiece.x -(squareSurface * hero_vision) && this.x <= myGamePiece.x +(squareSurface * hero_vision))
+		&& (this.y <= myGamePiece.y +(squareSurface * hero_vision) && this.y >= myGamePiece.y -(squareSurface * hero_vision) )){
+			switch (color) {
+			case "wall":
+				ctx.drawImage(wall_image, this.x, this.y, this.width, this.height);
+				break;
+			case "ground":
+				ctx.drawImage(ground_image, this.x, this.y, this.width, this.height);
+				break;
+			case "sign":
+				ctx.drawImage(sign_image, this.x, this.y, this.width, this.height);
+				break;
+			case "question":
+				ctx.drawImage(question_image, this.x, this.y, this.width, this.height);
+				break;
+			case "hero":
+				hero_sprites( this.x, this.y, this.width, this.height);
+				break;
+			case "enemy":
+				enemy_sprites( this.x, this.y, this.width, this.height, number);
+				break;
+			default:
+				ctx.fillStyle = color;
+				ctx.fillRect(this.x, this.y, this.width, this.height);
+				break;
+			}
+		}
+		else{
+			ctx.fillStyle = "black";
 			ctx.fillRect(this.x, this.y, this.width, this.height);
-			break;
 		}
     };
     this.newPos = function() {
@@ -644,6 +652,7 @@ function enemy_move(number){
 	}
 	enemy_direction[number].length = 0;
 }
+
 function updateGameArea() {
     myGameArea.clear();
     crashLeft = false;
