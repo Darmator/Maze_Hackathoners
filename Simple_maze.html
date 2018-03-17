@@ -5,7 +5,7 @@
 <style>
 canvas {
     border:1px solid #d3d3d3;
-    background-color: #f1f1f1; 
+    background-color: #000000; 
 }
 </style>
 </head>
@@ -21,6 +21,10 @@ var map = new Array();//This is going to be the maze written with, 0, 1 and 2, t
 var visited = new Array()
 //and store it in myObstacle variable
 //These are the textures
+var spikes_image = new Image();
+spikes_image.src ="https://opengameart.org/sites/default/files/styles/medium/public/spike-animation_0.png";
+var spikes_state = 0;
+var spikes_deadly = false;
 var enemy_image = new Image();
 enemy_image.src = "https://sites.google.com/site/darmatorsprites/home/orc%20sprite.png";
 var move_to_x = [];
@@ -346,6 +350,10 @@ function draw_map(){
 	}
 	for (var y = 0;  y < mazeHeigth; y++){
 		for (var x = 0; x < mazeWidth; x++){
+			var spikes_location = Math.floor(Math.random() * 20 );
+			if (spikes_location === 1 && map[y][x] === 0){
+				map[y][x] = 4;
+			}
 			switch (map[y][x]){
 			case 0:
 				myObstacle[y][x] = new component (squareSurface, squareSurface, "ground", horizontal, vertical);
@@ -358,6 +366,9 @@ function draw_map(){
 				break;
 			case 3:
 				myObstacle[y][x] = new component (squareSurface, squareSurface, "question", horizontal, vertical);
+				break;
+			case 4:
+				myObstacle[y][x] = new component (squareSurface, squareSurface, "spikes", horizontal, vertical);
 				break;
 			}
 			horizontal += squareSurface;
@@ -398,15 +409,10 @@ function component(width, height, color, x, y, number) {
 			case "enemy":
 				enemy_sprites( this.x, this.y, this.width, this.height, number);
 				break;
-			default:
-				ctx.fillStyle = color;
-				ctx.fillRect(this.x, this.y, this.width, this.height);
-				break;
+			case "spikes":
+				ctx.drawImage(ground_image, this.x, this.y, this.width, this.height);
+				spikes_sprites( this.x, this.y, this.width, this.height);
 			}
-		}
-		else{
-			ctx.fillStyle = "black";
-			ctx.fillRect(this.x, this.y, this.width, this.height);
 		}
     };
     this.newPos = function() {
@@ -559,6 +565,26 @@ function enemy_sprites( x,  y,  width,  height, number){
 			enemy_foot[number] = 0;
 			}
 }
+function spikes_sprites(x, y, width, height){
+	if (spikes_state <= 100){
+		ctx.drawImage(spikes_image, 5, 0, 23, 30, x, y, width, height);
+		spikes_deadly = false;
+	}
+	else if (spikes_state <= 200){
+		ctx.drawImage(spikes_image, 27, 0, 23, 30, x, y, width, height);
+	}
+	else if (spikes_state <= 300){
+		ctx.drawImage(spikes_image, 49, 0, 23, 30, x, y, width, height);
+	}
+	else if (spikes_state <= 600){
+		ctx.drawImage(spikes_image, 93, 0, 23, 30, x, y, width, height);
+		spikes_deadly = true;
+	}
+	else {
+		spikes_state = 0;
+	}
+	spikes_state++;
+}
 function check_obstacle_crash( i, b, object){
 	var any_crash = false;
 	if (object.crashLeft(myObstacle[i][b])){
@@ -652,7 +678,14 @@ function enemy_move(number){
 	}
 	enemy_direction[number].length = 0;
 }
-
+function check_spikes_crash(i,b){
+	var spikes_crash = false;
+	if ((myGamePiece.x >= myObstacle[i][b].x && myGamePiece.x <= myObstacle[i][b].x + squareSurface)  &&
+	(myGamePiece.y >= myObstacle[i][b].y && myGamePiece.y <= myObstacle[i][b].y + squareSurface)){
+		spikes_crash = true;
+	}
+	return spikes_crash;
+}
 function updateGameArea() {
     myGameArea.clear();
     crashLeft = false;
@@ -673,6 +706,13 @@ function updateGameArea() {
 				break;
 			case 2:
 				if (check_obstacle_crash(i,b, myGamePiece)){
+					end = true;
+				}
+				break;
+			case 3:
+				break;
+			case 4:
+				if (check_spikes_crash(i,b) && spikes_deadly){
 					end = true;
 				}
 				break;
