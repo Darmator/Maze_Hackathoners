@@ -48,7 +48,7 @@ ground_image.src = "https://opengameart.org/sites/default/files/grass.png";
 var sign_image = new Image ();
 sign_image.src = "https://opengameart.org/sites/default/files/oga-textures/greendragon.jpg";
 var mazeWidth = 15;//Width of the maze  WRITE IN THIS TWO VARIABLES ODD NUMBERS
-var mazeHeigth = 11;//Heigth of the maze 
+var mazeHeight = 11;//Heigth of the maze 
 var squareSurface = 50;//length of one square WRITE IN THIS VARIABLE WITH EVEN NEUMBERS
 var direction = [];//This array will be used to generate random mazes,
 // it will tell the program what paths can it follow
@@ -112,7 +112,7 @@ function menu(){
     });  
 }
 function turn_to_2d(){
-	for (n=0;n<mazeHeigth;n++) {
+	for (n=0;n<mazeHeight;n++) {
  myObstacle[n]=new Array();
   map[n]=new Array();
  for (m=0;m<mazeWidth;m++) {
@@ -124,7 +124,7 @@ function turn_to_2d(){
 function turn_to_3d(){
 	for (j = 0; j < enemy_amount; j++){
 	visited[j] = new Array();
-	for (n = 0; n < mazeHeigth; n++){
+	for (n = 0; n < mazeHeight; n++){
 		visited[j][n] = new Array();
 		for (m = 0; m < mazeWidth; m++){
 			visited[j][n][m];
@@ -165,7 +165,7 @@ function startGame() {
 	create_enemies();
 }
 function reset_game(){
-	mazeHeigth += 2;
+	mazeHeight += 2;
 	mazeWidth += 2;
 	enemy_amount++;
 	turn_to_2d();
@@ -191,7 +191,7 @@ function reset_game(){
 function get_location(){
 	do {
 	locationX = Math.floor(Math.random() * mazeWidth );
-	locationY = Math.floor(Math.random() * mazeHeigth );
+	locationY = Math.floor(Math.random() * mazeHeight );
 	}
 	while (map[locationY][locationX] !== 0);
 }
@@ -200,7 +200,7 @@ var myGameArea = {
     canvas : document.createElement("canvas"),//Load the canvas
     start : function() {
         this.canvas.width = mazeWidth * squareSurface;//The canvas width will be equal to the number of squares times their width
-        this.canvas.height = mazeHeigth * squareSurface;//The canvas height will be equal to the number of squares times their heigth
+        this.canvas.height = mazeHeight * squareSurface;//The canvas height will be equal to the number of squares times their heigth
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         
@@ -227,7 +227,7 @@ var myGameArea = {
 function sketch_map(){
 	//This for loop will set all the elements of map to 1,
 //	basically how this algorithm works is that you start from a canvas fll of squares and the algorithm "carves" the maze
-	for (v = 0; v < mazeHeigth; v++){
+	for (v = 0; v < mazeHeight; v++){
 		for(n = 0; n < mazeWidth; n++){
 		map[v][n] = 1;
 		}
@@ -261,7 +261,7 @@ function sketch_map(){
 		direction_carve = true;
 	}
 	//Check if you can go south
-	if (posY + 2 < mazeHeigth && map[posY + 2][posX] == 1 && map[posY +1][posX] == 1){
+	if (posY + 2 < mazeHeight && map[posY + 2][posX] == 1 && map[posY +1][posX] == 1){
 		direction.push("S");
 		direction_carve = true;
 	}
@@ -342,13 +342,13 @@ function draw_map(){
 		map[0][mazeWidth - 2] = 2;
 		break;
 	case 2:
-		map[mazeHeigth - 2][0] = 2;
+		map[mazeHeight - 2][0] = 2;
 		break;
 	case 3:
-		map[mazeHeigth - 2][mazeWidth - 1] = 2;
+		map[mazeHeight - 2][mazeWidth - 1] = 2;
 		break;
 	}
-	for (var y = 0;  y < mazeHeigth; y++){
+	for (var y = 0;  y < mazeHeight; y++){
 		for (var x = 0; x < mazeWidth; x++){
 			var spikes_location = Math.floor(Math.random() * 20 );
 			if (spikes_location === 1 && map[y][x] === 0){
@@ -388,8 +388,8 @@ function component(width, height, color, x, y, number) {
     this.y = y;    
     this.update = function() {
         ctx = myGameArea.context;
-		if ((this.x + squareSurface >= myGamePiece.x + 5-(squareSurface * hero_vision) && this.x <= myGamePiece.x +(squareSurface * hero_vision))
-		&& (this.y  <= myGamePiece.y +(squareSurface * hero_vision) && this.y + squareSurface >= myGamePiece.y + 5 -(squareSurface * hero_vision) )){
+		if (!block_vision(this.x, this.y)){
+			
 			switch (color) {
 			case "wall":
 				ctx.drawImage(wall_image, this.x, this.y, this.width, this.height);
@@ -472,6 +472,49 @@ function component(width, height, color, x, y, number) {
             return crashTop;
         };
     
+}
+
+function block_vision( x, y){
+	var block = true;
+	var coordinateX;
+	var coordinateY;
+	var heroX;
+	var heroY;
+	for (v = 0; v < mazeHeight; v++){
+		for (b = 0; b < mazeWidth; b++){
+			if ((x >= myObstacle[v][b].x && x <= myObstacle[v][b].x + squareSurface) && (y >= myObstacle[v][b].y && y <= myObstacle[v][b].y + squareSurface)){
+				coordinateX = b;
+				coordinateY = v;
+			}
+			if ((myGamePiece.x >= myObstacle[v][b].x && myGamePiece.x <= myObstacle[v][b].x + squareSurface) &&
+			(myGamePiece.y >= myObstacle[v][b].y && myGamePiece.y <= myObstacle[v][b].y + squareSurface)){
+				heroX = b;
+				heroY = v;
+			}
+		}
+	}
+	if ((coordinateX  >= heroX - 1  && coordinateX  <= heroX + 1  )
+	&& (coordinateY   <= heroY +1   && coordinateY  >= heroY - 1 )){
+		block = false;
+	}
+	else if ((coordinateX === heroX && (coordinateY >= heroY - hero_vision && coordinateY <= heroY + hero_vision))){
+		if (coordinateY > heroY && map[coordinateY - 1][coordinateX] !== 1){
+			block= false;
+		}
+		if (coordinateY < heroY && map[coordinateY + 1][coordinateX] !== 1){
+			block= false;
+		}
+		
+	}
+	else if ((coordinateY === heroY && (coordinateX >= heroX - hero_vision && coordinateX <= heroX + hero_vision))){
+		if (coordinateX > heroX && map[coordinateY][coordinateX - 1] !== 1){
+			block= false;
+		}
+		if (coordinateX < heroX && map[coordinateY][coordinateX + 1] !== 1){
+			block= false;
+		}
+	}
+	return block;
 }
 function hero_sprites(  x,  y,  width,  height){
 			switch (hero_look){
@@ -639,7 +682,7 @@ function check_enemy_direction(number){
 		walk = true;
 	}
 	if (!walk) {
-		for (n = 0; n < mazeHeigth; n++){
+		for (n = 0; n < mazeHeight; n++){
 			for (m = 0; m < mazeWidth; m++){
 				visited[number][n][m] = false;
 			}
@@ -696,7 +739,7 @@ function updateGameArea() {
 	myGamePiece.speedX = 0;
 	myGamePiece.speedY = 0;
 	//Check for collisions, and, if there's a collision with a blue block, set end value to true
-    for (i= 0; i< mazeHeigth;i++){
+    for (i= 0; i< mazeHeight;i++){
 		for (var b = 0; b <mazeWidth; b++){
 			switch (map[i][b]){
 			case 0:
@@ -739,7 +782,7 @@ function updateGameArea() {
 				hero_look = "down";
 	}
 	//Update myObtacle position
-    for (i = 0; i < mazeHeigth; i++){
+    for (i = 0; i < mazeHeight; i++){
 		for (var c=0; c <mazeWidth; c++){
     myObstacle[i][c].update();
 	}
