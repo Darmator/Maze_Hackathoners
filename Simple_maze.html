@@ -34,7 +34,7 @@ var question_image = new Image ();
 question_image.src = "https://sites.google.com/site/darmatorsprites/home/question.PNG";
 var hero_image = new Image();
 hero_image.src = "https://sites.google.com/site/darmatorsprites/home/sprite.png";
-var hero_vision = 2;
+var hero_vision = 3;
 var enemy_foot = [];
 var enemy_look = [];
 var enemy_direction = [];
@@ -501,19 +501,19 @@ function block_vision( x, y){
 		block = false;
 	}
 	else if ((coordinateX === heroX && (coordinateY >= heroY - hero_vision && coordinateY <= heroY + hero_vision))){
-		if (coordinateY > heroY && map[coordinateY - 1][coordinateX] !== 1){
+		if (coordinateY > heroY && map[coordinateY - (coordinateY - heroY - 1)][coordinateX] !== 1 && map[coordinateY-1][coordinateX] !== 1){
 			block= false;
 		}
-		if (coordinateY < heroY && map[coordinateY + 1][coordinateX] !== 1){
+		if (coordinateY < heroY && map[coordinateY + (heroY - coordinateY - 1)][coordinateX] !== 1 && map[coordinateY+1][coordinateX] !== 1){
 			block= false;
 		}
 		
 	}
 	else if ((coordinateY === heroY && (coordinateX >= heroX - hero_vision && coordinateX <= heroX + hero_vision))){
-		if (coordinateX > heroX && map[coordinateY][coordinateX - 1] !== 1){
+		if (coordinateX > heroX && map[coordinateY][coordinateX - (coordinateX - heroX - 1)] !== 1 && map[coordinateY][coordinateX - 1] !== 1){
 			block= false;
 		}
-		if (coordinateX < heroX && map[coordinateY][coordinateX + 1] !== 1){
+		if (coordinateX < heroX && map[coordinateY][coordinateX + (heroX - coordinateX - 1)] !== 1 && map[coordinateY][coordinateX + 1] !== 1){
 			block= false;
 		}
 	}
