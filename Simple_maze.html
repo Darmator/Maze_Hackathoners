@@ -25,6 +25,7 @@ var spikes_image = new Image();
 spikes_image.src ="https://opengameart.org/sites/default/files/styles/medium/public/spike-animation_0.png";
 var spikes_state = 0;
 var spikes_deadly = false;
+var spikes_counter = 1;
 var enemy_image = new Image();
 enemy_image.src = "https://sites.google.com/site/darmatorsprites/home/orc%20sprite.png";
 var move_to_x = [];
@@ -168,6 +169,7 @@ function reset_game(){
 	mazeHeight += 2;
 	mazeWidth += 2;
 	enemy_amount++;
+	spikes_counter++;
 	turn_to_2d();
 	turn_to_3d();
 	create_enemies();
@@ -329,7 +331,7 @@ function carve(){
 }
 //This fuction will translate the 1 and 0, of the map array into objects inside the myObstacle array
 function draw_map(){
-	
+	var counter = 0;
 	var horizontal = 0;//horizontal coordinates
 	var vertical = 0;//vertical coordinates
 	//Look all the values of the map array
@@ -351,8 +353,9 @@ function draw_map(){
 	for (var y = 0;  y < mazeHeight; y++){
 		for (var x = 0; x < mazeWidth; x++){
 			var spikes_location = Math.floor(Math.random() * 20 );
-			if (spikes_location === 1 && map[y][x] === 0){
+			if (spikes_location === 1 && map[y][x] === 0 && counter < spikes_counter){
 				map[y][x] = 4;
+				counter++;
 			}
 			switch (map[y][x]){
 			case 0:
@@ -609,17 +612,17 @@ function enemy_sprites( x,  y,  width,  height, number){
 			}
 }
 function spikes_sprites(x, y, width, height){
-	if (spikes_state <= 100){
+	if (spikes_state <= 100 * spikes_counter){
 		ctx.drawImage(spikes_image, 5, 0, 23, 30, x, y, width, height);
 		spikes_deadly = false;
 	}
-	else if (spikes_state <= 200){
+	else if (spikes_state <= 200 * spikes_counter){
 		ctx.drawImage(spikes_image, 27, 0, 23, 30, x, y, width, height);
 	}
-	else if (spikes_state <= 300){
+	else if (spikes_state <= 300 * spikes_counter){
 		ctx.drawImage(spikes_image, 49, 0, 23, 30, x, y, width, height);
 	}
-	else if (spikes_state <= 600){
+	else if (spikes_state <= 600 * spikes_counter){
 		ctx.drawImage(spikes_image, 93, 0, 23, 30, x, y, width, height);
 		spikes_deadly = true;
 	}
