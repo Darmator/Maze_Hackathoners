@@ -1,5 +1,5 @@
 
-var startGameVar
+var startGameVar = false;
 var loose_image = new Image();
 loose_image.src ="img/game_over_wallpaper_by_3971450-d66kbai.png";
 var crashLeft = false;
