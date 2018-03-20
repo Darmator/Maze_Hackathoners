@@ -47,8 +47,7 @@ function check_spikes_crash(i, b) {
     var spikes_crash = false;
     if ((myGamePiece.x >= myObstacle[i][b].x - 20&& myGamePiece.x <= myObstacle[i][b].x + squareSurface - 10) &&
         (myGamePiece.y >= myObstacle[i][b].y - 15 && myGamePiece.y <= myObstacle[i][b].y + squareSurface - 20)) {
-        //spikes_crash = true;
-		console.log("true");
+        spikes_crash = true;
     }
     return spikes_crash;
 }
