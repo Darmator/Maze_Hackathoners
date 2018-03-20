@@ -53,9 +53,9 @@ function create_enemies(){
 		get_location();
 		enemy_locationX[t] = locationX
 		enemy_locationY[t] = locationY
-		myEnemy[t] = new component(squareSurface/2, squareSurface/2, "enemy", myObstacle[locationY][locationX].x + 10  , myObstacle[locationY][locationX].y + 10, t );
-		move_to_x[t] = myObstacle[locationY][locationX].x + 10;
-		move_to_y[t] = myObstacle[locationY][locationX].y + 10;
+		myEnemy[t] = new component(squareSurface/2, squareSurface/2, "enemy", myObstacle[locationY][locationX].x + squareSurface/4  , myObstacle[locationY][locationX].y + squareSurface/4, t );
+		move_to_x[t] = myObstacle[locationY][locationX].x + squareSurface/4;
+		move_to_y[t] = myObstacle[locationY][locationX].y + squareSurface/4;
 	}
 }
     

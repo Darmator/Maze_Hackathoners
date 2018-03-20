@@ -41,25 +41,25 @@ function enemy_move(number){
 		enemy_look[number] = "up";
 		myEnemy[number].speedY = -1;
 		enemy_locationY[number]--;
-		move_to_y[number] = myObstacle[enemy_locationY[number]][enemy_locationX[number]].y + 10;
+		move_to_y[number] = myObstacle[enemy_locationY[number]][enemy_locationX[number]].y + squareSurface/4;
 		break;
 	case "S":
 		enemy_look[number] = "down";
 		myEnemy[number].speedY = 1;
 		enemy_locationY[number]++;
-		move_to_y[number] = myObstacle[enemy_locationY[number]][enemy_locationX[number]].y + 10;
+		move_to_y[number] = myObstacle[enemy_locationY[number]][enemy_locationX[number]].y + squareSurface/4;
 		break;
 	case "W":
 		enemy_look[number] = "left";
 		myEnemy[number].speedX = -1;
 		enemy_locationX[number]--;
-		move_to_x[number] = myObstacle[enemy_locationY[number]][enemy_locationX[number]].x + 10;
+		move_to_x[number] = myObstacle[enemy_locationY[number]][enemy_locationX[number]].x + squareSurface/4;
 		break;
 	case "E":
 		enemy_look[number] = "right";
 		myEnemy[number].speedX = 1;
 		enemy_locationX[number]++;
-		move_to_x[number] = myObstacle[enemy_locationY[number]][enemy_locationX[number]].x + 10;
+		move_to_x[number] = myObstacle[enemy_locationY[number]][enemy_locationX[number]].x + squareSurface/4;
 		break;
 	}
 	enemy_direction[number].length = 0;
