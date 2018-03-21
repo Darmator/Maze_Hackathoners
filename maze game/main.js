@@ -2,6 +2,10 @@
 var startGameVar = false;
 var loose_image = new Image();
 loose_image.src ="img/game_over_wallpaper_by_3971450-d66kbai.png";
+var startImageBefore = new Image();
+startImageBefore.src = "img/start-game-button.png"
+var startImageAfter = new Image();
+startImageAfter.src = "img/start-game-button.png"
 var crashLeft = false;
 var crashRight = false;
 var crashTop = false;
@@ -12,11 +16,7 @@ function menu(){
     ctx = myGameArea.context;
     ctx.fillStyle="green";
     ctx.fillRect(0,0,myGameArea.canvas.width,myGameArea.canvas.height);
-    ctx.fillStyle="yellow";
-    ctx.fillRect((myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-(100/2),200,100);
-    ctx.fillStyle="black";
-    ctx.font = "15px Arial";
-    ctx.fillText("Click Here To Begin",(myGameArea.canvas.width/2)-(200/2)+35,(myGameArea.canvas.height/2)+5);
+    ctx.drawImage(startImageBefore,(myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-(100/2),200,100);
     window.addEventListener('mouseup', function(e) {
     var x = e.clientX;
     var y = e.clientY;
@@ -30,20 +30,18 @@ function menu(){
         var k = e.clientY;
         if (j>((myGameArea.canvas.width/2)-(200/2)) && j<((myGameArea.canvas.width/2)-(200/2)+200) && k>((myGameArea.canvas.height/2)-(100/2)) && k<((myGameArea.canvas.height/2)-(100/2)+100)){
             if(startGameVar == false){
-            ctx.fillStyle="#FFD700";
-            ctx.fillRect((myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-(100/2),200,100);
-            ctx.fillStyle="black";
-            ctx.font = "15px Arial";
-            ctx.fillText("Click Here To Begin",(myGameArea.canvas.width/2)-(200/2)+35,(myGameArea.canvas.height/2)+5);
+            	ctx.fillStyle="green";
+    			ctx.fillRect(0,0,myGameArea.canvas.width,myGameArea.canvas.height);
+    			for(i=0;i<3;i++){
+            		ctx.drawImage(startImageAfter,(myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-(100/2),200,100);
+            	}
             }
         }
         else{
             if(startGameVar == false){
-            ctx.fillStyle="yellow";
-            ctx.fillRect((myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-(100/2),200,100);
-            ctx.fillStyle="black";
-            ctx.font = "15px Arial";
-            ctx.fillText("Click Here To Begin",(myGameArea.canvas.width/2)-(200/2)+35,(myGameArea.canvas.height/2)+5);
+                ctx.fillStyle="green";
+    			ctx.fillRect(0,0,myGameArea.canvas.width,myGameArea.canvas.height);
+    			ctx.drawImage(startImageBefore,(myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-(100/2),200,100);
             }
         }
     });  
