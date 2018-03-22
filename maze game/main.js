@@ -3,9 +3,11 @@ var startGameVar = false;
 var loose_image = new Image();
 loose_image.src ="img/game_over_wallpaper_by_3971450-d66kbai.png";
 var startImageBefore = new Image();
-startImageBefore.src = "img/start-game-button.png"
+startImageBefore.src = "img/start-game-button.png";
 var startImageAfter = new Image();
-startImageAfter.src = "img/start-game-button.png"
+startImageAfter.src = "img/start-game-button.png";
+var backImage = new Image();
+backImage.src = "img/pexels-photo-416346.jpeg";
 var crashLeft = false;
 var crashRight = false;
 var crashTop = false;
@@ -14,13 +16,12 @@ var crashBottom = false;
 function menu(){
     myGameArea.start();
     ctx = myGameArea.context;
-    ctx.fillStyle="green";
-    ctx.fillRect(0,0,myGameArea.canvas.width,myGameArea.canvas.height);
-    ctx.drawImage(startImageBefore,(myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-(100/2),200,100);
+    ctx.drawImage(backImage,0,0,myGameArea.canvas.width,myGameArea.canvas.height);
+    ctx.drawImage(startImageBefore,(myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-125,200,100);
     window.addEventListener('mouseup', function(e) {
     var x = e.clientX;
     var y = e.clientY;
-        if (x>((myGameArea.canvas.width/2)-(200/2)) && x<((myGameArea.canvas.width/2)-(200/2)+200) && y>((myGameArea.canvas.height/2)-(100/2)) && y<((myGameArea.canvas.height/2)-(100/2)+100) && startGameVar == false){
+        if (x>((myGameArea.canvas.width/2)-(200/2)) && x<((myGameArea.canvas.width/2)-(200/2)+200) && y>((myGameArea.canvas.height/2)-125) && y<((myGameArea.canvas.height/2)-125+100) && startGameVar == false){
             startGameVar = true;
             startGame();
         }
@@ -28,20 +29,18 @@ function menu(){
     window.addEventListener('mousemove', function inBox(e) {
         var j = e.clientX;
         var k = e.clientY;
-        if (j>((myGameArea.canvas.width/2)-(200/2)) && j<((myGameArea.canvas.width/2)-(200/2)+200) && k>((myGameArea.canvas.height/2)-(100/2)) && k<((myGameArea.canvas.height/2)-(100/2)+100)){
+        if (j>((myGameArea.canvas.width/2)-(200/2)) && j<((myGameArea.canvas.width/2)-(200/2)+200) && k>((myGameArea.canvas.height/2)-125) && k<((myGameArea.canvas.height/2)-125+100)){
             if(startGameVar == false){
-            	ctx.fillStyle="green";
-    			ctx.fillRect(0,0,myGameArea.canvas.width,myGameArea.canvas.height);
+            	ctx.drawImage(backImage,0,0,myGameArea.canvas.width,myGameArea.canvas.height);
     			for(i=0;i<3;i++){
-            		ctx.drawImage(startImageAfter,(myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-(100/2),200,100);
+            		ctx.drawImage(startImageAfter,(myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-125,200,100);
             	}
             }
         }
         else{
             if(startGameVar == false){
-                ctx.fillStyle="green";
-    			ctx.fillRect(0,0,myGameArea.canvas.width,myGameArea.canvas.height);
-    			ctx.drawImage(startImageBefore,(myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-(100/2),200,100);
+                ctx.drawImage(backImage,0,0,myGameArea.canvas.width,myGameArea.canvas.height);
+    			ctx.drawImage(startImageBefore,(myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-125,200,100);
             }
         }
     });  
