@@ -1,10 +1,12 @@
 var first_level = true;
 var myEnemy = [];
-var enemy_amount = 0;
+var enemy_amount = 1;
 var spikes_counter = 1;
-var mazeWidth = 13;//Width of the maze  WRITE IN THIS TWO VARIABLES ODD NUMBERS min 17
-var mazeHeight = 7;//Heigth of the maze min 7
-var squareSurface = 52;//length of one square WRITE IN THIS VARIABLE WITH EVEN NUMBERS
+var squareSurface = 70;
+
+var mazeWidth;//Width of the maze  WRITE IN THIS TWO VARIABLES ODD NUMBERS min 17
+var mazeHeight;//Heigth of the maze min 7
+//length of one square WRITE IN THIS VARIABLE WITH EVEN NUMBERS
 var locationX;
 var locationY;
 var enemy_locationX = [];
@@ -53,16 +55,17 @@ function create_enemies(){
 		get_location();
 		enemy_locationX[t] = locationX
 		enemy_locationY[t] = locationY
-		myEnemy[t] = new component(squareSurface/2, squareSurface/2, "enemy", myObstacle[locationY][locationX].x + squareSurface/4  , myObstacle[locationY][locationX].y + squareSurface/4, t );
-		move_to_x[t] = myObstacle[locationY][locationX].x + squareSurface/4;
-		move_to_y[t] = myObstacle[locationY][locationX].y + squareSurface/4;
+		myEnemy[t] = new component(squareSurface/2, squareSurface/2, "enemy", myObstacle[locationY][locationX].x + squareSurface/5  , myObstacle[locationY][locationX].y + squareSurface/5, t );
+		move_to_x[t] = myObstacle[locationY][locationX].x + squareSurface/5;
+		move_to_y[t] = myObstacle[locationY][locationX].y + squareSurface/5;
 	}
 }
     
 //Start the game
 function startGame() {
+	 findMazeSize();
 	myGameArea.start();//Load the canvas and all that stuff
-    myGameArea.interval = setInterval(updateGameArea, 20);
+    myGameArea.interval = setInterval(updateGameArea, 10);
 	turn_to_2d();
 	turn_to_3d();
 	sketch_map();//Write 0, 1 and 2, inside the map array using an algorithm
@@ -71,19 +74,30 @@ function startGame() {
 	myGamePiece = new component(squareSurface/2, squareSurface/2, "hero", myObstacle[locationY][locationX].x + 4 , myObstacle[locationY][locationX].y + 4 );
 	create_enemies();
 }
+function findMazeSize(){
+	mazeWidth = Math.floor (canvasWidth / squareSurface);
+	 mazeHeight = Math.floor (canvasHeight / squareSurface);
+	 if (mazeHeight % 2 == 0){
+		 mazeHeight--;
+	 }
+	 if (mazeWidth % 2 == 0){
+		mazeWidth--;
+	 }
+}
 function reset_game(){
-	mazeHeight += 2;
-	mazeWidth += 2;
+	squareSurface -= 20;
+	velocity +=2;
 	level_counter++;
 	enemy_amount++;
 	spikes_counter++;
 	if (level_counter === 3){
 		spikes_counter = 2;
 		enemy_amount = 1;
-		mazeWidth = 13;
-		mazeHeight = 7;
+		squareSurface = 70;
+		velocity = 1;
 		first_level = false;
 	}
+	findMazeSize();
 	turn_to_2d();
 	turn_to_3d();
 	create_enemies();
@@ -97,10 +111,10 @@ function reset_game(){
 		get_location();
 		enemy_locationX[t] = locationX
 		enemy_locationY[t] = locationY
-		myEnemy[t].x = myObstacle[locationY][locationX].x;
-		myEnemy[t].y = myObstacle[locationY][locationX].y;
-		move_to_x[t] = myObstacle[locationY][locationX].x ;
-		move_to_y[t] = myObstacle[locationY][locationX].y ;
+		myEnemy[t].x = myObstacle[locationY][locationX].x + squareSurface/5;
+		myEnemy[t].y = myObstacle[locationY][locationX].y + squareSurface/5;
+		move_to_x[t] = myObstacle[locationY][locationX].x + squareSurface/5;
+		move_to_y[t] = myObstacle[locationY][locationX].y + squareSurface/5;
 	}
 }
 function get_location(){

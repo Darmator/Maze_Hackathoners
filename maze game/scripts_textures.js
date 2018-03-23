@@ -1,3 +1,5 @@
+var grass_image = new Image();
+grass_image.src = "img/grasstile.png";
 var spikes_image = new Image();
 spikes_image.src ="img/spike-animation_0.png";
 var orcs_image = new Image();
@@ -31,6 +33,7 @@ function scripts_textures (x, y, width, height, number, color){
 				switch (color) {
 			case "wall":
 			if (first_level){
+				ctx.drawImage(grass_image,  x,  y,  width,  height);
 				ctx.drawImage(soil_image,  x,  y,  width,  height);
 				ctx.drawImage(tree_image, 0, 78, 67, 70,  x,  y, squareSurface, squareSurface);
 			}
@@ -42,6 +45,9 @@ function scripts_textures (x, y, width, height, number, color){
 			if (!first_level){
 				ctx.drawImage(ground_image,  x,  y,  width,  height);
 				}
+			else {
+				ctx.drawImage(grass_image,  x,  y,  width,  height);
+			}
 				break;
 			case "sign":
 				ctx.drawImage(sign_image,  x,  y,  width,  height);
@@ -64,6 +70,9 @@ function scripts_textures (x, y, width, height, number, color){
 				if (!first_level){
 					ctx.drawImage(ground_image,  x,  y,  width,  height);
 				}
+				else{
+					ctx.drawImage(grass_image,  x,  y,  width,  height);
+				}
 				spikes_sprites(  x,  y,  width,  height);
 				break;
 			case "fire":
@@ -74,10 +83,10 @@ function scripts_textures (x, y, width, height, number, color){
 function hero_sprites(  x,  y,  width,  height){
 			switch (hero_look){
 			case "down":
-				if ( myGamePiece.speedY > 0 && hero_foot <= 10){
+				if ( myGamePiece.speedY > 0 && hero_foot <= 10/velocity){
 					ctx.drawImage(hero_image, 205, 638, 50, 60,  x,  y,  width,  height);//down 1
 				}
-				else if ( myGamePiece.speedY > 0  && hero_foot > 10){
+				else if ( myGamePiece.speedY > 0  && hero_foot > 10/velocity){
 					ctx.drawImage(hero_image, 459, 638, 50, 60,  x,  y,  width,  height);// down 2
 				}
 				else {
@@ -85,10 +94,10 @@ function hero_sprites(  x,  y,  width,  height){
 				}
 				break;
 			case "up":
-				if ( myGamePiece.speedY < 0 && hero_foot <= 10){
+				if ( myGamePiece.speedY < 0 && hero_foot <= 10/velocity){
 					ctx.drawImage(hero_image, 198, 519, 50, 60,  x,  y,  width,  height);//up 1
 				}
-				else if ( myGamePiece.speedY < 0 && hero_foot > 10){
+				else if ( myGamePiece.speedY < 0 && hero_foot > 10/velocity){
 					ctx.drawImage(hero_image,453, 519, 50, 60,  x,  y,  width,  height);//up 2
 				}
 				else {
@@ -96,10 +105,10 @@ function hero_sprites(  x,  y,  width,  height){
 				}
 				break;
 			case "right":
-				if ( myGamePiece.speedX > 0 && hero_foot <= 10){
+				if ( myGamePiece.speedX > 0 && hero_foot <= 10/velocity){
 					ctx.drawImage(hero_image, 137, 707, 40, 60,  x,  y,  width,  height);//right 1
 				}
-				else if (myGamePiece.speedX > 0 && hero_foot > 10){
+				else if (myGamePiece.speedX > 0 && hero_foot > 10/velocity){
 					ctx.drawImage(hero_image, 390, 707, 40, 60,  x,  y,  width,  height);//right 2
 				}
 				else {
@@ -107,10 +116,10 @@ function hero_sprites(  x,  y,  width,  height){
 				}
 				break;
 			case "left":
-				if ( myGamePiece.speedX < 0 && hero_foot <= 10){
+				if ( myGamePiece.speedX < 0 && hero_foot <= 10/velocity){
 					ctx.drawImage(hero_image, 139, 580, 40, 60,  x,  y,  width,  height);//left 1
 				}
-				else if ( myGamePiece.speedX < 0 && hero_foot > 10){
+				else if ( myGamePiece.speedX < 0 && hero_foot > 10/velocity){
 					ctx.drawImage(hero_image, 394, 580, 40, 60,  x,  y,  width,  height);//left 2
 				}
 				else {
@@ -119,82 +128,83 @@ function hero_sprites(  x,  y,  width,  height){
 				break;
 			}
 			hero_foot++;
-			if (hero_foot  >= 20 ){
+			if (hero_foot  >= 20/ velocity ){
 			hero_foot = 0;
 			}
 }
 function orcs_sprites( x,  y,  width,  height, number){
 				switch (enemy_look[number]){
 			case "down":
-				if ( myEnemy[number].speedY === 1  && enemy_foot[number] <= 10){
+				if ( myEnemy[number].speedY === 1  && enemy_foot[number] <= 10/velocity){
 					ctx.drawImage(orcs_image, 207, 638, 50, 70,  x,  y,  width,  height);//down 1
 				}
-				else if ( myEnemy[number].speedY === 1  && enemy_foot[number] > 10){
+				else if ( myEnemy[number].speedY === 1  && enemy_foot[number] > 10/velocity){
 					ctx.drawImage(orcs_image, 461, 638, 50, 70,  x,  y,  width,  height);// down 2
 				}
 				break;
 			case "up":
-				if ( myEnemy[number].speedY === -1 && enemy_foot[number] <= 10){
+				if ( myEnemy[number].speedY === -1 && enemy_foot[number] <= 10/velocity){
 					ctx.drawImage(orcs_image, 204, 519, 50, 69,  x,  y,  width,  height);//up 1
 				}
-				else if ( myEnemy[number].speedY === -1 && enemy_foot[number] > 10){
+				else if ( myEnemy[number].speedY === -1 && enemy_foot[number] > 10/velocity){
 					ctx.drawImage(orcs_image, 459, 519, 50, 69,  x,  y,  width,  height);//up 2
 				}
 				break;
 			case "right":
-				if ( myEnemy[number].speedX === 1 && enemy_foot[number] <= 10){
+				if ( myEnemy[number].speedX === 1 && enemy_foot[number] <= 10/velocity){
 					ctx.drawImage(orcs_image, 128, 707, 50, 70,  x,  y,  width,  height);//right 1
 				}
-				else if (myEnemy[number].speedX === 1 && enemy_foot[number] > 10){
+				else if (myEnemy[number].speedX === 1 && enemy_foot[number] > 10/velocity){
 					ctx.drawImage(orcs_image, 381, 707, 50, 70,  x,  y,  width,  height);//right 2
 				}
 				break;
 			case "left":
-				if ( myEnemy[number].speedX === -1 && enemy_foot[number] <= 10){
+				if ( myEnemy[number].speedX === -1 && enemy_foot[number] <= 10/velocity){
 					ctx.drawImage(orcs_image, 147, 580, 50, 70,  x,  y,  width,  height);//left 1
 				}
-				else if ( myEnemy[number].speedX === -1 && enemy_foot[number] > 10){
+				else if ( myEnemy[number].speedX === -1 && enemy_foot[number] > 10/velocity){
 					ctx.drawImage(orcs_image, 402, 580, 50, 70,  x,  y,  width,  height);//left 2
 				}
 				break;
 			}
 			enemy_foot[number]++;
-			if (enemy_foot[number]  >= 20 ){
+			if (enemy_foot[number]  >= 20/velocity ){
 			enemy_foot[number] = 0;
 			}
 }
 
 function dragon_sprites( x,  y,  width,  height, number){
 				switch (enemy_look[number]){
+					
 			case "down":
-				if ( myEnemy[number].speedY === 1  && enemy_foot[number] <= 10){
+				if ( myEnemy[number].speedY === 1  && enemy_foot[number] <= 10/velocity){
 					ctx.drawImage(dragon_image, 0, 121, 25, 25, x, y, width, height); //down 1
 				}
-				else if ( myEnemy[number].speedY === 1  && enemy_foot[number] > 10){
+				else if ( myEnemy[number].speedY === 1  && enemy_foot[number] > 10/velocity){
 					ctx.drawImage(dragon_image, 24, 121, 25, 25, x, y, width, height); //down 2
 				}
 				break;
 			case "up":
-				if ( myEnemy[number].speedY === -1 && enemy_foot[number] <= 10){
+				if ( myEnemy[number].speedY === -1 && enemy_foot[number] <= 10/velocity){
 					ctx.drawImage(dragon_image, 96, 121, 25, 25, x, y, width, height); //up 1
 				}
-				else if ( myEnemy[number].speedY === -1 && enemy_foot[number] > 10){
+				else if ( myEnemy[number].speedY === -1 && enemy_foot[number] > 10/velocity){
 					ctx.drawImage(dragon_image, 120, 121, 25, 25, x, y, width, height); //up 2
 				}
 				break;
 			case "right":
-				if ( myEnemy[number].speedX === 1 && enemy_foot[number] <= 10){
+				if ( myEnemy[number].speedX === 1 && enemy_foot[number] <= 10/velocity){
 					ctx.drawImage(dragon_image, 144, 121, 25, 25, x, y, width, height); //right 1
 				}
-				else if (myEnemy[number].speedX === 1 && enemy_foot[number] > 10){
+				else if (myEnemy[number].speedX === 1 && enemy_foot[number] > 10/velocity){
 					ctx.drawImage(dragon_image, 168, 121, 25, 25, x, y, width, height); //right 2
 				}
 				break;
 			case "left":
-				if ( myEnemy[number].speedX === -1 && enemy_foot[number] <= 10){
+				if ( myEnemy[number].speedX === -1 && enemy_foot[number] <= 10/velocity){
 					ctx.drawImage(dragon_image, 48, 121, 25, 25, x, y, width, height); //left 1
 				}
-				else if ( myEnemy[number].speedX === -1 && enemy_foot[number] > 10){
+				else if ( myEnemy[number].speedX === -1 && enemy_foot[number] > 10/velocity){
 					ctx.drawImage(dragon_image, 72, 121, 25, 25, x, y, width, height); //left 2
 				}
 				break;
@@ -231,21 +241,15 @@ function flame_sprites (x, y, width, height, number){
 	}
 }
 function spikes_sprites(x, y, width, height){
-	if (spikes_state <= 75 * spikes_counter){
+	if (spikes_state * velocity<= 150 * spikes_counter){
 		ctx.drawImage(spikes_image, 5, 0, 23, 30, x, y, width, height + 10);
 		spikes_deadly = false;
-	}/*
-	else if (spikes_state <= 50 * spikes_counter){
-		ctx.drawImage(spikes_image, 27, 0, 23, 30, x, y, width, height);
 	}
-	else if (spikes_state <= 75 * spikes_counter){
-		ctx.drawImage(spikes_image, 49, 0, 23, 30, x, y, width, height);
-	}*/
-	if ( spikes_state >= 75 * spikes_counter){
+	if ( spikes_state * velocity >= 150 * spikes_counter){
 		ctx.drawImage(spikes_image, 93, 0, 23, 30, x, y, width, height + 10);
 		spikes_deadly = true;
 	}
-	if (spikes_state >= 150 * spikes_counter) {
+	if (spikes_state * velocity >= 300 * spikes_counter) {
 		spikes_state = 0;
 	}
 	spikes_state++;

@@ -1,4 +1,3 @@
-
 var startGameVar = false;
 var loose_image = new Image();
 loose_image.src ="img/game_over_wallpaper_by_3971450-d66kbai.png";
@@ -12,8 +11,15 @@ var crashLeft = false;
 var crashRight = false;
 var crashTop = false;
 var crashBottom = false;
+var canvasHeight = window.innerHeight - 23;
+var canvasWidth = window.innerWidth - 24;
+var velocity = 1;
+
 
 function menu(){
+	
+
+	 
     myGameArea.start();
     ctx = myGameArea.context;
     ctx.drawImage(backImage,0,0,myGameArea.canvas.width,myGameArea.canvas.height);
@@ -75,7 +81,7 @@ function component(width, height, color, x, y, number) {
             var myBottom = this.y + (this.height);
             var otherTop = otherobj.y;
             var crashLeft = false;
-            if ((myLeft === otherRight) &&(myTop < otherBottom ) && (myBottom > otherTop  ))  {
+            if ((myLeft === otherRight|| (myLeft >= otherRight && myLeft<= otherRight + 4)) &&(myTop < otherBottom ) && (myBottom > otherTop  ))  {
                 crashLeft = true;
             }
             return crashLeft;
@@ -88,7 +94,7 @@ function component(width, height, color, x, y, number) {
             var myBottom = this.y + (this.height);
             var otherTop = otherobj.y;
             var crashRight = false;
-            if ((myRight === otherLeft) &&(myTop < otherBottom  ) && (myBottom > otherTop  )){
+            if ((myRight === otherLeft || (myRight <= otherLeft && myRight>= otherLeft - 4)) &&(myTop < otherBottom  ) && (myBottom > otherTop  )){
                 crashRight = true;
             }
             return crashRight;
@@ -101,7 +107,7 @@ function component(width, height, color, x, y, number) {
             var myRight = this.x + (this.width);
             var otherLeft = otherobj.x;
             var crashBottom = false;
-            if ((myTop === otherBottom  ) && (myLeft < otherRight )&&(myRight > otherLeft )){
+            if ((myTop === otherBottom ||(myTop >= otherBottom && myTop<= otherBottom + 4) ) && (myLeft < otherRight )&&(myRight > otherLeft )){
                 crashBottom = true;
             }
             return crashBottom;
@@ -114,7 +120,7 @@ function component(width, height, color, x, y, number) {
             var myRight = this.x + (this.width) - 5;
             var otherLeft = otherobj.x;
             var crashTop = false;
-            if (( myBottom === otherTop) && (myLeft  < otherRight )&& (myRight > otherLeft )){
+            if (( myBottom === otherTop ||(myBottom <= otherTop && myBottom>= otherTop - 4)) && (myLeft  < otherRight )&& (myRight > otherLeft )){
                 crashTop = true;
             }
             return crashTop;
@@ -126,8 +132,8 @@ function component(width, height, color, x, y, number) {
 var myGameArea = {  
     canvas : document.createElement("canvas"),//Load the canvas
     start : function() {
-        this.canvas.width = mazeWidth * squareSurface;//The canvas width will be equal to the number of squares times their width
-        this.canvas.height = mazeHeight * squareSurface;//The canvas height will be equal to the number of squares times their heigth
+        this.canvas.width = canvasWidth;//The canvas width will be equal to the number of squares times their width
+        this.canvas.height = canvasHeight;//The canvas height will be equal to the number of squares times their heigth
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         
@@ -152,6 +158,7 @@ var myGameArea = {
 };
 
 function updateGameArea() {
+	
     myGameArea.clear();
 	visibility();
     crashLeft = false;
@@ -189,19 +196,19 @@ function updateGameArea() {
 	
 	//move the red square
 	    if (myGameArea.keys && myGameArea.keys[37] && !crashLeft ) {
-				myGamePiece.speedX = -2;
+				myGamePiece.speedX = -velocity;
 				hero_look = "left";
 	}
      else if (myGameArea.keys && myGameArea.keys[39] && !crashRight ) {
-				myGamePiece.speedX =2;
+				myGamePiece.speedX = velocity;
 				hero_look = "right";
 	}
      else if (myGameArea.keys && myGameArea.keys[38] && !crashBottom ) {
-				myGamePiece.speedY = -2;
+				myGamePiece.speedY = -velocity;
 				hero_look = "up";
 	}
      else if (myGameArea.keys && myGameArea.keys[40] && !crashTop ){
-				myGamePiece.speedY = 2;
+				myGamePiece.speedY = velocity;
 				hero_look = "down";
 	}
 	//Update myObtacle position
