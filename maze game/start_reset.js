@@ -1,7 +1,7 @@
 var first_level = true;
 var myEnemy = [];
 var enemy_amount = 1;
-var spikes_counter = 1;
+var spikes_counter = 2;
 var squareSurface = 70;
 
 var mazeWidth;//Width of the maze  WRITE IN THIS TWO VARIABLES ODD NUMBERS min 17
@@ -88,8 +88,8 @@ function reset_game(){
 	squareSurface -= 20;
 	velocity +=2;
 	level_counter++;
-	enemy_amount++;
-	spikes_counter++;
+	enemy_amount+= 3;
+	spikes_counter+= 4;
 	if (level_counter === 3){
 		spikes_counter = 2;
 		enemy_amount = 1;
