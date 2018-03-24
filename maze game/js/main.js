@@ -26,10 +26,7 @@ var velocity = 1;
 
 function menu(){
 
-	enemy_amount = 0;
-	spikes_counter = 1;
-	squareSurface = 52;
-	level_counter = 0;
+	
     myGameArea.start();
     buttonWidth=200;
 	buttonHeight=myGameArea.canvas.height/8;
@@ -39,9 +36,7 @@ function menu(){
     window.addEventListener('mouseup', function(e) {
 	if (check_start(e.clientX, e.clientY)){
 		startGameVar = true;
-			mazeHeight = 7;
-			mazeWidth =  19;
-			myGameArea.start();
+			
             startGame();
 	}
 	else if (check_options(e.clientX, e.clientY)){
