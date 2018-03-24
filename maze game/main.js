@@ -2,50 +2,178 @@
 var startGameVar = false;
 var loose_image = new Image();
 loose_image.src ="img/game_over_wallpaper_by_3971450-d66kbai.png";
-var startImageBefore = new Image();
-startImageBefore.src = "img/start-game-button.png";
-var startImageAfter = new Image();
-startImageAfter.src = "img/start-game-button.png";
 var backImage = new Image();
 backImage.src = "img/pexels-photo-416346.jpeg";
+var startGameImage = new Image();
+startGameImage.src = "img/start-game-button.png";
+var optionsGameImage = new Image();
+optionsGameImage.src = "img/option-game-button.png";
+var helpGameImage = new Image();
+helpGameImage.src = "img/help-game-button.png"
+var creditGameImage = new Image();
+creditGameImage.src = "img/credit-game-button.png";
+var exitGameImage = new Image();
+exitGameImage.src = "img/exit-game-button.png";
 var crashLeft = false;
 var crashRight = false;
 var crashTop = false;
 var crashBottom = false;
 
 function menu(){
+<<<<<<< Updated upstream
+=======
+	
+	mazeHeight = 12;
+	mazeWidth =  19;
+	enemy_amount = 0;
+	spikes_counter = 1;
+	squareSurface = 52;
+	level_counter = 0;
+>>>>>>> Stashed changes
     myGameArea.start();
     ctx = myGameArea.context;
-    ctx.drawImage(backImage,0,0,myGameArea.canvas.width,myGameArea.canvas.height);
-    ctx.drawImage(startImageBefore,(myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-125,200,100);
+	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
+    draw_menu();
     window.addEventListener('mouseup', function(e) {
-    var x = e.clientX;
-    var y = e.clientY;
-        if (x>((myGameArea.canvas.width/2)-(200/2)) && x<((myGameArea.canvas.width/2)-(200/2)+200) && y>((myGameArea.canvas.height/2)-125) && y<((myGameArea.canvas.height/2)-125+100) && startGameVar == false){
-            startGameVar = true;
+	if (check_start(e.clientX, e.clientY)){
+		startGameVar = true;
+			mazeHeight = 7;
+			mazeWidth =  19;
+			myGameArea.start();
             startGame();
-        }
-    });
+	}
+	else if (check_options(e.clientX, e.clientY)){
+		console.log("score");
+	}
+	else if (check_help(e.clientX, e.clientY)){
+		console.log("help");
+	}
+	else if (check_credits(e.clientX, e.clientY)){
+		console.log("credits");
+	}
+	else if (check_exit(e.clientX, e.clientY)){
+		close();
+	}
+	});
     window.addEventListener('mousemove', function inBox(e) {
-        var j = e.clientX;
-        var k = e.clientY;
-        if (j>((myGameArea.canvas.width/2)-(200/2)) && j<((myGameArea.canvas.width/2)-(200/2)+200) && k>((myGameArea.canvas.height/2)-125) && k<((myGameArea.canvas.height/2)-125+100)){
-            if(startGameVar == false){
-            	ctx.drawImage(backImage,0,0,myGameArea.canvas.width,myGameArea.canvas.height);
-    			for(i=0;i<3;i++){
-            		ctx.drawImage(startImageAfter,(myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-125,200,100);
-            	}
-            }
-        }
-        else{
-            if(startGameVar == false){
-                ctx.drawImage(backImage,0,0,myGameArea.canvas.width,myGameArea.canvas.height);
-    			ctx.drawImage(startImageBefore,(myGameArea.canvas.width/2)-(200/2),(myGameArea.canvas.height/2)-125,200,100);
-            }
-        }
+		if(startGameVar == false){
+				myGameArea.clear();
+				ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
+				if (check_start(e.clientX, e.clientY)){
+					for(i = 0;i<3;i++){
+						ctx.drawImage(startGameImage, myGameArea.canvas.width/2-100,myGameArea.canvas.height/2-225,200,100); //start clicked
+					}
+				}
+				else{
+					ctx.drawImage(startGameImage, myGameArea.canvas.width/2-100,myGameArea.canvas.height/2-225,200,100); //start not clicked
+				}
+				if (check_options(e.clientX, e.clientY)){
+					for(i = 0;i<3;i++){
+						ctx.drawImage(optionsGameImage, myGameArea.canvas.width/2-100,myGameArea.canvas.height/2-140,200,100); //scores clicked
+					}
+				}
+				else{
+					ctx.drawImage(optionsGameImage, myGameArea.canvas.width/2-100,myGameArea.canvas.height/2-140,200,100); //options not clicked
+				}
+				if (check_help(e.clientX, e.clientY)){
+					for(i = 0;i<3;i++){
+						ctx.drawImage(helpGameImage, myGameArea.canvas.width/2-100,myGameArea.canvas.height/2-50,200,100); //help clicked
+					}
+				}
+				else{
+					ctx.drawImage(helpGameImage, myGameArea.canvas.width/2-100,myGameArea.canvas.height/2-50,200,100); //help non clicked
+				}
+				if (check_credits(e.clientX, e.clientY)){
+					for(i = 0;i<3;i++){
+						ctx.drawImage(creditGameImage, myGameArea.canvas.width/2-100,myGameArea.canvas.height/2+40,200,100); //credits clicked
+					}
+				}
+				else{
+					ctx.drawImage(creditGameImage, myGameArea.canvas.width/2-100,myGameArea.canvas.height/2+40,200,100); //credits not clicked
+				}
+				if (check_exit(e.clientX, e.clientY)){
+					for(i = 0;i<3;i++){
+						ctx.drawImage(exitGameImage, myGameArea.canvas.width/2-100,myGameArea.canvas.height/2+130,200,100); //exit clicked
+					}
+				}
+				else{
+					ctx.drawImage(exitGameImage, myGameArea.canvas.width/2-100,myGameArea.canvas.height/2+130,200,100); //exit non clicked
+				}
+            	
+		}
     });  
 }
 
+function draw_menu(){
+	ctx.drawImage(startGameImage, myGameArea.canvas.width/2-100,myGameArea.canvas.height/2-225,200,100); //start not clicked
+	ctx.drawImage(optionsGameImage, myGameArea.canvas.width/2-100,myGameArea.canvas.height/2-140,200,100); //options not clicked
+	ctx.drawImage(helpGameImage, myGameArea.canvas.width/2-100,myGameArea.canvas.height/2-50,200,100);
+	ctx.drawImage(creditGameImage, myGameArea.canvas.width/2-100,myGameArea.canvas.height/2+40,200,100); //credits not clicked
+	ctx.drawImage(exitGameImage, myGameArea.canvas.width/2-100,myGameArea.canvas.height/2+130,200,100); //exit non clicked
+}
+function check_start(x,y){
+	if ((x>= myGameArea.canvas.width/2-100 && x<= myGameArea.canvas.width/2+100)&&(y >= myGameArea.canvas.height/2-225 && y <= myGameArea.canvas.height/2-125)){
+		return true;
+	}
+	return false;
+}
+
+function check_options(x,y){
+	if ((x>= myGameArea.canvas.width/2-100 && x<= myGameArea.canvas.width/2+100)&&(y >= myGameArea.canvas.height/2-140 && y <= myGameArea.canvas.height/2-40)){
+		return true;
+	}
+	return false;
+}
+
+function check_help(x,y){
+	if ((x>= myGameArea.canvas.width/2-100 && x<= myGameArea.canvas.width/2+100)&&(y>= myGameArea.canvas.height/2-50 && y<= myGameArea.canvas.height/2+50)){
+		return true;
+	}
+	return false;
+}
+
+function check_credits(x,y){
+	if ((x>= myGameArea.canvas.width/2-100 && x<= myGameArea.canvas.width/2+100)&&(y>= myGameArea.canvas.height/2+40 && y<= myGameArea.canvas.height/2+140)){
+		return true;
+	}
+	return false;
+}
+
+function check_exit(x,y){
+	if ((x>= myGameArea.canvas.width/2-100 && x<= myGameArea.canvas.width/2+100)&&(y>= myGameArea.canvas.height/2+130 && y<= myGameArea.canvas.height/2+230)){
+		return true;
+	}
+	return false;
+}
+
+//Start loading things
+var myGameArea = {  
+    canvas : document.createElement("canvas"),//Load the canvas
+    start : function() {
+        this.canvas.width = mazeWidth * squareSurface;//The canvas width will be equal to the number of squares times their width
+        this.canvas.height = mazeHeight * squareSurface;//The canvas height will be equal to the number of squares times their heigth
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        
+		//Check if no keys are pressed
+        window.addEventListener('keydown', function (e) {
+            myGameArea.keys = (myGameArea.keys || []);
+            myGameArea.keys[e.keyCode] = (e.type == "keydown");
+        });
+		//Check if any keys are pressed
+        window.addEventListener('keyup', function (e) {
+            myGameArea.keys[e.keyCode] = (e.type == "keydown");            
+        });
+    }, 
+	//Clear the canvas
+    clear : function(){
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    },
+	//Stop the game
+	stop : function() {
+        clearInterval(this.interval);
+    }
+};
 function component(width, height, color, x, y, number) {
     this.gamearea = myGameArea;
     this.width = width;
@@ -122,6 +250,7 @@ function component(width, height, color, x, y, number) {
     
 }
 
+<<<<<<< Updated upstream
 //Start loading things
 var myGameArea = {  
     canvas : document.createElement("canvas"),//Load the canvas
@@ -150,6 +279,9 @@ var myGameArea = {
         clearInterval(this.interval);
     }
 };
+=======
+
+>>>>>>> Stashed changes
 
 function updateGameArea() {
     myGameArea.clear();

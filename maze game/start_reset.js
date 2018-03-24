@@ -1,15 +1,23 @@
 var first_level = true;
 var myEnemy = [];
+<<<<<<< Updated upstream
 var enemy_amount = 0;
 var spikes_counter = 1;
 var mazeWidth = 13;//Width of the maze  WRITE IN THIS TWO VARIABLES ODD NUMBERS min 17
 var mazeHeight = 7;//Heigth of the maze min 7
 var squareSurface = 52;//length of one square WRITE IN THIS VARIABLE WITH EVEN NUMBERS
+=======
+var enemy_amount;
+var spikes_counter;
+var mazeWidth ;//Width of the maze  WRITE IN THIS TWO VARIABLES ODD NUMBERS min 17
+var mazeHeight;//Heigth of the maze min 7
+var squareSurface;//length of one square WRITE IN THIS VARIABLE WITH EVEN NUMBERS
+>>>>>>> Stashed changes
 var locationX;
 var locationY;
 var enemy_locationX = [];
 var enemy_locationY = [];
-var level_counter = 0;
+var level_counter;
 var end =false;
 
 function turn_to_2d(){
@@ -80,7 +88,11 @@ function reset_game(){
 	if (level_counter === 3){
 		spikes_counter = 2;
 		enemy_amount = 1;
+<<<<<<< Updated upstream
 		mazeWidth = 13;
+=======
+		mazeWidth = 19;
+>>>>>>> Stashed changes
 		mazeHeight = 7;
 		first_level = false;
 	}
