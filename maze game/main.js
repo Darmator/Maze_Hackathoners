@@ -20,8 +20,6 @@ var crashTop = false;
 var crashBottom = false;
 
 function menu(){
-<<<<<<< Updated upstream
-=======
 	
 	mazeHeight = 12;
 	mazeWidth =  19;
@@ -29,7 +27,6 @@ function menu(){
 	spikes_counter = 1;
 	squareSurface = 52;
 	level_counter = 0;
->>>>>>> Stashed changes
     myGameArea.start();
     ctx = myGameArea.context;
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
@@ -250,7 +247,6 @@ function component(width, height, color, x, y, number) {
     
 }
 
-<<<<<<< Updated upstream
 //Start loading things
 var myGameArea = {  
     canvas : document.createElement("canvas"),//Load the canvas
@@ -279,9 +275,6 @@ var myGameArea = {
         clearInterval(this.interval);
     }
 };
-=======
-
->>>>>>> Stashed changes
 
 function updateGameArea() {
     myGameArea.clear();
