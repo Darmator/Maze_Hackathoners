@@ -1,5 +1,8 @@
 var startGameVar = false;
 var subMenu;
+var helpMenu;
+var helpImageWidth;
+var helpImageLength;
 var cursorOver = false;
 var loose_image = new Image();
 loose_image.src ="img/game_over_wallpaper_by_3971450-d66kbai.png";
@@ -17,6 +20,8 @@ var exitGameImage = new Image();
 exitGameImage.src = "img/exit-game-button.png";
 var backButtonImage = new Image();
 backButtonImage.src = "img/back.png";
+var helpImage = new Image();
+helpImage.src = "img/help-Image.png";
 var gameOverSound = new Audio();
 gameOverSound.src = "mp3/Mario Paint - Gnat Attack Game Over.mp3";
 var buttonHeight;
@@ -33,9 +38,12 @@ var velocity = 2;
 function menu(){
 
 	subMenu=false;
+	helpMenu=false;
     myGameArea.start();
     buttonWidth=200;
 	buttonHeight=myGameArea.canvas.height/8;
+	helpImageWidth=myGameArea.canvas.width/2;
+	helpImageLength=helpImageWidth/3*2;
     ctx = myGameArea.context;
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
     draw_menu();
@@ -92,6 +100,7 @@ function menu(){
 						for(i = 0;i<3;i++){
 							ctx.drawImage(helpGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/14.5,buttonWidth,buttonHeight); //help clicked
 						}
+						helpMenu=true;
 					}
 					else{
 						ctx.drawImage(helpGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/14.5,buttonWidth,buttonHeight); //help non clicked
@@ -133,6 +142,9 @@ function menu(){
 					}
 					else{
 						myGameArea.canvas.style.cursor = "pointer";
+					}
+					if(helpMenu==true){
+						ctx.drawImage(helpImage, myGameArea.canvas.width/2-helpImageWidth/2, myGameArea.canvas.height/2-helpImageLength/2,helpImageWidth,helpImageLength);
 					}
             	}
 		}
@@ -189,12 +201,16 @@ function check_back(x,y){
 }
 function help(){
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
+	ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50);
+	ctx.drawImage(helpImage, myGameArea.canvas.width/2-helpImageWidth/2, myGameArea.canvas.height/2-helpImageLength/2,helpImageWidth,helpImageLength);
 }
 function options(){
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
+	ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50);
 }
 function credits(){
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
+	ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50);
 }
 function component(width, height, color, x, y, number) {
     this.gamearea = myGameArea;
