@@ -1,4 +1,6 @@
 var startGameVar = false;
+var startHelpVar;
+var cursorOver = false;
 var loose_image = new Image();
 loose_image.src ="img/game_over_wallpaper_by_3971450-d66kbai.png";
 var backImage = new Image();
@@ -13,6 +15,8 @@ var creditGameImage = new Image();
 creditGameImage.src = "img/credit-game-button.png";
 var exitGameImage = new Image();
 exitGameImage.src = "img/exit-game-button.png";
+var backButtonImage = new Image();
+backButtonImage.src = "img/back.png";
 var buttonHeight;
 var buttonWidth;
 var crashLeft = false;
@@ -26,7 +30,7 @@ var velocity = 1;
 
 function menu(){
 
-	
+	startHelpVar=false;
     myGameArea.start();
     buttonWidth=200;
 	buttonHeight=myGameArea.canvas.height/8;
@@ -34,69 +38,98 @@ function menu(){
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
     draw_menu();
     window.addEventListener('mouseup', function(e) {
-	if (check_start(e.clientX, e.clientY)){
-		startGameVar = true;
-			
-            startGame();
-	}
-	else if (check_options(e.clientX, e.clientY)){
-		console.log("score");
-	}
-	else if (check_help(e.clientX, e.clientY)){
-		console.log("help");
-	}
-	else if (check_credits(e.clientX, e.clientY)){
-		console.log("credits");
-	}
-	else if (check_exit(e.clientX, e.clientY)){
-		close();
-	}
+    	if(startHelpVar==false){
+			if (check_start(e.clientX, e.clientY)){
+				startGameVar = true;
+				myGameArea.canvas.style.cursor = "default";
+	        	startGame();
+			}
+			else if (check_options(e.clientX, e.clientY)){
+				console.log("score");
+			}
+			else if (check_help(e.clientX, e.clientY)){
+				startHelpVar = true;
+				help();
+			}
+			else if (check_credits(e.clientX, e.clientY)){
+				console.log("credits");
+			}
+			else if (check_exit(e.clientX, e.clientY)){
+				close();
+			}
+		}
+		if (check_back(e.clientX,e.clientY)&&startHelpVar){
+			menu();
+		}
 	});
     window.addEventListener('mousemove', function inBox(e) {
 		if(startGameVar == false){
 				myGameArea.clear();
 				ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
-				if (check_start(e.clientX, e.clientY)){
-					for(i = 0;i<3;i++){
-						ctx.drawImage(startGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/3,buttonWidth,buttonHeight); //start clicked
+				if(startHelpVar==false){
+					if (check_start(e.clientX, e.clientY)){
+						for(i = 0;i<3;i++){
+							ctx.drawImage(startGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/3,buttonWidth,buttonHeight); //start clicked
+						}
+					}
+					else{
+						ctx.drawImage(startGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/3,buttonWidth,buttonHeight); //start not clicked
+					}
+					if (check_options(e.clientX, e.clientY)){
+						for(i = 0;i<3;i++){		
+							ctx.drawImage(optionsGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/5,buttonWidth,buttonHeight); //scores clicked
+						}
+					}
+					else{						
+						ctx.drawImage(optionsGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/5,buttonWidth,buttonHeight); //options not clicked
+					}
+					if (check_help(e.clientX, e.clientY)){
+						for(i = 0;i<3;i++){
+							ctx.drawImage(helpGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/14.5,buttonWidth,buttonHeight); //help clicked
+						}
+					}
+					else{
+						ctx.drawImage(helpGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/14.5,buttonWidth,buttonHeight); //help non clicked
+					}
+					if (check_credits(e.clientX, e.clientY)){
+						for(i = 0;i<3;i++){
+							ctx.drawImage(creditGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/15.5,buttonWidth,buttonHeight); //credits clicked
+						}
+					}
+					else{
+						ctx.drawImage(creditGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/15.5,buttonWidth,buttonHeight); //credits not clicked
+					}
+					if (check_exit(e.clientX, e.clientY)){
+						for(i = 0;i<3;i++){
+							ctx.drawImage(exitGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/5,buttonWidth,buttonHeight); //exit clicked
+						}						
+					}
+					else{
+						ctx.drawImage(exitGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/5,buttonWidth,buttonHeight); //exit non clicked						
+					}
+					if(!check_start(e.clientX,e.clientY) && !check_options(e.clientX,e.clientY) && !check_help(e.clientX,e.clientY) && !check_credits(e.clientX,e.clientY) && !check_exit(e.clientX,e.clientY)){
+						myGameArea.canvas.style.cursor = "default";
+					}
+					else{
+						myGameArea.canvas.style.cursor = "pointer";
 					}
 				}
 				else{
-					ctx.drawImage(startGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/3,buttonWidth,buttonHeight); //start not clicked
-				}
-				if (check_options(e.clientX, e.clientY)){
-					for(i = 0;i<3;i++){
-						ctx.drawImage(optionsGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/5,buttonWidth,buttonHeight); //scores clicked
+					if (check_back(e.clientX, e.clientY)){
+						for(i = 0;i<3;i++){
+							ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50); //exit clicked
+						}
 					}
-				}
-				else{
-					ctx.drawImage(optionsGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/5,buttonWidth,buttonHeight); //options not clicked
-				}
-				if (check_help(e.clientX, e.clientY)){
-					for(i = 0;i<3;i++){
-						ctx.drawImage(helpGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/14.5,buttonWidth,buttonHeight); //help clicked
+					else{
+						ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50); //exit non clicked
 					}
-				}
-				else{
-					ctx.drawImage(helpGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/14.5,buttonWidth,buttonHeight); //help non clicked
-				}
-				if (check_credits(e.clientX, e.clientY)){
-					for(i = 0;i<3;i++){
-						ctx.drawImage(creditGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/15.5,buttonWidth,buttonHeight); //credits clicked
+					if(!check_back(e.clientX,e.clientY)){
+						myGameArea.canvas.style.cursor = "default";
 					}
-				}
-				else{
-					ctx.drawImage(creditGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/15.5,buttonWidth,buttonHeight); //credits not clicked
-				}
-				if (check_exit(e.clientX, e.clientY)){
-					for(i = 0;i<3;i++){
-						ctx.drawImage(exitGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/5,buttonWidth,buttonHeight); //exit clicked
+					else{
+						myGameArea.canvas.style.cursor = "pointer";
 					}
-				}
-				else{
-					ctx.drawImage(exitGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/5,buttonWidth,buttonHeight); //exit non clicked
-				}
-            	
+            	}
 		}
     });  
 }
@@ -109,14 +142,14 @@ function draw_menu(){
 	ctx.drawImage(exitGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/5,buttonWidth,buttonHeight); //exit non clicked
 }
 function check_start(x,y){
-	if ((x>= myGameArea.canvas.width/2-buttonWidth/2 && x<= myGameArea.canvas.width/2+buttonWidth/2+buttonWidth)&&(y >= myGameArea.canvas.height/2-myGameArea.canvas.height/3 && y <= myGameArea.canvas.height/2-myGameArea.canvas.height/3+buttonHeight)){
+	if ((x>= myGameArea.canvas.width/2-buttonWidth/2 && x<= myGameArea.canvas.width/2-buttonWidth/2+buttonWidth)&&(y >= myGameArea.canvas.height/2-myGameArea.canvas.height/3 && y <= myGameArea.canvas.height/2-myGameArea.canvas.height/3+buttonHeight)){
 		return true;
 	}
 	return false;
 }
 
 function check_options(x,y){
-	if ((x>= myGameArea.canvas.width/2-buttonWidth/2 && x<= myGameArea.canvas.width/2+buttonWidth/2+buttonWidth)&&(y >= myGameArea.canvas.height/2-myGameArea.canvas.height/5 && y <= myGameArea.canvas.height/2-myGameArea.canvas.height/5+buttonHeight)){
+	if ((x>= myGameArea.canvas.width/2-buttonWidth/2 && x<= myGameArea.canvas.width/2-buttonWidth/2+buttonWidth)&&(y >= myGameArea.canvas.height/2-myGameArea.canvas.height/5 && y <= myGameArea.canvas.height/2-myGameArea.canvas.height/5+buttonHeight)){
 		return true;
 	}
 	return false;
@@ -143,6 +176,16 @@ function check_exit(x,y){
 	return false;
 }
 
+function check_back(x,y){
+	if ((x>= myGameArea.canvas.width/7.5 && x<= myGameArea.canvas.width/7.5+50)&&(y>=myGameArea.canvas.height/5.5 && y<= myGameArea.canvas.height/5.5+50)){
+		return true;
+	}
+	return false;
+}
+function help(){
+	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
+	ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50);
+}
 function component(width, height, color, x, y, number) {
     this.gamearea = myGameArea;
     this.width = width;
