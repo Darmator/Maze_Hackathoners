@@ -3,9 +3,8 @@ var myEnemy = [];
 var enemy_amount = 1;
 var spikes_counter = 2;
 var squareSurface = 70;
-var mazeWidth;//Width of the maze  WRITE IN THIS TWO VARIABLES ODD NUMBERS min 17
-var mazeHeight;//Heigth of the maze min 7
-//length of one square WRITE IN THIS VARIABLE WITH EVEN NUMBERS
+var mazeWidth;
+var mazeHeight;
 var locationX;
 var locationY;
 var enemy_locationX = [];
@@ -16,7 +15,6 @@ var dungeonSound = new Audio();
 dungeonSound.src= "mp3/06 - Underground.mp3";
 var forestSound = new Audio();
 forestSound.src= "mp3/06 - Kokiri Forest.mp3";
-
 function turn_to_2d(){
 	for (n=0;n<mazeHeight;n++) {
  myObstacle[n]=new Array();
@@ -63,16 +61,15 @@ function create_enemies(){
 		move_to_y[t] = myObstacle[locationY][locationX].y + squareSurface/5;
 	}
 }
-    
-//Start the game
+
 function startGame() {
 	 findMazeSize();
-	myGameArea.start();//Load the canvas and all that stuff
-    myGameArea.interval = setInterval(updateGameArea, 10);
+	myGameArea.start();
+    myGameArea.interval = setInterval(updateGameArea, 15);
 	turn_to_2d();
 	turn_to_3d();
-	sketch_map();//Write 0, 1 and 2, inside the map array using an algorithm
-    draw_map();//Translate the map array into objects and store it into my obstacle array
+	sketch_map();
+    draw_map();
 	get_location();
 	myGamePiece = new component(squareSurface/2, squareSurface/2, "hero", myObstacle[locationY][locationX].x + 4 , myObstacle[locationY][locationX].y + 4 );
 	create_enemies();
@@ -99,7 +96,7 @@ function reset_game(){
 		spikes_counter = 2;
 		enemy_amount = 1;
 		squareSurface = 70;
-		velocity = 1;
+		velocity = 2;
 		first_level = false;
 	}
 	findMazeSize();

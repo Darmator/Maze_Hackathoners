@@ -138,6 +138,10 @@ function draw_map(){
 				get_location();
 				map[locationY][locationX] = 4;
 			}
+			if (counter < 3){
+				get_location();
+				map[locationY][locationX] = 3;
+			}
 			if (counter < 1){
 				get_location();
 				map[locationY][locationX] = 5;

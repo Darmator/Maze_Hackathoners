@@ -55,6 +55,12 @@ function check_flame_death(number) {
 		damageSound.play();
 		immunity = true;
     }
+	if ((myGamePiece.x >= fire_ball[number].x && myGamePiece.x <= fire_ball[number].x + fire_ball[number].width) &&
+		(myGamePiece.y >= fire_ball[number].y && myGamePiece.y <= fire_ball[number].y + fire_ball[number].height) && !immunity){
+		lives--;
+		damageSound.play();
+		immunity = true;
+		}
 }
 
 function check_spikes_crash(i, b) {
