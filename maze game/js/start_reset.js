@@ -89,7 +89,7 @@ function findMazeSize(){
 }
 function reset_game(){
 	squareSurface -= 20;
-	velocity +=2;
+	velocity ++;
 	level_counter++;
 	enemy_amount+= 3;
 	spikes_counter+= 4;

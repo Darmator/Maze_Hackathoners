@@ -81,6 +81,16 @@ function scripts_textures (x, y, width, height, number, color){
 				break;
 			case "fire":
 				flame_sprites(  x,  y,  width,  height, number);
+				break;
+			case "heart":
+				if (!first_level){
+					ctx.drawImage(ground_image,  x,  y,  width,  height);
+				}
+				else {
+					ctx.drawImage(grass_image,  x,  y,  width,  height);
+				}
+				ctx.drawImage(heart_image, 0, 0, 120, 150, x + squareSurface/5,y + squareSurface/5, width/2, height/2);
+				break;
 			}
 }
 
