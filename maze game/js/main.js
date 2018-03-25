@@ -60,6 +60,7 @@ function menu(){
 				options();
 			}
 			else if (check_help(e.clientX, e.clientY)){
+				helpMenu=true;
 				subMenu = true;
 				help();
 			}
