@@ -22,8 +22,10 @@ var soil_image = new Image();
 soil_image.src = "img/256x dry grass overlay.png";
 var heart_image = new Image();
 heart_image.src = "img/Heart.png";
-var walkSound = new Audio();
-walkSound.src = "mp3/LTTP_Grass_Walk.wav";
+var walkLeftSound = new Audio();
+walkLeftSound.src = "mp3/OOT_Steps_Grass1.wav";
+var walkRightSound = new Audio();
+walkRightSound.src = "mp3/OOT_Steps_Grass7.wav";
 var fire_ball = [];
 var fire_timer = [];
 var fire_direction = [];
@@ -46,18 +48,14 @@ function scripts_textures (x, y, width, height, number, color){
 			}
 				break;
 			case "ground":
-			if (!first_level){
-				ctx.drawImage(ground_image,  x,  y,  width,  height);
-				}
-			else {
-				ctx.drawImage(grass_image,  x,  y,  width,  height);
-			}
+				drawGround(x,  y,  width,  height);
 				break;
 			case "sign":
 				ctx.drawImage(sign_image,  x,  y,  width,  height);
 				break;
 			case "question":
-				ctx.drawImage(question_image,  x,  y,  width,  height);
+				drawGround(x,  y,  width,  height);
+				ctx.drawImage(question_image, x + squareSurface/5,y + squareSurface/5, width/2, height/2);
 				break;
 			case "hero":
 				hero_sprites(  x,  y,  width,  height);
@@ -71,38 +69,35 @@ function scripts_textures (x, y, width, height, number, color){
 				}
 				break;
 			case "spikes":
-				if (!first_level){
-					ctx.drawImage(ground_image,  x,  y,  width,  height);
-				}
-				else{
-					ctx.drawImage(grass_image,  x,  y,  width,  height);
-				}
+				drawGround(x,  y,  width,  height);
 				spikes_sprites(  x,  y,  width,  height);
 				break;
 			case "fire":
 				flame_sprites(  x,  y,  width,  height, number);
 				break;
 			case "heart":
-				if (!first_level){
-					ctx.drawImage(ground_image,  x,  y,  width,  height);
-				}
-				else {
-					ctx.drawImage(grass_image,  x,  y,  width,  height);
-				}
+				drawGround(x,  y,  width,  height);
 				ctx.drawImage(heart_image, 0, 0, 120, 150, x + squareSurface/5,y + squareSurface/5, width/2, height/2);
 				break;
 			}
 }
-
+function drawGround(x,  y,  width,  height){
+	if (!first_level){
+		ctx.drawImage(ground_image,  x,  y,  width,  height);
+	}
+	else {
+		ctx.drawImage(grass_image,  x,  y,  width,  height);
+	}
+}
 function hero_sprites(  x,  y,  width,  height){
 			switch (hero_look){
 			case "down":
 				if ( myGamePiece.speedY > 0 && hero_foot <= 10/velocity){
-					walkSound.play();
+					walkLeftSound.play();
 					ctx.drawImage(hero_image, 205, 638, 50, 60,  x,  y,  width,  height);//down 1
 				}
 				else if ( myGamePiece.speedY > 0  && hero_foot > 10/velocity){
-					walkSound.play();
+					walkRightSound.play();
 					ctx.drawImage(hero_image, 459, 638, 50, 60,  x,  y,  width,  height);// down 2
 				}
 				else {
@@ -111,11 +106,11 @@ function hero_sprites(  x,  y,  width,  height){
 				break;
 			case "up":
 				if ( myGamePiece.speedY < 0 && hero_foot <= 10/velocity){
-					walkSound.play();
+					walkLeftSound.play();
 					ctx.drawImage(hero_image, 198, 519, 50, 60,  x,  y,  width,  height);//up 1
 				}
 				else if ( myGamePiece.speedY < 0 && hero_foot > 10/velocity){
-					walkSound.play();
+					walkRightSound.play();
 					ctx.drawImage(hero_image,453, 519, 50, 60,  x,  y,  width,  height);//up 2
 				}
 				else {
@@ -124,11 +119,11 @@ function hero_sprites(  x,  y,  width,  height){
 				break;
 			case "right":
 				if ( myGamePiece.speedX > 0 && hero_foot <= 10/velocity){
-					walkSound.play();
+					walkLeftSound.play();
 					ctx.drawImage(hero_image, 137, 707, 40, 60,  x,  y,  width,  height);//right 1
 				}
 				else if (myGamePiece.speedX > 0 && hero_foot > 10/velocity){
-					walkSound.play();
+					walkRightSound.play();
 					ctx.drawImage(hero_image, 390, 707, 40, 60,  x,  y,  width,  height);//right 2
 				}
 				else {
@@ -137,11 +132,11 @@ function hero_sprites(  x,  y,  width,  height){
 				break;
 			case "left":
 				if ( myGamePiece.speedX < 0 && hero_foot <= 10/velocity){
-					walkSound.play();
+					walkLeftSound.play();
 					ctx.drawImage(hero_image, 139, 580, 40, 60,  x,  y,  width,  height);//left 1
 				}
 				else if ( myGamePiece.speedX < 0 && hero_foot > 10/velocity){
-					walkSound.play();
+					walkRightSound.play();
 					ctx.drawImage(hero_image, 394, 580, 40, 60,  x,  y,  width,  height);//left 2
 				}
 				else {
@@ -157,34 +152,34 @@ function hero_sprites(  x,  y,  width,  height){
 function orcs_sprites( x,  y,  width,  height, number){
 				switch (enemy_look[number]){
 			case "down":
-				if ( myEnemy[number].speedY === 1  && enemy_foot[number] <= 10/velocity){
+				if ( myEnemy[number].speedY === enemyVelocity  && enemy_foot[number] <= 10/velocity){
 					ctx.drawImage(orcs_image, 207, 638, 50, 70,  x,  y,  width,  height);//down 1
 				}
-				else if ( myEnemy[number].speedY === 1  && enemy_foot[number] > 10/velocity){
+				else if ( myEnemy[number].speedY === enemyVelocity  && enemy_foot[number] > 10/velocity){
 					ctx.drawImage(orcs_image, 461, 638, 50, 70,  x,  y,  width,  height);// down 2
 				}
 				break;
 			case "up":
-				if ( myEnemy[number].speedY === -1 && enemy_foot[number] <= 10/velocity){
+				if ( myEnemy[number].speedY === -enemyVelocity && enemy_foot[number] <= 10/velocity){
 					ctx.drawImage(orcs_image, 204, 519, 50, 69,  x,  y,  width,  height);//up 1
 				}
-				else if ( myEnemy[number].speedY === -1 && enemy_foot[number] > 10/velocity){
+				else if ( myEnemy[number].speedY === -enemyVelocity && enemy_foot[number] > 10/velocity){
 					ctx.drawImage(orcs_image, 459, 519, 50, 69,  x,  y,  width,  height);//up 2
 				}
 				break;
 			case "right":
-				if ( myEnemy[number].speedX === 1 && enemy_foot[number] <= 10/velocity){
+				if ( myEnemy[number].speedX === enemyVelocity && enemy_foot[number] <= 10/velocity){
 					ctx.drawImage(orcs_image, 128, 707, 50, 70,  x,  y,  width,  height);//right 1
 				}
-				else if (myEnemy[number].speedX === 1 && enemy_foot[number] > 10/velocity){
+				else if (myEnemy[number].speedX === enemyVelocity && enemy_foot[number] > 10/velocity){
 					ctx.drawImage(orcs_image, 381, 707, 50, 70,  x,  y,  width,  height);//right 2
 				}
 				break;
 			case "left":
-				if ( myEnemy[number].speedX === -1 && enemy_foot[number] <= 10/velocity){
+				if ( myEnemy[number].speedX === -enemyVelocity && enemy_foot[number] <= 10/velocity){
 					ctx.drawImage(orcs_image, 147, 580, 50, 70,  x,  y,  width,  height);//left 1
 				}
-				else if ( myEnemy[number].speedX === -1 && enemy_foot[number] > 10/velocity){
+				else if ( myEnemy[number].speedX === -enemyVelocity && enemy_foot[number] > 10/velocity){
 					ctx.drawImage(orcs_image, 402, 580, 50, 70,  x,  y,  width,  height);//left 2
 				}
 				break;

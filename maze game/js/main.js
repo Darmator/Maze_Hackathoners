@@ -19,6 +19,8 @@ var backButtonImage = new Image();
 backButtonImage.src = "img/back.png";
 var gameOverSound = new Audio();
 gameOverSound.src = "mp3/Mario Paint - Gnat Attack Game Over.mp3";
+var getHeartSound = new Audio();
+getHeartSound.src="mp3/OOT_Get_Heart.wav";
 var buttonHeight;
 var buttonWidth;
 var crashLeft = false;
@@ -326,7 +328,7 @@ function updateGameArea() {
 	else {
 		 immunityCounter = 0;
 	}
-	if (immunityCounter >= 100){
+	if (immunityCounter >= 70){
 			immunity = false;
 	}
 	
@@ -347,6 +349,9 @@ function updateGameArea() {
 				}
 				break;
 			case 3:
+				/*if (check_obstacle_crash(i,b, myGamePiece)){
+					console.log("question");
+				}*/
 				break;
 			case 4:
 				if (check_spikes_crash(i,b) && spikes_deadly && !immunity){
@@ -358,6 +363,7 @@ function updateGameArea() {
 			case 5:
 				if (check_obstacle_crash(i,b, myGamePiece)){ 
 					if (lives < maxLives){
+						getHeartSound.play();
 						lives++;
 					}
 					myObstacle[i][b].color  = "ground";
