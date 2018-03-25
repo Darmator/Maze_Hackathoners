@@ -1,5 +1,8 @@
 var lives = 3;
+var maxLives = 6;
 var immunity = false;
+var damageSound = new Audio();
+damageSound.src = "mp3/LTTP_Link_Hurt.wav";
 
 function check_obstacle_crash(i, b, object) {
     var any_crash = false;
@@ -25,18 +28,22 @@ function check_obstacle_crash(i, b, object) {
 function check_enemy_crash(number) {
     if (myGamePiece.crashLeft(myEnemy[number]) && !immunity) {
         lives--;
+		damageSound.play();
 		immunity = true;
     }
     if (myGamePiece.crashRight(myEnemy[number])&& !immunity) {
         lives--;
+		damageSound.play();
 		immunity = true;
     }
     if (myGamePiece.crashTop(myEnemy[number])&& !immunity) {
         lives--;
+		damageSound.play();
 		immunity = true;
     }
     if (myGamePiece.crashBottom(myEnemy[number])&& !immunity) {
         lives--;
+		damageSound.play();
 		immunity = true;
     }
 }
@@ -45,6 +52,7 @@ function check_flame_death(number) {
     if ((fire_ball[number].x >= myGamePiece.x && fire_ball[number].x <= myGamePiece.x + myGamePiece.width) &&
         (fire_ball[number].y >= myGamePiece.y && fire_ball[number].y <= myGamePiece.y + myGamePiece.height) && !immunity) {
         lives--;
+		damageSound.play();
 		immunity = true;
     }
 }

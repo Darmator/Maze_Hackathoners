@@ -135,10 +135,14 @@ function draw_map(){
 	for (var y = 0;  y < mazeHeight; y++){
 		for (var x = 0; x < mazeWidth; x++){
 			if (counter < spikes_counter){
-			get_location();
-			map[locationY][locationX] = 4;
-			counter++;
+				get_location();
+				map[locationY][locationX] = 4;
 			}
+			if (counter < 1){
+				get_location();
+				map[locationY][locationX] = 5;
+			}
+			counter++
 			switch (map[y][x]){
 			case 0:
 				myObstacle[y][x] = new component (squareSurface, squareSurface, "ground", horizontal, vertical);
@@ -154,6 +158,9 @@ function draw_map(){
 				break;
 			case 4:
 				myObstacle[y][x] = new component (squareSurface, squareSurface, "spikes", horizontal, vertical);
+				break;
+			case 5:
+				myObstacle[y][x] = new component (squareSurface, squareSurface, "heart", horizontal, vertical);
 				break;
 			}
 			horizontal += squareSurface;

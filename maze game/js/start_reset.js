@@ -3,7 +3,6 @@ var myEnemy = [];
 var enemy_amount = 1;
 var spikes_counter = 2;
 var squareSurface = 70;
-
 var mazeWidth;//Width of the maze  WRITE IN THIS TWO VARIABLES ODD NUMBERS min 17
 var mazeHeight;//Heigth of the maze min 7
 //length of one square WRITE IN THIS VARIABLE WITH EVEN NUMBERS
@@ -13,6 +12,10 @@ var enemy_locationX = [];
 var enemy_locationY = [];
 var level_counter = 0;
 var end =false;
+var dungeonSound = new Audio();
+dungeonSound.src= "mp3/06 - Underground.mp3";
+var forestSound = new Audio();
+forestSound.src= "mp3/06 - Kokiri Forest.mp3";
 
 function turn_to_2d(){
 	for (n=0;n<mazeHeight;n++) {
@@ -86,11 +89,13 @@ function findMazeSize(){
 }
 function reset_game(){
 	squareSurface -= 20;
-	velocity +=2;
+	velocity ++;
 	level_counter++;
 	enemy_amount+= 3;
 	spikes_counter+= 4;
 	if (level_counter === 3){
+		forestSound.pause();
+		dungeonSound.play();
 		spikes_counter = 2;
 		enemy_amount = 1;
 		squareSurface = 70;
