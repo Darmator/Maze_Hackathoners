@@ -22,6 +22,8 @@ var soil_image = new Image();
 soil_image.src = "img/256x dry grass overlay.png";
 var heart_image = new Image();
 heart_image.src = "img/Heart.png";
+var walkSound = new Audio();
+walkSound.src = "mp3/LTTP_Grass_Walk.wav";
 var fire_ball = [];
 var fire_timer = [];
 var fire_direction = [];
@@ -86,9 +88,11 @@ function hero_sprites(  x,  y,  width,  height){
 			switch (hero_look){
 			case "down":
 				if ( myGamePiece.speedY > 0 && hero_foot <= 10/velocity){
+					walkSound.play();
 					ctx.drawImage(hero_image, 205, 638, 50, 60,  x,  y,  width,  height);//down 1
 				}
 				else if ( myGamePiece.speedY > 0  && hero_foot > 10/velocity){
+					walkSound.play();
 					ctx.drawImage(hero_image, 459, 638, 50, 60,  x,  y,  width,  height);// down 2
 				}
 				else {
@@ -97,9 +101,11 @@ function hero_sprites(  x,  y,  width,  height){
 				break;
 			case "up":
 				if ( myGamePiece.speedY < 0 && hero_foot <= 10/velocity){
+					walkSound.play();
 					ctx.drawImage(hero_image, 198, 519, 50, 60,  x,  y,  width,  height);//up 1
 				}
 				else if ( myGamePiece.speedY < 0 && hero_foot > 10/velocity){
+					walkSound.play();
 					ctx.drawImage(hero_image,453, 519, 50, 60,  x,  y,  width,  height);//up 2
 				}
 				else {
@@ -108,9 +114,11 @@ function hero_sprites(  x,  y,  width,  height){
 				break;
 			case "right":
 				if ( myGamePiece.speedX > 0 && hero_foot <= 10/velocity){
+					walkSound.play();
 					ctx.drawImage(hero_image, 137, 707, 40, 60,  x,  y,  width,  height);//right 1
 				}
 				else if (myGamePiece.speedX > 0 && hero_foot > 10/velocity){
+					walkSound.play();
 					ctx.drawImage(hero_image, 390, 707, 40, 60,  x,  y,  width,  height);//right 2
 				}
 				else {
@@ -119,9 +127,11 @@ function hero_sprites(  x,  y,  width,  height){
 				break;
 			case "left":
 				if ( myGamePiece.speedX < 0 && hero_foot <= 10/velocity){
+					walkSound.play();
 					ctx.drawImage(hero_image, 139, 580, 40, 60,  x,  y,  width,  height);//left 1
 				}
 				else if ( myGamePiece.speedX < 0 && hero_foot > 10/velocity){
+					walkSound.play();
 					ctx.drawImage(hero_image, 394, 580, 40, 60,  x,  y,  width,  height);//left 2
 				}
 				else {
@@ -262,7 +272,7 @@ function drawHeart(){
 		ctx.drawImage(heart_image, 0, 0, 120, 150, horizontal,myObstacle[mazeHeight-1][0].y+squareSurface, squareSurface, squareSurface); //full heart
 		horizontal += squareSurface;
 	}
-	for (v= 0; v < 6 - lives; v++){
+	for (v= 0; v < maxLives - lives; v++){
 		ctx.drawImage(heart_image,250,0, 120, 150, horizontal,myObstacle[mazeHeight-1][0].y+squareSurface, squareSurface, squareSurface); //empty heart
 		horizontal += squareSurface;
 	}

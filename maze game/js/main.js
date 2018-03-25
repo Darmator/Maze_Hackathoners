@@ -13,6 +13,8 @@ var creditGameImage = new Image();
 creditGameImage.src = "img/credit-game-button.png";
 var exitGameImage = new Image();
 exitGameImage.src = "img/exit-game-button.png";
+var gameOverSound = new Audio();
+gameOverSound.src = "mp3/Mario Paint - Gnat Attack Game Over.mp3";
 var buttonHeight;
 var buttonWidth;
 var crashLeft = false;
@@ -36,8 +38,8 @@ function menu(){
     window.addEventListener('mouseup', function(e) {
 	if (check_start(e.clientX, e.clientY)){
 		startGameVar = true;
-			
-            startGame();
+		forestSound.play();
+        startGame();
 	}
 	else if (check_options(e.clientX, e.clientY)){
 		console.log("score");
@@ -249,6 +251,16 @@ var myGameArea = {
 };
 
 function updateGameArea() {
+	if (first_level){
+		if(forestSound.ended){
+			forestSound.play()
+		}
+	}
+	else{
+		if(dungeonSound.ended){
+			dungeonSound.play();
+		}
+	}
     myGameArea.clear();
 	visibility();
     crashLeft = false;
@@ -287,6 +299,7 @@ function updateGameArea() {
 			case 4:
 				if (check_spikes_crash(i,b) && spikes_deadly && !immunity){
 					lives--;
+					damageSound.play();
 					immunity = true;
 				}
 				break;
@@ -340,6 +353,9 @@ function updateGameArea() {
 	reset_game();
 	}
 	if (lives < 0){
+		forestSound.pause();
+		dungeonSound.pause();
+		gameOverSound.play();
 		ctx.drawImage(loose_image, 0, 0, mazeWidth * squareSurface, mazeHeight * squareSurface);
 		myGameArea.stop();
 	}
