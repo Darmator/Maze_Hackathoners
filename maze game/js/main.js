@@ -454,19 +454,19 @@ function updateGameArea() {
 	
 	
 	//move the red square
-	    if (myGameArea.keys && myGameArea.keys[65] && !crashLeft ) {
+	    if (myGameArea.keys && (myGameArea.keys[65] || myGameArea.keys[37]) && !crashLeft ) {
 				myGamePiece.speedX = -velocity;
 				hero_look = "left";
 	}
-     else if (myGameArea.keys && myGameArea.keys[68] && !crashRight ) {
+     else if (myGameArea.keys && (myGameArea.keys[68] || myGameArea.keys[39]) && !crashRight ) {
 				myGamePiece.speedX = velocity;
 				hero_look = "right";
 	}
-     else if (myGameArea.keys && myGameArea.keys[87] && !crashBottom ) {
+     else if (myGameArea.keys && (myGameArea.keys[87] || myGameArea.keys[38]) && !crashBottom ) {
 				myGamePiece.speedY = -velocity;
 				hero_look = "up";
 	}
-     else if (myGameArea.keys && myGameArea.keys[83] && !crashTop ){
+     else if (myGameArea.keys && (myGameArea.keys[83] || myGameArea.keys[40]) && !crashTop ){
 				myGamePiece.speedY = velocity;
 				hero_look = "down";
 	}
