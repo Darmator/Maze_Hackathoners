@@ -75,8 +75,8 @@ function startGame() {
 	create_enemies();
 }
 function findMazeSize(){
-	mazeWidth = Math.floor (canvasWidth / squareSurface);
-	 mazeHeight = Math.floor (canvasHeight / squareSurface);
+	mazeWidth = Math.floor ((canvasWidth - squareSurface/2) / squareSurface);
+	 mazeHeight = Math.floor ((canvasHeight - squareSurface) / squareSurface);
 	 if (mazeHeight % 2 == 0){
 		 mazeHeight--;
 	 }
@@ -86,7 +86,7 @@ function findMazeSize(){
 }
 function reset_game(){
 	squareSurface -= 20;
-	velocity ++;
+	//velocity ++;
 	level_counter++;
 	enemy_amount+= 3;
 	spikes_counter+= 4;

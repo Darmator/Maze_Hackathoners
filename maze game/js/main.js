@@ -13,8 +13,8 @@ var crashLeft = false;
 var crashRight = false;
 var crashTop = false;
 var crashBottom = false;
-var canvasHeight = window.innerHeight - 23;
-var canvasWidth = window.innerWidth - 24;
+var canvasHeight = window.innerHeight - window.innerHeight/33;
+var canvasWidth = window.innerWidth - window.innerHeight/64;
 var velocity = 2;
 
 var myGameArea = {  

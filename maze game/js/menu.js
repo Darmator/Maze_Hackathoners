@@ -1,4 +1,3 @@
-
 var cursorOver = false;
 var backImage = new Image();
 backImage.src = "img/pexels-photo-416346.jpeg";
@@ -28,7 +27,7 @@ var slider;
 var sliderClicked;
 var sliderDifferencePos;
 var sliderDifferencePosMax;
-var volumePrecentage;
+var volumePrecentage=1;
 var onlyOnce=true;
 var buttonHeight;
 var buttonWidth;
