@@ -17,6 +17,33 @@ var canvasHeight = window.innerHeight - 23;
 var canvasWidth = window.innerWidth - 24;
 var velocity = 2;
 
+var myGameArea = {  
+    canvas : document.createElement("canvas"),//Load the canvas
+    start : function() {
+        this.canvas.width = canvasWidth;//The canvas width will be equal to the number of squares times their width
+        this.canvas.height = canvasHeight;//The canvas height will be equal to the number of squares times their heigth
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        
+		//Check if no keys are pressed
+        window.addEventListener('keydown', function (e) {
+            myGameArea.keys = (myGameArea.keys || []);
+            myGameArea.keys[e.keyCode] = (e.type == "keydown");
+        });
+		//Check if any keys are pressed
+        window.addEventListener('keyup', function (e) {
+            myGameArea.keys[e.keyCode] = (e.type == "keydown");            
+        });
+    }, 
+	//Clear the canvas
+    clear : function(){
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    },
+	//Stop the game
+	stop : function() {
+        clearInterval(this.interval);
+    }
+};
 function component(width, height, color, x, y, number) {
     this.gamearea = myGameArea;
     this.width = width;
@@ -95,33 +122,7 @@ function component(width, height, color, x, y, number) {
 }
 
 //Start loading things
-var myGameArea = {  
-    canvas : document.createElement("canvas"),//Load the canvas
-    start : function() {
-        this.canvas.width = canvasWidth;//The canvas width will be equal to the number of squares times their width
-        this.canvas.height = canvasHeight;//The canvas height will be equal to the number of squares times their heigth
-        this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        
-		//Check if no keys are pressed
-        window.addEventListener('keydown', function (e) {
-            myGameArea.keys = (myGameArea.keys || []);
-            myGameArea.keys[e.keyCode] = (e.type == "keydown");
-        });
-		//Check if any keys are pressed
-        window.addEventListener('keyup', function (e) {
-            myGameArea.keys[e.keyCode] = (e.type == "keydown");            
-        });
-    }, 
-	//Clear the canvas
-    clear : function(){
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    },
-	//Stop the game
-	stop : function() {
-        clearInterval(this.interval);
-    }
-};
+
 
 function updateGameArea() {
 	if (first_level){
