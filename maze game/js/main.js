@@ -23,10 +23,24 @@ var backButtonImage = new Image();
 backButtonImage.src = "img/back.png";
 var helpImage = new Image();
 helpImage.src = "img/help-Image.png";
+var volume3Image = new Image();
+volume3Image.src = "img/Speaker_Icon.png";
+var volume2Image = new Image();
+volume2Image.src = "img/Speaker_Icon+vol2.png";
+var volume1Image = new Image();
+volume1Image.src = "img/Speaker_Icon+vol1.png";
+var volume0Image = new Image();
+volume0Image.src = "img/Speaker_Icon+vol0.png";
 var gameOverSound = new Audio();
 gameOverSound.src = "mp3/Mario Paint - Gnat Attack Game Over.mp3";
 var buttonHeight;
 var buttonWidth;
+var slider;
+var sliderClicked;
+var sliderDifferencePos;
+var sliderDifferencePosMax;
+var volumePrecentage;
+var onlyOnce=true;
 var crashLeft = false;
 var crashRight = false;
 var crashTop = false;
@@ -41,10 +55,15 @@ function menu(){
 	subMenu=false;
 	helpMenu=false;
     myGameArea.start();
+    if(onlyOnce){
+    	slider = myGameArea.canvas.width/4+myGameArea.canvas.width/1.7-7.5;
+    	onlyOnce=false;
+	}
     buttonWidth=200;
 	buttonHeight=myGameArea.canvas.height/8;
 	helpImageWidth=myGameArea.canvas.width/2;
 	helpImageLength=helpImageWidth/3*2;
+	sliderClicked=false;
     ctx = myGameArea.context;
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
     draw_menu();
@@ -76,6 +95,21 @@ function menu(){
 		}
 		if (check_back(e.clientX,e.clientY)&&subMenu){
 			menu();
+		}
+		if(optionsMenu&&sliderClicked){
+			sliderClicked = false;
+			sliderDifferencePos=slider-(myGameArea.canvas.width/4+1);
+			sliderDifferencePosMax=(myGameArea.canvas.width/4+myGameArea.canvas.width/1.7-7.5-1)-(myGameArea.canvas.width/4+1);
+			volumePrecentage=sliderDifferencePos/sliderDifferencePosMax;
+			gameOverSound.volume = volumePrecentage;
+			dungeonSound.volume = volumePrecentage;
+			forestSound.volume = volumePrecentage;
+			damageSound.volume = volumePrecentage;
+		}
+	});
+	window.addEventListener('mousedown', function(e) {
+		if(check_slider(e.clientX,e.clientY)&&optionsMenu){
+			sliderClicked = true;
 		}
 	});
     window.addEventListener('mousemove', function inBox(e) {
@@ -151,6 +185,17 @@ function menu(){
 					if (optionsMenu){
 						ctx.fillStyle = "lightBlue";
 						ctx.fillRect(myGameArea.canvas.width/4,myGameArea.canvas.height/4,myGameArea.canvas.width/1.7,myGameArea.canvas.height/50);
+						ctx.fillStyle = "blue";
+						ctx.fillRect(slider,myGameArea.canvas.height/4-7.5,15,30);
+						if(sliderClicked&&slider>=myGameArea.canvas.width/4&&slider<=myGameArea.canvas.width/4+myGameArea.canvas.width/1.7-7.5){
+							slider = e.clientX-15;
+						}
+						if(slider<=myGameArea.canvas.width/4){
+							slider=myGameArea.canvas.width/4+1;
+						}
+						if(slider>=myGameArea.canvas.width/4+myGameArea.canvas.width/1.7-7.5){
+							slider=myGameArea.canvas.width/4+myGameArea.canvas.width/1.7-7.5-1;
+						}
 					}
             	}
 		}
@@ -205,6 +250,12 @@ function check_back(x,y){
 	}
 	return false;
 }
+function check_slider(x,y){
+	if ((x>= slider+7.5 && x<= slider+22.5)&&(y>=myGameArea.canvas.height/4 && y<= myGameArea.canvas.height/4+30)){
+		return true;
+	}
+	return false;
+}
 function help(){
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
 	ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50);
@@ -215,6 +266,8 @@ function options(){
 	ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50);
 	ctx.fillStyle = "lightBlue";
 	ctx.fillRect(myGameArea.canvas.width/4,myGameArea.canvas.height/4,myGameArea.canvas.width/1.7,myGameArea.canvas.height/50);
+	ctx.fillStyle = "blue";
+	ctx.fillRect(slider-1,myGameArea.canvas.height/4-7.5,15,30);
 }
 function credits(){
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
