@@ -32,6 +32,7 @@ var volumePrecentage;
 var onlyOnce=true;
 var buttonHeight;
 var buttonWidth;
+
 function menu(){
 	optionsMenu=false;
 	subMenu=false;
@@ -182,6 +183,18 @@ function menu(){
 						if(slider>=myGameArea.canvas.width/4+myGameArea.canvas.width/1.7-7.5){
 							slider=myGameArea.canvas.width/4+myGameArea.canvas.width/1.7-7.5-1;
 						}
+						if (volumePrecentage==1){
+							ctx.drawImage(volume3Image, myGameArea.canvas.width/4-30, myGameArea.canvas.height/4-2.5,25,25);
+						}
+						else if(volumePrecentage<1 && volumePrecentage >= 0.5){
+							ctx.drawImage(volume2Image, myGameArea.canvas.width/4-30, myGameArea.canvas.height/4-2.5,25,25);
+						}
+						else if (volumePrecentage<0.5 && volumePrecentage >0){
+							ctx.drawImage(volume1Image, myGameArea.canvas.width/4-30, myGameArea.canvas.height/4-2.5,25,25);
+						}
+						else if(volumePrecentage==0){
+							ctx.drawImage(volume0Image, myGameArea.canvas.width/4-30, myGameArea.canvas.height/4-2.5,25,25);
+						}
 					}
             	}
 		}
@@ -250,6 +263,7 @@ function help(){
 function options(){
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
 	ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50);
+	ctx.drawImage(volume3Image, myGameArea.canvas.width/4-30, myGameArea.canvas.height/4-2.5,25,25);
 	ctx.fillStyle = "lightBlue";
 	ctx.fillRect(myGameArea.canvas.width/4,myGameArea.canvas.height/4,myGameArea.canvas.width/1.7,myGameArea.canvas.height/50);
 	ctx.fillStyle = "blue";
