@@ -65,7 +65,7 @@ function create_enemies(){
 function startGame() {
 	 findMazeSize();
 	myGameArea.start();
-    myGameArea.interval = setInterval(updateGameArea, 15);
+    myGameArea.interval = setInterval(updateGameArea, 25);
 	turn_to_2d();
 	turn_to_3d();
 	sketch_map();
