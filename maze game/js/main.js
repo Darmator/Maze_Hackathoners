@@ -3,7 +3,14 @@ var subMenu;
 
 var loose_image = new Image();
 loose_image.src ="img/game_over_wallpaper_by_3971450-d66kbai.png";
-
+var doorSound = new Audio();
+doorSound.src = "mp3/door.wav";
+var orcSound = new Audio();
+orcSound.src = "mp3/ogre1.mp3";
+var dragonSound = new Audio();
+dragonSound.src = "mp3/burp.wav";
+var fireSound = new Audio();
+fireSound.src = "mp3/foom_0.wav";
 var gameOverSound = new Audio();
 gameOverSound.src = "mp3/Mario Paint - Gnat Attack Game Over.mp3";
 var getHeartSound = new Audio();
@@ -56,7 +63,19 @@ function component(width, height, color, x, y, number) {
     this.update = function() {
         ctx = myGameArea.context;
 		scripts_textures(this.x, this.y, this.width, this.height, number, this.color);
-		
+		if (!block_vision(this.x, this.y)){
+			if	(this.color == "enemy"){
+				if (first_level){
+					orcSound.play();
+				}
+				else if (!first_level){
+					dragonSound.play();
+				}
+			}
+			if (this.color == "fire"){
+				fireSound.play();
+			}
+		}
 		if (block_vision(this.x, this.y) && !first_level){ 
 			ctx.fillStyle = "black";
         ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -165,6 +184,7 @@ function updateGameArea() {
 				break;
 			case 2:
 				if (check_obstacle_crash(i,b, myGamePiece)){
+					doorSound.play();
 					end = true;
 				}
 				break;

@@ -26,6 +26,7 @@ var walkLeftSound = new Audio();
 walkLeftSound.src = "mp3/OOT_Steps_Grass1.wav";
 var walkRightSound = new Audio();
 walkRightSound.src = "mp3/OOT_Steps_Grass7.wav";
+
 var fire_ball = [];
 var fire_timer = [];
 var fire_direction = [];
