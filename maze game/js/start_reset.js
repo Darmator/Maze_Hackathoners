@@ -76,7 +76,7 @@ function startGame() {
 }
 function findMazeSize(){
 	mazeWidth = Math.floor ((canvasWidth - squareSurface/2) / squareSurface);
-	 mazeHeight = Math.floor ((canvasHeight - squareSurface) / squareSurface);
+	 mazeHeight = Math.floor ((canvasHeight - squareSurface/2) / squareSurface);
 	 if (mazeHeight % 2 == 0){
 		 mazeHeight--;
 	 }
