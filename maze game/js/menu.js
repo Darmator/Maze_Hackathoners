@@ -28,7 +28,7 @@ var slider;
 var sliderClicked;
 var sliderDifferencePos;
 var sliderDifferencePosMax;
-var volumePrecentage;
+var volumePrecentage=1;
 var onlyOnce=true;
 var buttonHeight;
 var buttonWidth;
