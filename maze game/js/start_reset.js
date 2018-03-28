@@ -9,7 +9,7 @@ var locationX;
 var locationY;
 var enemy_locationX = [];
 var enemy_locationY = [];
-var level_counter = 0;
+var level_counter = 2;
 var end =false;
 var dungeonSound = new Audio();
 dungeonSound.src= "mp3/06 - Underground.mp3";
@@ -90,6 +90,9 @@ function reset_game(){
 	level_counter++;
 	enemy_amount+= 3;
 	spikes_counter+= 4;
+	if (level_counter === 2){
+		velocity++;
+	}
 	if (level_counter === 3){
 		forestSound.pause();
 		dungeonSound.play();
