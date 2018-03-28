@@ -90,6 +90,9 @@ function reset_game(){
 	level_counter++;
 	enemy_amount+= 3;
 	spikes_counter+= 4;
+	if (level_counter === 2){
+		velocity++;
+	}
 	if (level_counter === 3){
 		forestSound.pause();
 		dungeonSound.play();
