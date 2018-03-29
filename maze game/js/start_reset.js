@@ -75,8 +75,8 @@ function startGame() {
 	create_enemies();
 }
 function findMazeSize(){
-	mazeWidth = Math.floor ((canvasWidth - squareSurface/2) / squareSurface);
-	 mazeHeight = Math.floor ((canvasHeight - squareSurface/2) / squareSurface);
+	mazeWidth = Math.floor (canvasWidth / squareSurface);
+	 mazeHeight = Math.floor ((canvasHeight - squareSurface) / squareSurface);
 	 if (mazeHeight % 2 == 0){
 		 mazeHeight--;
 	 }
@@ -90,6 +90,9 @@ function reset_game(){
 	level_counter++;
 	enemy_amount+= 3;
 	spikes_counter+= 4;
+	if (level_counter === 2){
+		velocity++;
+	}
 	if (level_counter === 3){
 		forestSound.pause();
 		dungeonSound.play();

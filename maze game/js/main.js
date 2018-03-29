@@ -1,6 +1,6 @@
 var startGameVar = false;
 var subMenu;
-
+var questionExecuting = false;
 var loose_image = new Image();
 loose_image.src ="img/game_over_wallpaper_by_3971450-d66kbai.png";
 var doorSound = new Audio();
@@ -144,6 +144,10 @@ function component(width, height, color, x, y, number) {
 
 
 function updateGameArea() {
+	if (questionExecuting){
+		quiz();
+	}
+	else{
 	if (first_level){
 		if(forestSound.ended){
 			forestSound.play()
@@ -173,8 +177,7 @@ function updateGameArea() {
 	
 	myGamePiece.speedX = 0;
 	myGamePiece.speedY = 0;
-	//Check for collisions, and, if there's a collision with a blue block, set end value to true
-    for (i= 0; i< mazeHeight;i++){
+		    for (i= 0; i< mazeHeight;i++){
 		for (var b = 0; b <mazeWidth; b++){
 			switch (map[i][b]){
 			case 0:
@@ -189,9 +192,12 @@ function updateGameArea() {
 				}
 				break;
 			case 3:
-				/*if (check_obstacle_crash(i,b, myGamePiece)){
-					console.log("question");
-				}*/
+				if (check_obstacle_crash(i,b, myGamePiece)){
+					boxY= i;
+					boxX = b;
+					questionNumber = Math.floor(Math.random() * question.length );
+					quiz();
+				}
 				break;
 			case 4:
 				if (check_spikes_crash(i,b) && spikes_deadly && !immunity){
@@ -214,9 +220,6 @@ function updateGameArea() {
 			}
         }
 	}
-	
-	
-	//move the red square
 	    if (myGameArea.keys && (myGameArea.keys[65] || myGameArea.keys[37]) && !crashLeft ) {
 				myGamePiece.speedX = -velocity;
 				hero_look = "left";
@@ -257,6 +260,7 @@ function updateGameArea() {
 		myEnemy[t].newPos();
 		myEnemy[t].update();
 	}
+
 	if (end){//if end is true stop the game and write Game Over!!!
 	reset_game();
 	}
@@ -266,5 +270,6 @@ function updateGameArea() {
 		gameOverSound.play();
 		ctx.drawImage(loose_image, 0, 0, mazeWidth * squareSurface, mazeHeight * squareSurface);
 		myGameArea.stop();
+	}
 	}
 }
