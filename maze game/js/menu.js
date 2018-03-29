@@ -1,4 +1,6 @@
 var cursorOver = false;
+var subMenu;
+var startGameVar = false;
 var backImage = new Image();
 backImage.src = "img/pexels-photo-416346.jpeg";
 var startGameImage = new Image();
@@ -15,6 +17,8 @@ var backButtonImage = new Image();
 backButtonImage.src = "img/back.png";
 var helpImage = new Image();
 helpImage.src = "img/help-Image.png";
+var creditsImage = new Image();
+creditsImage.src = "img/credits-Image.png";
 var volume3Image = new Image();
 volume3Image.src = "img/Speaker_Icon.png";
 var volume2Image = new Image();
@@ -31,7 +35,6 @@ var volumePrecentage=1;
 var onlyOnce=true;
 var buttonHeight;
 var buttonWidth;
-
 function menu(){
 	optionsMenu=false;
 	subMenu=false;
@@ -50,32 +53,34 @@ function menu(){
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
     draw_menu();
     window.addEventListener('mouseup', function(e) {
+    	var X=e.clientX-myGameArea.canvas.getBoundingClientRect().left;
+    	var Y=e.clientY-myGameArea.canvas.getBoundingClientRect().top;
     	if(subMenu==false){
-			if (check_start(e.clientX, e.clientY)){
+			if (check_start(X, Y)){
 				startGameVar = true;
 				myGameArea.canvas.style.cursor = "default";
 				forestSound.play();
 	        	startGame();
 			}
-			else if (check_options(e.clientX, e.clientY)){
+			else if (check_options(X, Y)){
 				optionsMenu=true;
 				subMenu = true;
 				options();
 			}
-			else if (check_help(e.clientX, e.clientY)){
+			else if (check_help(X, Y)){
 				helpMenu=true;
 				subMenu = true;
 				help();
 			}
-			else if (check_credits(e.clientX, e.clientY)){
+			else if (check_credits(X, Y)){
 				subMenu = true;
 				credits();
 			}
-			else if (check_exit(e.clientX, e.clientY)){
+			else if (check_exit(X, Y)){
 				close();
 			}
 		}
-		if (check_back(e.clientX,e.clientY)&&subMenu){
+		if (check_back(X,e.clientY)&&subMenu){
 			menu();
 		}
 		if(optionsMenu&&sliderClicked){
@@ -94,16 +99,20 @@ function menu(){
 		}
 	});
 	window.addEventListener('mousedown', function(e) {
-		if(check_slider(e.clientX,e.clientY)&&optionsMenu){
+		var X=e.clientX-myGameArea.canvas.getBoundingClientRect().left;
+		var Y=e.clientY-myGameArea.canvas.getBoundingClientRect().top;
+		if(check_slider(X,Y)&&optionsMenu){
 			sliderClicked = true;
 		}
 	});
     window.addEventListener('mousemove', function inBox(e) {
+    	var X=e.clientX-myGameArea.canvas.getBoundingClientRect().left;
+    	var Y=e.clientY-myGameArea.canvas.getBoundingClientRect().top;
 		if(startGameVar == false){
 				myGameArea.clear();
 				ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
 				if(subMenu==false){
-					if (check_start(e.clientX, e.clientY)){
+					if (check_start(X, Y)){
 						for(i = 0;i<3;i++){
 							ctx.drawImage(startGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/3,buttonWidth,buttonHeight); //start clicked
 						}
@@ -111,7 +120,7 @@ function menu(){
 					else{
 						ctx.drawImage(startGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/3,buttonWidth,buttonHeight); //start not clicked
 					}
-					if (check_options(e.clientX, e.clientY)){
+					if (check_options(X, Y)){
 						for(i = 0;i<3;i++){		
 							ctx.drawImage(optionsGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/5,buttonWidth,buttonHeight); //scores clicked
 						}
@@ -119,7 +128,7 @@ function menu(){
 					else{						
 						ctx.drawImage(optionsGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/5,buttonWidth,buttonHeight); //options not clicked
 					}
-					if (check_help(e.clientX, e.clientY)){
+					if (check_help(X, Y)){
 						for(i = 0;i<3;i++){
 							ctx.drawImage(helpGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/14.5,buttonWidth,buttonHeight); //help clicked
 						}
@@ -127,7 +136,7 @@ function menu(){
 					else{
 						ctx.drawImage(helpGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/14.5,buttonWidth,buttonHeight); //help non clicked
 					}
-					if (check_credits(e.clientX, e.clientY)){
+					if (check_credits(X, Y)){
 						for(i = 0;i<3;i++){
 							ctx.drawImage(creditGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/15.5,buttonWidth,buttonHeight); //credits clicked
 						}
@@ -135,7 +144,7 @@ function menu(){
 					else{
 						ctx.drawImage(creditGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/15.5,buttonWidth,buttonHeight); //credits not clicked
 					}
-					if (check_exit(e.clientX, e.clientY)){
+					if (check_exit(X, Y)){
 						for(i = 0;i<3;i++){
 							ctx.drawImage(exitGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/5,buttonWidth,buttonHeight); //exit clicked
 						}						
@@ -143,7 +152,7 @@ function menu(){
 					else{
 						ctx.drawImage(exitGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/5,buttonWidth,buttonHeight); //exit non clicked						
 					}
-					if(!check_start(e.clientX,e.clientY) && !check_options(e.clientX,e.clientY) && !check_help(e.clientX,e.clientY) && !check_credits(e.clientX,e.clientY) && !check_exit(e.clientX,e.clientY)){
+					if(!check_start(X, Y) && !check_options(X,Y) && !check_help(X,Y) && !check_credits(X,Y) && !check_exit(X,Y)){
 						myGameArea.canvas.style.cursor = "default";
 					}
 					else{
@@ -151,7 +160,7 @@ function menu(){
 					}
 				}
 				else{
-					if (check_back(e.clientX, e.clientY)){
+					if (check_back(X, Y)){
 						for(i = 0;i<3;i++){
 							ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50); //exit clicked
 						}
@@ -159,7 +168,7 @@ function menu(){
 					else{
 						ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50); //exit non clicked
 					}
-					if(!check_back(e.clientX,e.clientY)){
+					if(!check_back(X, Y)){
 						myGameArea.canvas.style.cursor = "default";
 					}
 					else{
@@ -249,7 +258,7 @@ function check_back(x,y){
 	return false;
 }
 function check_slider(x,y){
-	if ((x>= slider+7.5 && x<= slider+22.5)&&(y>=myGameArea.canvas.height/4 && y<= myGameArea.canvas.height/4+30)){
+	if ((x>= slider && x<= slider+15)&&(y>=myGameArea.canvas.height/4 && y<= myGameArea.canvas.height/4+30)){
 		return true;
 	}
 	return false;
@@ -271,4 +280,5 @@ function options(){
 function credits(){
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
 	ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50);
+	ctx.drawImage(creditsImage, myGameArea.canvas.width/2-helpImageWidth/2, myGameArea.canvas.height/2-helpImageLength/2,helpImageWidth,helpImageLength);
 }
