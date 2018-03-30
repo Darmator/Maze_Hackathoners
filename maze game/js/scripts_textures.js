@@ -24,6 +24,14 @@ var soil_image = new Image();
 soil_image.src = "img/256x dry grass overlay.png";
 var heart_image = new Image();
 heart_image.src = "img/Heart.png";
+var starImage = new Image();
+starImage.src = "img/star.jpg";
+var pickaxeImage = new Image();
+pickaxeImage.src = "img/pickaxe.png";
+var speedImage = new Image();
+speedImage.src = "img/speed.png";
+var goldenHeartImage = new Image();
+goldenHeartImage.src = "img/goldenHeart.png";
 var walkLeftSound = new Audio();
 walkLeftSound.src = "mp3/OOT_Steps_Grass1.wav";
 var walkRightSound = new Audio();
@@ -88,6 +96,9 @@ function scripts_textures (x, y, width, height, number, color){
 				drawGround(x,  y,  width,  height);
 				ctx.drawImage(heart_image, 0, 0, 120, 150, x + squareSurface/5,y + squareSurface/5, width/2, height/2);
 				break;
+			case "powerUp":
+				drawGround(x,  y,  width,  height);
+				drawPowerUp(x,  y,  width,  height, number);
 			}
 }
 function drawGround(x,  y,  width,  height){
@@ -280,14 +291,46 @@ function spikes_sprites(x, y, width, height){
 	}
 	spikes_state++;
 }
-function drawHeart(){
+function drawHeartOut(){
 	horizontal = 0;
 	for (t = 0; t< lives; t++){
-		ctx.drawImage(heart_image, 0, 0, 120, 150, horizontal,myObstacle[mazeHeight-2][0].y+squareSurface + 5, squareSurface, squareSurface); //full heart
+		ctx.drawImage(heart_image, 0, 0, 120, 150, horizontal,myObstacle[mazeHeight-1][0].y + 5, squareSurface, squareSurface); //full heart
 		horizontal += squareSurface;
 	}
 	for (v= 0; v < maxLives - lives; v++){
-		ctx.drawImage(heart_image,250,0, 120, 150, horizontal,myObstacle[mazeHeight-2][0].y+squareSurface + 5, squareSurface, squareSurface); //empty heart
+		ctx.drawImage(heart_image,250,0, 120, 150, horizontal,myObstacle[mazeHeight-1][0].y + 5, squareSurface, squareSurface); //empty heart
 		horizontal += squareSurface;
+	}
+}
+function drawPowerUp(x, y, width, height, number){
+	switch (number){
+	case 0:
+		ctx.drawImage(starImage,  x + squareSurface/5,  y + squareSurface/5,  width/2,  height/2);
+		break;
+	case 1:
+		ctx.drawImage(pickaxeImage,  x + squareSurface/5,  y + squareSurface/5,  width/2,  height/2);
+		break;
+	case 2:
+		ctx.drawImage(speedImage,  x + squareSurface/5,  y + squareSurface/5,  width/2,  height/2);
+		break;
+	case 3:
+		ctx.drawImage(goldenHeartImage, 0, 0, 120, 150, x + squareSurface/5,y + squareSurface/5, width/2, height/2);
+		break;
+	}
+}
+function drawPowerUpOut(number){
+	switch (number){
+	case 0:
+		ctx.drawImage(starImage, myObstacle[mazeHeight-1][6 + powerUpMove].x ,myObstacle[mazeHeight-1][6].y ,  squareSurface, squareSurface);
+		break;
+	case 1:
+		ctx.drawImage(pickaxeImage, myObstacle[mazeHeight-1][6 + powerUpMove].x ,myObstacle[mazeHeight-1][6].y ,  squareSurface, squareSurface);
+		break;
+	case 2:
+		ctx.drawImage(speedImage, myObstacle[mazeHeight-1][6 + powerUpMove].x ,myObstacle[mazeHeight-1][6].y ,  squareSurface, squareSurface);
+		break;
+	case 3:
+		ctx.drawImage(goldenHeartImage,0,0,120,150, myObstacle[mazeHeight-1][6 + powerUpMove].x ,myObstacle[mazeHeight-1][6].y ,  squareSurface, squareSurface);
+		break;
 	}
 }

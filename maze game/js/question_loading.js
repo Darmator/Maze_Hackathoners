@@ -52,12 +52,7 @@ function quiz(){
 	
 	if (answered){
 		quizSound.pause();
-		if (first_level){
-			forestSound.play();
-		}
-		else{
-			dungeonSound.play();
-		}
+		playBackgroundMusic();
 		myObstacle[boxY][boxX].color  = "ground";
 		map[boxY][boxX] = 0;
 		if (userAnswer != correctAnswer[questionNumber]){

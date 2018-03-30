@@ -61,7 +61,7 @@ function menu(){
 			if (check_start(X, Y)){
 				startGameVar = true;
 				myGameArea.canvas.style.cursor = "default";
-				forestSound.play();
+				playBackgroundMusic();
 	        	startGame();
 			}
 			else if (check_options(X, Y)){
@@ -104,6 +104,10 @@ function menu(){
 			orcSound.volume = volumePrecentage;
 			dragonSound.volume = volumePrecentage;
 			doorSound.volume = volumePrecentage;
+			correctSound.volume = volumePrecentage;
+			wrongSound.volume = volumePrecentage;
+			quizSound.volume = volumePrecentage;
+			starSound.volume = volumePrecentage;
 			
 		}
 	});

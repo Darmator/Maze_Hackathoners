@@ -113,7 +113,7 @@ function draw_map(){
 	var horizontal = 0;//horizontal coordinates
 	var vertical = 0;//vertical coordinates
 	//Look all the values of the map array
-	var finish_line_location = Math.floor(Math.random() * 3 );
+	var finish_line_location = Math.floor(Math.random() * 4 );
 	switch  (finish_line_location){
 	case 0:
 		map[0][1] = 2;
@@ -142,6 +142,11 @@ function draw_map(){
 				get_location();
 				map[locationY][locationX] = 5;
 			}
+			if (counter < 1){
+				get_location();
+				map[locationY][locationX] = 6;
+				chosenPowerUp = Math.floor (Math.random() * 4);
+			}
 			counter++
 			switch (map[y][x]){
 			case 0:
@@ -161,6 +166,9 @@ function draw_map(){
 				break;
 			case 5:
 				myObstacle[y][x] = new component (squareSurface, squareSurface, "heart", horizontal, vertical);
+				break;
+			case 6:
+				myObstacle[y][x] = new component (squareSurface, squareSurface, "powerUp", horizontal, vertical, chosenPowerUp);
 				break;
 			}
 			horizontal += squareSurface;

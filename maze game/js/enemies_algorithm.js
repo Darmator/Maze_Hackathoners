@@ -9,23 +9,23 @@ var enemyVelocity = 1;
 function check_enemy_direction(number){
 	visited[number][enemy_locationY[number]][enemy_locationX[number]] = true;
 	var walk = false;
-	if ((map[enemy_locationY[number] - 1][enemy_locationX[number]] != 1)&&
-		(map[enemy_locationY[number] - 1][enemy_locationX[number]] != 2)&& !visited[number][enemy_locationY[number] - 1][enemy_locationX[number]]){
+	if ((map[enemy_locationY[number] - 1][enemy_locationX[number]] == 0)&&
+		/*(map[enemy_locationY[number] - 1][enemy_locationX[number]] != 2)&&*/ !visited[number][enemy_locationY[number] - 1][enemy_locationX[number]]){
 		enemy_direction[number].push("N");
 		walk = true;
 	}
-	if ((map[enemy_locationY[number] + 1][enemy_locationX[number]] != 1) &&
-	(map[enemy_locationY[number] + 1][enemy_locationX[number]] != 2)&&	!visited[number][enemy_locationY[number] + 1][enemy_locationX[number]]){
+	if ((map[enemy_locationY[number] + 1][enemy_locationX[number]] == 0) &&
+	/*(map[enemy_locationY[number] + 1][enemy_locationX[number]] != 2)&&*/	!visited[number][enemy_locationY[number] + 1][enemy_locationX[number]]){
 		enemy_direction[number].push("S");
 		walk = true
 	}
-	if ((map[enemy_locationY[number]][enemy_locationX[number] - 1] != 1) &&
-		(map[enemy_locationY[number]][enemy_locationX[number] - 1] != 2)&&!visited[number][enemy_locationY[number]][enemy_locationX[number] - 1]){
+	if ((map[enemy_locationY[number]][enemy_locationX[number] - 1] == 0) &&
+		/*(map[enemy_locationY[number]][enemy_locationX[number] - 1] != 2)&&*/!visited[number][enemy_locationY[number]][enemy_locationX[number] - 1]){
 		enemy_direction[number].push("W");
 		walk = true;
 	}
-	if ((map[enemy_locationY[number]][enemy_locationX[number] + 1] != 1) &&
-		(map[enemy_locationY[number]][enemy_locationX[number] + 1] != 2)&& !visited[number][enemy_locationY[number]][enemy_locationX[number] + 1]){
+	if ((map[enemy_locationY[number]][enemy_locationX[number] + 1] == 0) &&
+		/*(map[enemy_locationY[number]][enemy_locationX[number] + 1] != 2)&&*/ !visited[number][enemy_locationY[number]][enemy_locationX[number] + 1]){
 		enemy_direction[number].push("E");
 		walk = true;
 	}

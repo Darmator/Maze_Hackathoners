@@ -1,6 +1,7 @@
-var lives = 6;
+var lives = 5;
 var maxLives = 6;
 var immunity = false;
+var subsLive = false;
 var damageSound = new Audio();
 damageSound.src = "mp3/LTTP_Link_Hurt.wav";
 
@@ -26,50 +27,46 @@ function check_obstacle_crash(i, b, object) {
 }
 
 function check_enemy_crash(number) {
+	var anyCrash = false;
     if (myGamePiece.crashLeft(myEnemy[number]) && !immunity) {
-        lives--;
-		damageSound.play();
-		immunity = true;
+        anyCrash = true;
     }
     if (myGamePiece.crashRight(myEnemy[number])&& !immunity) {
-        lives--;
-		damageSound.play();
-		immunity = true;
+        anyCrash = true;
     }
     if (myGamePiece.crashTop(myEnemy[number])&& !immunity) {
-        lives--;
-		damageSound.play();
-		immunity = true;
+        anyCrash = true;
     }
     if (myGamePiece.crashBottom(myEnemy[number])&& !immunity) {
-        lives--;
-		damageSound.play();
-		immunity = true;
+        anyCrash = true;
     }
+	if (anyCrash){
+		if (invencible){
+			myEnemy[number] = "dead";
+		}
+		else {
+			subsLive = true;
+		}
+	}
 }
 
 function check_flame_death(number) {
     if ((fire_ball[number].x >= myGamePiece.x && fire_ball[number].x <= myGamePiece.x + myGamePiece.width) &&
-        (fire_ball[number].y >= myGamePiece.y && fire_ball[number].y <= myGamePiece.y + myGamePiece.height) && !immunity) {
-        lives--;
-		damageSound.play();
-		immunity = true;
+        (fire_ball[number].y >= myGamePiece.y && fire_ball[number].y <= myGamePiece.y + myGamePiece.height) && !immunity ) {
+        subsLive = true;
     }
 	if ((myGamePiece.x >= fire_ball[number].x && myGamePiece.x <= fire_ball[number].x + fire_ball[number].width) &&
-		(myGamePiece.y >= fire_ball[number].y && myGamePiece.y <= fire_ball[number].y + fire_ball[number].height) && !immunity){
-		lives--;
-		damageSound.play();
-		immunity = true;
+		(myGamePiece.y >= fire_ball[number].y && myGamePiece.y <= fire_ball[number].y + fire_ball[number].height)&& !immunity  ){
+		subsLive = true;
 		}
 }
 
 function check_spikes_crash(i, b) {
-    var spikes_crash = false;
     if ((myGamePiece.x >= myObstacle[i][b].x - 20&& myGamePiece.x <= myObstacle[i][b].x + squareSurface - 10) &&
-        (myGamePiece.y >= myObstacle[i][b].y - 15 && myGamePiece.y <= myObstacle[i][b].y + squareSurface - 20)) {
-        spikes_crash = true;
+        (myGamePiece.y >= myObstacle[i][b].y - 15 && myGamePiece.y <= myObstacle[i][b].y + squareSurface - 20) && !immunity && !invencible) {
+        return true;
     }
-    return spikes_crash;
+    return false;
 }
 
 function check_flame_crash(number) {
@@ -81,4 +78,8 @@ function check_flame_crash(number) {
             }
         }
     }
+}
+function erase(i, b){
+	myObstacle[i][b].color  = "ground";
+	map[i][b] = 0;
 }

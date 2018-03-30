@@ -13,6 +13,7 @@ var gameOverSound = new Audio();
 gameOverSound.src = "mp3/Mario Paint - Gnat Attack Game Over.mp3";
 var getHeartSound = new Audio();
 getHeartSound.src="mp3/OOT_Get_Heart.wav";
+var immunityCounter = 0;
 var crashLeft = false;
 var crashRight = false;
 var crashTop = false;
@@ -56,7 +57,8 @@ function component(width, height, color, x, y, number) {
     this.speedY = 0; 
 	this.color = color;
     this.x = x;
-    this.y = y;    
+    this.y = y; 
+	this.number = number;
     this.update = function() {
         ctx = myGameArea.context;
 		scripts_textures(this.x, this.y, this.width, this.height, number, this.color);
@@ -165,9 +167,6 @@ function updateGameArea() {
 	if (immunity){
 		immunityCounter++
 	}
-	else {
-		 immunityCounter = 0;
-	}
 	if (immunityCounter >= 70){
 			immunity = false;
 	}
@@ -197,10 +196,8 @@ function updateGameArea() {
 				}
 				break;
 			case 4:
-				if (check_spikes_crash(i,b) && spikes_deadly && !immunity){
-					lives--;
-					damageSound.play();
-					immunity = true;
+				if (check_spikes_crash(i,b) && spikes_deadly ){
+					subsLive = true;
 				}
 				break;
 			case 5:
@@ -209,28 +206,31 @@ function updateGameArea() {
 						getHeartSound.play();
 						lives++;
 					}
-					myObstacle[i][b].color  = "ground";
-					map[i][b] = 0;
+					erase(i,b);
 				}
-				
 				break;
+			case 6:
+				if (check_obstacle_crash(i,b,myGamePiece)){
+					activatePower(myObstacle[i][b].number);
+					erase(i,b);
+				}
 			}
         }
 	}
 	    if (myGameArea.keys && (myGameArea.keys[65] || myGameArea.keys[37]) && !crashLeft ) {
-				myGamePiece.speedX = -velocity;
+				myGamePiece.speedX = -velocity - extraVelocity;
 				hero_look = "left";
 	}
      else if (myGameArea.keys && (myGameArea.keys[68] || myGameArea.keys[39]) && !crashRight ) {
-				myGamePiece.speedX = velocity;
+				myGamePiece.speedX = velocity + extraVelocity;
 				hero_look = "right";
 	}
      else if (myGameArea.keys && (myGameArea.keys[87] || myGameArea.keys[38]) && !crashBottom ) {
-				myGamePiece.speedY = -velocity;
+				myGamePiece.speedY = -velocity - extraVelocity;
 				hero_look = "up";
 	}
      else if (myGameArea.keys && (myGameArea.keys[83] || myGameArea.keys[40]) && !crashTop ){
-				myGamePiece.speedY = velocity;
+				myGamePiece.speedY = velocity + extraVelocity;
 				hero_look = "down";
 	}
 	//Update myObtacle position
@@ -243,23 +243,36 @@ function updateGameArea() {
 	myGamePiece.newPos();
     myGamePiece.update();
 	for ( t = 0; t < enemy_amount; t++){
-		check_enemy_crash(t);
-		check_flame_death(t);
+		if (myEnemy[t] != "dead"){
 		if (myEnemy[t].x === move_to_x[t] && myEnemy[t].y === move_to_y[t]){
 			check_enemy_direction(t);
 			enemy_move(t);
 		}
+		myEnemy[t].newPos();
+		myEnemy[t].update();
+		check_enemy_crash(t);
+	}
+		check_flame_death(t);
 		if (fire_ball[t] !== 0){
 			fire_ball[t].newPos();
 			fire_ball[t].update();
 			check_flame_crash(t);
 		}
-		myEnemy[t].newPos();
-		myEnemy[t].update();
 	}
-	drawHeart();
-	
-	if (end){//if end is true stop the game and write Game Over!!!
+	drawHeartOut();
+	if (activePowerUp){
+		drawPowerUpOut(chosenPowerUp);
+		usePowerUp(chosenPowerUp);
+	}
+	if (subsLive && !immunity && !invencible){
+		lives--;
+		damageSound.play();
+		subsLive = false;
+		immunity = true;
+		immunityCounter = 0;
+		console.log(lives);
+	}
+	if (end){
 	reset_game();
 	}
 	if (lives < 0){
@@ -267,7 +280,17 @@ function updateGameArea() {
 		dungeonSound.pause();
 		gameOverSound.play();
 		ctx.drawImage(loose_image, 0, 0, canvasWidth, canvasHeight);
+		console.log(lives);
 		myGameArea.stop();
 	}
+	}
+}
+
+function playBackgroundMusic(){
+	if (first_level){
+		forestSound.play();
+	}
+	else{
+		dungeonSound.play();
 	}
 }
