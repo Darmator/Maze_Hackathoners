@@ -4,19 +4,15 @@ var posX;//x position of the square that the program is going to modify in order
 var posY;//y position of the square that the program is going to modify in order to create the map
 //This function will manage the algorithm that will write ones, or zeroes to the screen
 var direction = [];//This array will be used to generate random mazes,
-// it will tell the program what paths can it follow
-var last_px = [];//This two arrays will let the program remember where are the squares that it has already
-var last_py = [];//modify in order to make more than just one path
-move = 0;//This variable will make the last_p arrays work
+var last_px = [];
+var last_py = [];
+move = 0;
 function sketch_map(){
-	//This for loop will set all the elements of map to 1,
-//	basically how this algorithm works is that you start from a canvas fll of squares and the algorithm "carves" the maze
 	for (v = 0; v < mazeHeight; v++){
 		for(n = 0; n < mazeWidth; n++){
 		map[v][n] = 1;
 		}
 	}
-	//Set he beggining position of the algorithm at map[1][1]
 	posX = 1;
 	posY = 1;
 	map[posX][posY] = 0;
@@ -155,7 +151,7 @@ function draw_map(){
 				myObstacle[y][x] = new component (squareSurface, squareSurface, "wall", horizontal, vertical);
 				break;
 			case 2:
-				myObstacle[y][x] = new component (squareSurface, squareSurface, "sign", horizontal, vertical);
+				myObstacle[y][x] = new component (squareSurface, squareSurface, "door", horizontal, vertical);
 				break;
 			case 3:
 				myObstacle[y][x] = new component (squareSurface, squareSurface, "question", horizontal, vertical);

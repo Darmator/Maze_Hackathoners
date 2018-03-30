@@ -4,15 +4,29 @@ var correctAnswer = new Array();
 var verticalText = canvasHeight/4;
 var questionNumber;
 var questionBackgroundImage = new Image();
+questionBackgroundImage.src = "img/mario_blocks_wallpaper_by_jayjaxon.png";
+var correctSound = new Audio();
+correctSound.src = "mp3/correct.wav";
+var wrongSound = new Audio();
+wrongSound.src = "mp3/wrong.mp3";
+var quizSound = new Audio();
+quizSound.src = "mp3/quiz.mp3";
+var unlockSound = new Audio();
+unlockSound.src = "mp3/unlock.wav";
 var boxY;
 var boxX;
-questionBackgroundImage.src = "img/mario_blocks_wallpaper_by_jayjaxon.png";
+var answeredQuestions = 0;
 loadQuestion();
 loadAnswer();
 function quiz(){
 	var userAnswer;
 	var answered = false;
-	
+	forestSound.pause();
+	dungeonSound.pause();
+	quizSound.play();
+	if (quizSound.ended){
+		quizSound.play();
+	}
 	ctx.drawImage(questionBackgroundImage,  0,  0,  canvasWidth,  canvasHeight);
 	
 	writeText(question[questionNumber]);
@@ -37,12 +51,29 @@ function quiz(){
 	}
 	
 	if (answered){
+		quizSound.pause();
+		if (first_level){
+			forestSound.play();
+		}
+		else{
+			dungeonSound.play();
+		}
 		myObstacle[boxY][boxX].color  = "ground";
 		map[boxY][boxX] = 0;
 		if (userAnswer != correctAnswer[questionNumber]){
 			get_location();
 			myObstacle[locationY][locationX].color  = "question";
 			map[locationY][locationX] = 3;
+			wrongSound.play();
+		}
+		else {
+			answeredQuestions++;
+			if (answeredQuestions == 3){
+				unlockSound.play();
+			}
+			else {
+				correctSound.play();
+			}
 		}
 	}
 	verticalText = canvasHeight/4;

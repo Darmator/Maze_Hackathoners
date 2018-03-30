@@ -16,8 +16,10 @@ var wall_image = new Image();
 wall_image.src = "img/sf2-map.png";
 var ground_image = new Image();
 ground_image.src = "img/grndcobblestone.jpg";
-var sign_image = new Image ();
-sign_image.src = "img/greendragon.jpg";
+var closedDoorImage = new Image();
+closedDoorImage.src = "img/closedDoor2.png";
+var openedDoorImage = new Image();
+openedDoorImage.src = "img/openedDoor2.PNG";
 var soil_image = new Image();
 soil_image.src = "img/256x dry grass overlay.png";
 var heart_image = new Image();
@@ -51,8 +53,14 @@ function scripts_textures (x, y, width, height, number, color){
 			case "ground":
 				drawGround(x,  y,  width,  height);
 				break;
-			case "sign":
-				ctx.drawImage(sign_image,  x,  y,  width,  height);
+			case "door":
+				//ctx.drawImage(ground_image,  x,  y,  width,  height);
+				if (answeredQuestions < 3){
+					ctx.drawImage(closedDoorImage,  x,  y,  width ,  height);
+				}
+				else{
+					ctx.drawImage(openedDoorImage,  x,  y,  width ,  height );
+				}
 				break;
 			case "question":
 				drawGround(x,  y,  width,  height);
@@ -275,11 +283,11 @@ function spikes_sprites(x, y, width, height){
 function drawHeart(){
 	horizontal = 0;
 	for (t = 0; t< lives; t++){
-		ctx.drawImage(heart_image, 0, 0, 120, 150, horizontal,myObstacle[mazeHeight-1][0].y+squareSurface, squareSurface, squareSurface); //full heart
+		ctx.drawImage(heart_image, 0, 0, 120, 150, horizontal,myObstacle[mazeHeight-2][0].y+squareSurface + 5, squareSurface, squareSurface); //full heart
 		horizontal += squareSurface;
 	}
 	for (v= 0; v < maxLives - lives; v++){
-		ctx.drawImage(heart_image,250,0, 120, 150, horizontal,myObstacle[mazeHeight-1][0].y+squareSurface, squareSurface, squareSurface); //empty heart
+		ctx.drawImage(heart_image,250,0, 120, 150, horizontal,myObstacle[mazeHeight-2][0].y+squareSurface + 5, squareSurface, squareSurface); //empty heart
 		horizontal += squareSurface;
 	}
 }

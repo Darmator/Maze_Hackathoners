@@ -22,7 +22,7 @@ var crashTop = false;
 var crashBottom = false;
 var canvasHeight = window.innerHeight - window.innerHeight/33;
 var canvasWidth = window.innerWidth - window.innerHeight/64;
-var velocity = 2;
+var velocity = 3;
 
 var myGameArea = {  
     canvas : document.createElement("canvas"),//Load the canvas
@@ -164,7 +164,7 @@ function updateGameArea() {
     crashRight = false;
     crashTop = false;
     crashBottom = false;
-	drawHeart();
+	
 	if (immunity){
 		immunityCounter++
 	}
@@ -186,7 +186,7 @@ function updateGameArea() {
 				check_obstacle_crash(i,b, myGamePiece);
 				break;
 			case 2:
-				if (check_obstacle_crash(i,b, myGamePiece)){
+				if (check_obstacle_crash(i,b, myGamePiece) && answeredQuestions >= 3){
 					doorSound.play();
 					end = true;
 				}
@@ -260,7 +260,8 @@ function updateGameArea() {
 		myEnemy[t].newPos();
 		myEnemy[t].update();
 	}
-
+	drawHeart();
+	
 	if (end){//if end is true stop the game and write Game Over!!!
 	reset_game();
 	}

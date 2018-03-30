@@ -90,6 +90,9 @@ function menu(){
 			walkLeftSound.volume = volumePrecentage;
 			walkRightSound.volume = volumePrecentage;
 			getHeartSound.volume = volumePrecentage;
+			orcSound.volume = volumePrecentage;
+			dragonSound.volume = volumePrecentage;
+			doorSound.volume = volumePrecentage;
 			
 		}
 	});

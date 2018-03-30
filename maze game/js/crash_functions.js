@@ -1,4 +1,4 @@
-var lives = 3;
+var lives = 6;
 var maxLives = 6;
 var immunity = false;
 var damageSound = new Audio();
