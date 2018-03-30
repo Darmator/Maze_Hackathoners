@@ -268,6 +268,7 @@ function updateGameArea() {
 		gameOverSound.play();
 		ctx.drawImage(loose_image, 0, 0, canvasWidth, canvasHeight);
 		myGameArea.stop();
+		menu();
 	}
 	}
 }

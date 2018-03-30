@@ -1,7 +1,7 @@
 var cursorOver = false;
 var subMenu;
 var creditsMenu;
-var startGameVar = false;
+var startGameVar
 var backImage = new Image();
 backImage.src = "img/pexels-photo-416346.jpeg";
 var startGameImage = new Image();
@@ -42,10 +42,13 @@ var buttonHeight;
 var buttonWidth;
 var timesNextClicked;
 function menu(){
+	gameOverSound.pause();
+	lives=maxLives;
 	optionsMenu=false;
 	subMenu=false;
 	helpMenu=false;
 	creditsMenu=false;
+	startGameVar=false;
     myGameArea.start();
     if(onlyOnce){
     	slider = myGameArea.canvas.width/4+myGameArea.canvas.width/1.7-7.5;
@@ -66,7 +69,6 @@ function menu(){
 			if (check_start(X, Y)){
 				startGameVar = true;
 				document.removeEventListener('mouseup', mouseUp);
-				document.removeEventListener('mousemove', inBox);
 				myGameArea.canvas.style.cursor = "default";
 				forestSound.play();
 	        	startGame();
