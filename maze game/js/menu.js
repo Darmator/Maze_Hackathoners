@@ -3,7 +3,7 @@ var subMenu;
 var creditsMenu;
 var startGameVar
 var backImage = new Image();
-backImage.src = "img/pexels-photo-416346.jpeg";
+backImage.src = "img/goldenHeart.png";
 var startGameImage = new Image();
 startGameImage.src = "img/start-game-button.png";
 var optionsGameImage = new Image();
