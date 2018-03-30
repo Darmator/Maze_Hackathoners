@@ -20,7 +20,7 @@ var crashTop = false;
 var crashBottom = false;
 var canvasHeight = window.innerHeight - window.innerHeight/33;
 var canvasWidth = window.innerWidth - window.innerHeight/64;
-var velocity = 3;
+var velocity = 2;
 
 var myGameArea = {  
     canvas : document.createElement("canvas"),//Load the canvas
