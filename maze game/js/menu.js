@@ -3,7 +3,7 @@ var subMenu;
 var creditsMenu;
 var startGameVar
 var backImage = new Image();
-backImage.src = "img/pexels-photo-416346.jpeg";
+backImage.src = "img/menuBackground.png";
 var startGameImage = new Image();
 startGameImage.src = "img/start-game-button.png";
 var optionsGameImage = new Image();
@@ -32,6 +32,8 @@ var volume1Image = new Image();
 volume1Image.src = "img/Speaker_Icon+vol1.png";
 var volume0Image = new Image();
 volume0Image.src = "img/Speaker_Icon+vol0.png";
+var menuSound = new Audio();
+menuSound.src = "mp3/awesomeness.wav";
 var slider;
 var sliderClicked;
 var sliderDifferencePos;
@@ -42,6 +44,7 @@ var buttonHeight;
 var buttonWidth;
 var timesNextClicked;
 function menu(){
+		menuSound.play();
 	optionsMenu=false;
 	subMenu=false;
 	helpMenu=false;
@@ -68,6 +71,7 @@ function menu(){
 				startGameVar = true;
 				document.removeEventListener('mouseup', mouseUp);
 				myGameArea.canvas.style.cursor = "default";
+				menuSound.pause();
 				playBackgroundMusic();
 	        	startGame();
 			}
@@ -137,6 +141,7 @@ function menu(){
 			wrongSound.volume = volumePrecentage;
 			quizSound.volume = volumePrecentage;
 			starSound.volume = volumePrecentage;
+			menuSound.volume = volumePrecentage;
 			
 		}
 	});
@@ -148,6 +153,9 @@ function menu(){
 		}
 	});
     document.addEventListener('mousemove', function inBox(e) {
+		if (menuSound.ended ){
+		menuSound.play();
+		}
     	var X=e.clientX-myGameArea.canvas.getBoundingClientRect().left;
     	var Y=e.clientY-myGameArea.canvas.getBoundingClientRect().top;
 		if(startGameVar == false){
@@ -299,7 +307,8 @@ function menu(){
 					}
             	}
 		}
-    });  
+    });
+	
 }
 function draw_menu(){
 	ctx.drawImage(startGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/3,buttonWidth,buttonHeight); //start not clicked

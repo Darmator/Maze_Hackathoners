@@ -63,7 +63,7 @@ function check_flame_death(number) {
 
 function check_spikes_crash(i, b) {
     if ((myGamePiece.x >= myObstacle[i][b].x - 20&& myGamePiece.x <= myObstacle[i][b].x + squareSurface - 10) &&
-        (myGamePiece.y >= myObstacle[i][b].y - 15 && myGamePiece.y <= myObstacle[i][b].y + squareSurface - 20) && !immunity && !invencible) {
+        (myGamePiece.y >= myObstacle[i][b].y - 20 && myGamePiece.y <= myObstacle[i][b].y + squareSurface - 25) && !immunity && !invencible) {
         return true;
     }
     return false;
