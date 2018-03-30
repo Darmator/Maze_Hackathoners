@@ -226,20 +226,42 @@ function menu(){
 							ctx.drawImage(BackNextButton, myGameArea.canvas.width/7, myGameArea.canvas.height/1.3,50,50);
 						}
 						if(check_next(X, Y)){
-							for(i=0;i<5;i++){
-								ctx.drawImage(nextButton, myGameArea.canvas.width/1.25, myGameArea.canvas.height/1.3,50,50);
-							}
+							if(timesNextClicked!=2){
+								for(i=0;i<5;i++){
+									ctx.drawImage(nextButton, myGameArea.canvas.width/1.25, myGameArea.canvas.height/1.3,50,50);
+								}
+							}	
 						}
 						if(check_backNext(X, Y)){
-							for(i=0;i<5;i++){
-								ctx.drawImage(BackNextButton, myGameArea.canvas.width/7, myGameArea.canvas.height/1.3,50,50);
+							if(timesNextClicked!=0){
+								for(i=0;i<5;i++){
+									ctx.drawImage(BackNextButton, myGameArea.canvas.width/7, myGameArea.canvas.height/1.3,50,50);
+								}
 							}
 						}
-						if(!check_backNext(X, Y)&&!check_back(X, Y)&&!check_next(X, Y)){
-							myGameArea.canvas.style.cursor = "default";
+						if(timesNextClicked!=0&&timesNextClicked!=2){
+							if(!check_backNext(X, Y)&&!check_back(X, Y)&&!check_next(X, Y)){
+								myGameArea.canvas.style.cursor = "default";
+							}
+							else{
+								myGameArea.canvas.style.cursor = "pointer";
+							}
 						}
-						else{
-							myGameArea.canvas.style.cursor = "pointer";
+						else if(timesNextClicked!=0){
+							if(!check_backNext(X, Y)&&!check_back(X, Y)){
+								myGameArea.canvas.style.cursor = "default";
+							}
+							else{
+								myGameArea.canvas.style.cursor = "pointer";
+							}
+						}
+						else if(timesNextClicked!=2){
+							if(!check_next(X, Y)&&!check_back(X, Y)){
+								myGameArea.canvas.style.cursor = "default";
+							}
+							else{
+								myGameArea.canvas.style.cursor = "pointer";
+							}
 						}
 					}
 					if(creditsMenu){
