@@ -1,5 +1,3 @@
-var startGameVar = false;
-var subMenu;
 var questionExecuting = false;
 var loose_image = new Image();
 loose_image.src ="img/game_over_wallpaper_by_3971450-d66kbai.png";
