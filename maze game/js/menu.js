@@ -67,16 +67,19 @@ function menu(){
 			else if (check_options(X, Y)){
 				optionsMenu=true;
 				subMenu = true;
+				velocity = 1;
 				options();
 			}
 			else if (check_help(X, Y)){
 				helpMenu=true;
 				subMenu = true;
+				velocity = 1;
 				help();
 			}
 			else if (check_credits(X, Y)){
 				subMenu = true;
 				creditsMenu=true;
+				velocity = 1;
 				credits();
 			}
 			else if (check_exit(X, Y)){

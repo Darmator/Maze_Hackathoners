@@ -13,7 +13,6 @@ var gameOverSound = new Audio();
 gameOverSound.src = "mp3/Mario Paint - Gnat Attack Game Over.mp3";
 var getHeartSound = new Audio();
 getHeartSound.src="mp3/OOT_Get_Heart.wav";
-
 var crashLeft = false;
 var crashRight = false;
 var crashTop = false;
@@ -267,7 +266,7 @@ function updateGameArea() {
 		forestSound.pause();
 		dungeonSound.pause();
 		gameOverSound.play();
-		ctx.drawImage(loose_image, 0, 0, mazeWidth * squareSurface, mazeHeight * squareSurface);
+		ctx.drawImage(loose_image, 0, 0, canvasWidth, canvasHeight);
 		myGameArea.stop();
 	}
 	}

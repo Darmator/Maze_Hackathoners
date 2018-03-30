@@ -4,7 +4,7 @@ var move_to_x = [];
 var move_to_y = [];
 var enemy_look = [];
 var enemy_direction = [];
-var enemyVelocity;
+var enemyVelocity = 1;
 
 function check_enemy_direction(number){
 	visited[number][enemy_locationY[number]][enemy_locationX[number]] = true;
@@ -38,7 +38,9 @@ function check_enemy_direction(number){
 	}
 }
 function enemy_move(number){
-	enemyVelocity = velocity - 1;
+	if (velocity >1){
+		enemyVelocity = velocity - 1;
+	}
 	myEnemy[number].speedX = 0;
 	myEnemy[number].speedY = 0;
 	var choose_direction = Math.floor(Math.random() * enemy_direction[number].length );
