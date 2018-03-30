@@ -233,13 +233,11 @@ function updateGameArea() {
 				myGamePiece.speedY = velocity + extraVelocity;
 				hero_look = "down";
 	}
-	//Update myObtacle position
     for (i = 0; i < mazeHeight; i++){
 		for (var c=0; c <mazeWidth; c++){
     myObstacle[i][c].update();
 	}
-    } 
-//Update the red square position	
+    } 	
 	myGamePiece.newPos();
     myGamePiece.update();
 	for ( t = 0; t < enemy_amount; t++){
@@ -270,7 +268,6 @@ function updateGameArea() {
 		subsLive = false;
 		immunity = true;
 		immunityCounter = 0;
-		console.log(lives);
 	}
 	if (end){
 	reset_game();
@@ -279,8 +276,7 @@ function updateGameArea() {
 		forestSound.pause();
 		dungeonSound.pause();
 		gameOverSound.play();
-		ctx.drawImage(loose_image, 0, 0, canvasWidth, canvasHeight);
-		console.log(lives);
+		lives = 5;
 		myGameArea.stop();
 		menu();
 	}

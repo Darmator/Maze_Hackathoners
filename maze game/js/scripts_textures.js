@@ -293,6 +293,7 @@ function spikes_sprites(x, y, width, height){
 }
 function drawHeartOut(){
 	horizontal = 0;
+	console.log(lives);
 	for (t = 0; t< lives; t++){
 		ctx.drawImage(heart_image, 0, 0, 120, 150, horizontal,myObstacle[mazeHeight-1][0].y + 5, squareSurface, squareSurface); //full heart
 		horizontal += squareSurface;

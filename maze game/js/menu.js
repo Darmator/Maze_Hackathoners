@@ -42,8 +42,6 @@ var buttonHeight;
 var buttonWidth;
 var timesNextClicked;
 function menu(){
-	gameOverSound.pause();
-	lives=maxLives;
 	optionsMenu=false;
 	subMenu=false;
 	helpMenu=false;
@@ -76,20 +74,17 @@ function menu(){
 			else if (check_options(X, Y)){
 				optionsMenu=true;
 				subMenu = true;
-				velocity = 1;
 				options();
 			}
 			else if (check_help(X, Y)){
 				helpMenu=true;
 				subMenu = true;
-				velocity = 1;
 				timesNextClicked=0;
 				help();
 			}
 			else if (check_credits(X, Y)){
 				subMenu = true;
 				creditsMenu=true;
-				velocity = 1;
 				credits();
 			}
 			else if (check_exit(X, Y)){
@@ -106,20 +101,22 @@ function menu(){
 		if(check_backNext(X, Y)&&helpMenu){
 			timesNextClicked--;			
 		}
-		if(timesNextClicked==0){
+		if (timesNextClicked == 3){
+			timesNextClicked = 2;
+		}
+		if (timesNextClicked == -1){
+			timesNextClicked = 0;
+		}
+		switch (timesNextClicked){
+		case 0:
 			helpImage.src="img/help-Image.png";
-		}
-		else if(timesNextClicked==1){
+			break;
+		case 1:
 			helpImage.src="img/help-Image3.png";
-		}
-		else if(timesNextClicked==2){
+			break;
+		case 2:
 			helpImage.src="img/help-Image2.png";
-		}
-		else if(timesNextClicked==3){
-			timesNextClicked=2;
-		}
-		else if(timesNextClicked==-1){
-			timesNextClicked=0;
+			break;
 		}
 		if(optionsMenu&&sliderClicked){
 			sliderClicked = false;
@@ -392,4 +389,7 @@ function credits(){
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
 	ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50);
 	ctx.drawImage(creditsImage, myGameArea.canvas.width/2-helpImageWidth/2, myGameArea.canvas.height/2-helpImageLength/2,helpImageWidth,helpImageLength);
+}
+function subHelpMenu(){
+	
 }
