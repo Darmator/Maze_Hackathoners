@@ -1,5 +1,6 @@
 var cursorOver = false;
 var subMenu;
+var creditsMenu;
 var startGameVar = false;
 var backImage = new Image();
 backImage.src = "img/pexels-photo-416346.jpeg";
@@ -39,6 +40,7 @@ function menu(){
 	optionsMenu=false;
 	subMenu=false;
 	helpMenu=false;
+	creditsMenu=false;
     myGameArea.start();
     if(onlyOnce){
     	slider = myGameArea.canvas.width/4+myGameArea.canvas.width/1.7-7.5;
@@ -74,6 +76,7 @@ function menu(){
 			}
 			else if (check_credits(X, Y)){
 				subMenu = true;
+				creditsMenu=true;
 				credits();
 			}
 			else if (check_exit(X, Y)){
@@ -176,6 +179,9 @@ function menu(){
 					}
 					if(helpMenu){
 						ctx.drawImage(helpImage, myGameArea.canvas.width/2-helpImageWidth/2, myGameArea.canvas.height/2-helpImageLength/2,helpImageWidth,helpImageLength);
+					}
+					if(creditsMenu){
+						ctx.drawImage(creditsImage, myGameArea.canvas.width/2-helpImageWidth/2, myGameArea.canvas.height/2-helpImageLength/2,helpImageWidth,helpImageLength);
 					}
 					if (optionsMenu){
 						ctx.fillStyle = "lightBlue";
