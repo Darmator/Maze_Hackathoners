@@ -1,7 +1,7 @@
 var cursorOver = false;
 var subMenu;
 var creditsMenu;
-var startGameVar = false;
+var startGameVar
 var backImage = new Image();
 backImage.src = "img/pexels-photo-416346.jpeg";
 var startGameImage = new Image();
@@ -20,6 +20,10 @@ var helpImage = new Image();
 helpImage.src = "img/help-Image.png";
 var creditsImage = new Image();
 creditsImage.src = "img/credits-Image.png";
+var nextButton = new Image();
+nextButton.src = "img/Button-Next-512.png";
+var BackNextButton = new Image();
+BackNextButton.src = "img/Button-Back-512.png";
 var volume3Image = new Image();
 volume3Image.src = "img/Speaker_Icon.png";
 var volume2Image = new Image();
@@ -36,11 +40,15 @@ var volumePrecentage=1;
 var onlyOnce=true;
 var buttonHeight;
 var buttonWidth;
+var timesNextClicked;
 function menu(){
+	gameOverSound.pause();
+	lives=maxLives;
 	optionsMenu=false;
 	subMenu=false;
 	helpMenu=false;
 	creditsMenu=false;
+	startGameVar=false;
     myGameArea.start();
     if(onlyOnce){
     	slider = myGameArea.canvas.width/4+myGameArea.canvas.width/1.7-7.5;
@@ -54,12 +62,13 @@ function menu(){
     ctx = myGameArea.context;
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
     draw_menu();
-    window.addEventListener('mouseup', function(e) {
+    document.addEventListener('mouseup', function mouseUp(e) {
     	var X=e.clientX-myGameArea.canvas.getBoundingClientRect().left;
     	var Y=e.clientY-myGameArea.canvas.getBoundingClientRect().top;
     	if(subMenu==false){
 			if (check_start(X, Y)){
 				startGameVar = true;
+				document.removeEventListener('mouseup', mouseUp);
 				myGameArea.canvas.style.cursor = "default";
 				playBackgroundMusic();
 	        	startGame();
@@ -74,6 +83,7 @@ function menu(){
 				helpMenu=true;
 				subMenu = true;
 				velocity = 1;
+				timesNextClicked=0;
 				help();
 			}
 			else if (check_credits(X, Y)){
@@ -86,8 +96,30 @@ function menu(){
 				close();
 			}
 		}
-		if (check_back(X,e.clientY)&&subMenu){
+		if (check_back(X, Y)&&subMenu){
+			document.removeEventListener('mouseup', mouseUp);
 			menu();
+		}
+		if(check_next(X, Y)&&helpMenu){
+			timesNextClicked++;
+		}
+		if(check_backNext(X, Y)&&helpMenu){
+			timesNextClicked--;			
+		}
+		if(timesNextClicked==0){
+			helpImage.src="img/help-Image.png";
+		}
+		else if(timesNextClicked==1){
+			helpImage.src="img/help-Image3.png";
+		}
+		else if(timesNextClicked==2){
+			helpImage.src="img/help-Image2.png";
+		}
+		else if(timesNextClicked==3){
+			timesNextClicked=2;
+		}
+		else if(timesNextClicked==-1){
+			timesNextClicked=0;
 		}
 		if(optionsMenu&&sliderClicked){
 			sliderClicked = false;
@@ -111,14 +143,14 @@ function menu(){
 			
 		}
 	});
-	window.addEventListener('mousedown', function(e) {
+	document.addEventListener('mousedown', function mouseDown(e) {
 		var X=e.clientX-myGameArea.canvas.getBoundingClientRect().left;
 		var Y=e.clientY-myGameArea.canvas.getBoundingClientRect().top;
 		if(check_slider(X,Y)&&optionsMenu){
 			sliderClicked = true;
 		}
 	});
-    window.addEventListener('mousemove', function inBox(e) {
+    document.addEventListener('mousemove', function inBox(e) {
     	var X=e.clientX-myGameArea.canvas.getBoundingClientRect().left;
     	var Y=e.clientY-myGameArea.canvas.getBoundingClientRect().top;
 		if(startGameVar == false){
@@ -189,6 +221,54 @@ function menu(){
 					}
 					if(helpMenu){
 						ctx.drawImage(helpImage, myGameArea.canvas.width/2-helpImageWidth/2, myGameArea.canvas.height/2-helpImageLength/2,helpImageWidth,helpImageLength);
+						if(timesNextClicked==0){
+							ctx.drawImage(nextButton, myGameArea.canvas.width/1.25, myGameArea.canvas.height/1.3,50,50);
+						}
+						else if(timesNextClicked==2){
+							ctx.drawImage(BackNextButton, myGameArea.canvas.width/7, myGameArea.canvas.height/1.3,50,50);
+						}
+						else{
+							ctx.drawImage(nextButton, myGameArea.canvas.width/1.25, myGameArea.canvas.height/1.3,50,50);
+							ctx.drawImage(BackNextButton, myGameArea.canvas.width/7, myGameArea.canvas.height/1.3,50,50);
+						}
+						if(check_next(X, Y)){
+							if(timesNextClicked!=2){
+								for(i=0;i<5;i++){
+									ctx.drawImage(nextButton, myGameArea.canvas.width/1.25, myGameArea.canvas.height/1.3,50,50);
+								}
+							}	
+						}
+						if(check_backNext(X, Y)){
+							if(timesNextClicked!=0){
+								for(i=0;i<5;i++){
+									ctx.drawImage(BackNextButton, myGameArea.canvas.width/7, myGameArea.canvas.height/1.3,50,50);
+								}
+							}
+						}
+						if(timesNextClicked!=0&&timesNextClicked!=2){
+							if(!check_backNext(X, Y)&&!check_back(X, Y)&&!check_next(X, Y)){
+								myGameArea.canvas.style.cursor = "default";
+							}
+							else{
+								myGameArea.canvas.style.cursor = "pointer";
+							}
+						}
+						else if(timesNextClicked!=0){
+							if(!check_backNext(X, Y)&&!check_back(X, Y)){
+								myGameArea.canvas.style.cursor = "default";
+							}
+							else{
+								myGameArea.canvas.style.cursor = "pointer";
+							}
+						}
+						else if(timesNextClicked!=2){
+							if(!check_next(X, Y)&&!check_back(X, Y)){
+								myGameArea.canvas.style.cursor = "default";
+							}
+							else{
+								myGameArea.canvas.style.cursor = "pointer";
+							}
+						}
 					}
 					if(creditsMenu){
 						ctx.drawImage(creditsImage, myGameArea.canvas.width/2-helpImageWidth/2, myGameArea.canvas.height/2-helpImageLength/2,helpImageWidth,helpImageLength);
@@ -199,7 +279,7 @@ function menu(){
 						ctx.fillStyle = "blue";
 						ctx.fillRect(slider,myGameArea.canvas.height/4-7.5,15,30);
 						if(sliderClicked&&slider>=myGameArea.canvas.width/4&&slider<=myGameArea.canvas.width/4+myGameArea.canvas.width/1.7-7.5){
-							slider = e.clientX-15;
+							slider = X-7.5;
 						}
 						if(slider<=myGameArea.canvas.width/4){
 							slider=myGameArea.canvas.width/4+1;
@@ -224,7 +304,6 @@ function menu(){
 		}
     });  
 }
-
 function draw_menu(){
 	ctx.drawImage(startGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/3,buttonWidth,buttonHeight); //start not clicked
 	ctx.drawImage(optionsGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/5,buttonWidth,buttonHeight); //options not clicked
@@ -273,8 +352,23 @@ function check_back(x,y){
 	}
 	return false;
 }
+
 function check_slider(x,y){
-	if ((x>= slider && x<= slider+15)&&(y>=myGameArea.canvas.height/4 && y<= myGameArea.canvas.height/4+30)){
+	if ((x>= slider-1 && x<= slider+15)&&(y>=myGameArea.canvas.height/4 && y<= myGameArea.canvas.height/4+30)){
+		return true;
+	}
+	return false;
+}
+
+function check_next(x,y){
+	if ((x>= myGameArea.canvas.width/1.25 && x<= myGameArea.canvas.width/1.25+50)&&(y>=myGameArea.canvas.height/1.3 && y<= myGameArea.canvas.height/1.3+50)){
+		return true;
+	}
+	return false;
+}
+
+function check_backNext(x,y){
+	if ((x>= myGameArea.canvas.width/7 && x<= myGameArea.canvas.width/7+50)&&(y>=myGameArea.canvas.height/1.3 && y<= myGameArea.canvas.height/1.3+50)){
 		return true;
 	}
 	return false;
@@ -283,6 +377,7 @@ function help(){
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
 	ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50);
 	ctx.drawImage(helpImage, myGameArea.canvas.width/2-helpImageWidth/2, myGameArea.canvas.height/2-helpImageLength/2,helpImageWidth,helpImageLength);
+	ctx.drawImage(nextButton, myGameArea.canvas.width/1.25, myGameArea.canvas.height/1.3,50,50);
 }
 function options(){
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);

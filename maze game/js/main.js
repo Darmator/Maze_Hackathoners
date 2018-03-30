@@ -282,6 +282,7 @@ function updateGameArea() {
 		ctx.drawImage(loose_image, 0, 0, canvasWidth, canvasHeight);
 		console.log(lives);
 		myGameArea.stop();
+		menu();
 	}
 	}
 }
