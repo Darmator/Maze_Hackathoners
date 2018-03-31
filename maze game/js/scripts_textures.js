@@ -38,6 +38,8 @@ var walkLeftSound = new Audio();
 walkLeftSound.src = "mp3/OOT_Steps_Grass1.wav";
 var walkRightSound = new Audio();
 walkRightSound.src = "mp3/OOT_Steps_Grass7.wav";
+var spikesSound = new Audio();
+spikesSound.src = "mp3/spikes.wav";
 
 var fire_ball = [];
 var fire_timer = [];
@@ -213,36 +215,35 @@ function orcs_sprites( x,  y,  width,  height, number){
 
 function dragon_sprites( x,  y,  width,  height, number){
 				switch (enemy_look[number]){
-					
 			case "down":
-				if ( myEnemy[number].speedY === 1  && enemy_foot[number] <= 10/velocity){
+				if ( myEnemy[number].speedY === enemyVelocity  && enemy_foot[number] <= 10/velocity){
 					ctx.drawImage(dragon_image, 0, 121, 25, 25, x, y, width, height); //down 1
 				}
-				else if ( myEnemy[number].speedY === 1  && enemy_foot[number] > 10/velocity){
+				else if ( myEnemy[number].speedY === enemyVelocity  && enemy_foot[number] > 10/velocity){
 					ctx.drawImage(dragon_image, 24, 121, 25, 25, x, y, width, height); //down 2
 				}
 				break;
 			case "up":
-				if ( myEnemy[number].speedY === -1 && enemy_foot[number] <= 10/velocity){
+				if ( myEnemy[number].speedY === -enemyVelocity && enemy_foot[number] <= 10/velocity){
 					ctx.drawImage(dragon_image, 96, 121, 25, 25, x, y, width, height); //up 1
 				}
-				else if ( myEnemy[number].speedY === -1 && enemy_foot[number] > 10/velocity){
+				else if ( myEnemy[number].speedY === -enemyVelocity && enemy_foot[number] > 10/velocity){
 					ctx.drawImage(dragon_image, 120, 121, 25, 25, x, y, width, height); //up 2
 				}
 				break;
 			case "right":
-				if ( myEnemy[number].speedX === 1 && enemy_foot[number] <= 10/velocity){
+				if ( myEnemy[number].speedX === enemyVelocity && enemy_foot[number] <= 10/velocity){
 					ctx.drawImage(dragon_image, 144, 121, 25, 25, x, y, width, height); //right 1
 				}
-				else if (myEnemy[number].speedX === 1 && enemy_foot[number] > 10/velocity){
+				else if (myEnemy[number].speedX === enemyVelocity && enemy_foot[number] > 10/velocity){
 					ctx.drawImage(dragon_image, 168, 121, 25, 25, x, y, width, height); //right 2
 				}
 				break;
 			case "left":
-				if ( myEnemy[number].speedX === -1 && enemy_foot[number] <= 10/velocity){
+				if ( myEnemy[number].speedX === -enemyVelocity && enemy_foot[number] <= 10/velocity){
 					ctx.drawImage(dragon_image, 48, 121, 25, 25, x, y, width, height); //left 1
 				}
-				else if ( myEnemy[number].speedX === -1 && enemy_foot[number] > 10/velocity){
+				else if ( myEnemy[number].speedX === -enemyVelocity && enemy_foot[number] > 10/velocity){
 					ctx.drawImage(dragon_image, 72, 121, 25, 25, x, y, width, height); //left 2
 				}
 				break;

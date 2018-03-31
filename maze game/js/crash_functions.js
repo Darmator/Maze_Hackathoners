@@ -4,6 +4,8 @@ var immunity = false;
 var subsLive = false;
 var damageSound = new Audio();
 damageSound.src = "mp3/LTTP_Link_Hurt.wav";
+var enemyDieSound = new Audio();
+enemyDieSound.src = "mp3/enemy die.mp3";
 
 function check_obstacle_crash(i, b, object) {
     var any_crash = false;
@@ -42,6 +44,7 @@ function check_enemy_crash(number) {
     }
 	if (anyCrash){
 		if (invencible){
+			enemyDieSound.play();
 			myEnemy[number] = "dead";
 		}
 		else {

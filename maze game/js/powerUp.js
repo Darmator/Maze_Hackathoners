@@ -6,10 +6,13 @@ var invencibleCounter = 0;
 var invencible = false;
 var pickaxeCounter = 0;
 var ultravision = false;
+var extraPickaxe = true;
 var starSound = new Audio();
 starSound.src = "mp3/star.mp3";
 var mineSound = new Audio();
 mineSound.src = "mp3/mine.mp3";
+var poweUpSound = new Audio();
+poweUpSound.src = "mp3/powerUp.wav";
 function activatePower(number){
 	switch (number){
 	case 0:
@@ -27,7 +30,6 @@ function activatePower(number){
 		extraVelocity = 2;
 		break;
 	case 3:
-		getHeartSound.play();
 		maxLives += 2;
 		lives += 2;
 		powerUpMove+=2
@@ -37,65 +39,20 @@ function activatePower(number){
 		break;
 	}
 	activePowerUp = true;
+	poweUpSound.play();
 }
 function usePowerUp(number){
 	switch (number){
 		case 0:
 			invencibleCounter++;
 			if (invencibleCounter > 500){
-				starSound.pause();
-				playBackgroundMusic();
-				invencible = false;
-				extraVelocity = 0;
-				invencibleCounter = 0;
-				activePowerUp = false;
+				starOff();
 			}
 			break;
 		case 1:
-			var tempXLoc;
-			var tempYLoc;
 			if (myGameArea.keys && myGameArea.keys[32]){
-				for (f = 0; f < mazeHeight; f++){
-					for( g = 0; g < mazeWidth; g++){
-						if (myGamePiece.x >= myObstacle[f][g].x && myGamePiece.x <= myObstacle[f][g].x + squareSurface &&
-						myGamePiece.y >= myObstacle[f][g].y && myGamePiece.y <= myObstacle[f][g].y + squareSurface){
-							tempYLoc = f;
-							tempXLoc = g;
-						}
-					}
-				}
-				console.log(tempYLoc);
-				console.log(tempXLoc);
-				console.log(map[tempYLoc + 1][tempXLoc]);
-				switch (hero_look){
-				case "down":
-					if (map[tempYLoc + 1][tempXLoc] == 1 && tempYLoc + 1 < mazeHeight - 1){
-						erase(tempYLoc+1, tempXLoc);
-						mineSound.play();
-						pickaxeCounter++;
-					}
-					break;
-				case "up":
-					if (map[tempYLoc - 1][tempXLoc] == 1 && tempYLoc - 1 > 0){
-						erase(tempYLoc-1, tempXLoc);
-						mineSound.play();
-						pickaxeCounter++;
-					}
-					break;
-				case "right":
-					if (map[tempYLoc][tempXLoc + 1] == 1 && tempXLoc + 1 < mazeWidth - 1){
-						erase(tempYLoc, tempXLoc + 1);
-						mineSound.play();
-						pickaxeCounter++;
-					}
-					break;
-				case "left":
-					if (map[tempYLoc][tempXLoc - 1] == 1 && tempXLoc - 1 > 0){
-						erase(tempYLoc, tempXLoc - 1);
-						mineSound.play();
-						pickaxeCounter++;
-					}
-					break;
+				if (mine()){
+					pickaxeCounter++;
 				}
 			}
 			if (pickaxeCounter >= 3){
@@ -105,4 +62,57 @@ function usePowerUp(number){
 			}
 			break;
 	}
+}
+function starOff(){
+	starSound.pause();
+	playBackgroundMusic();
+	invencible = false;
+	extraVelocity = 0;
+	invencibleCounter = 0;
+	activePowerUp = false;
+}
+function mine(){
+	var tempXLoc;
+	var tempYLoc;
+			
+				for (f = 0; f < mazeHeight; f++){
+					for( g = 0; g < mazeWidth; g++){
+						if (myGamePiece.x >= myObstacle[f][g].x && myGamePiece.x <= myObstacle[f][g].x + squareSurface &&
+						myGamePiece.y >= myObstacle[f][g].y && myGamePiece.y <= myObstacle[f][g].y + squareSurface){
+							tempYLoc = f;
+							tempXLoc = g;
+						}
+					}
+				}
+				switch (hero_look){
+				case "down":
+					if (map[tempYLoc + 1][tempXLoc] == 1 && tempYLoc + 1 < mazeHeight - 1){
+						erase(tempYLoc+1, tempXLoc);
+						mineSound.play();
+						return true;
+					}
+					break;
+				case "up":
+					if (map[tempYLoc - 1][tempXLoc] == 1 && tempYLoc - 1 > 0){
+						erase(tempYLoc-1, tempXLoc);
+						mineSound.play();
+						return true;
+					}
+					break;
+				case "right":
+					if (map[tempYLoc][tempXLoc + 1] == 1 && tempXLoc + 1 < mazeWidth - 1){
+						erase(tempYLoc, tempXLoc + 1);
+						mineSound.play();
+						return true;
+					}
+					break;
+				case "left":
+					if (map[tempYLoc][tempXLoc - 1] == 1 && tempXLoc - 1 > 0){
+						erase(tempYLoc, tempXLoc - 1);
+						mineSound.play();
+						return true;
+					}
+					break;
+				}
+				return false;
 }

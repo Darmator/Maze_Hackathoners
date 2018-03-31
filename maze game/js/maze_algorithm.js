@@ -107,12 +107,10 @@ function carve(){
 	}
 	move++;
 }
-//This fuction will translate the 1 and 0, of the map array into objects inside the myObstacle array
 function draw_map(){
 	var counter = 0;
-	var horizontal = 0;//horizontal coordinates
-	var vertical = 0;//vertical coordinates
-	//Look all the values of the map array
+	var horizontal = 0;
+	var vertical = 0;
 	var finish_line_location = Math.floor(Math.random() * 4 );
 	switch  (finish_line_location){
 	case 0:

@@ -1,6 +1,6 @@
 var questionExecuting = false;
-var loose_image = new Image();
-loose_image.src ="img/game_over_wallpaper_by_3971450-d66kbai.png";
+var woodPickaxeImage = new Image();
+woodPickaxeImage.src = "img/pickaxeWood.png";
 var doorSound = new Audio();
 doorSound.src = "mp3/door.wav";
 var orcSound = new Audio();
@@ -21,6 +21,7 @@ var crashBottom = false;
 var canvasHeight = window.innerHeight - window.innerHeight/33;
 var canvasWidth = window.innerWidth - window.innerHeight/64;
 var velocity = 2;
+var soundSpikeCounter = false;
 
 var myGameArea = {  
     canvas : document.createElement("canvas"),//Load the canvas
@@ -63,16 +64,27 @@ function component(width, height, color, x, y, number) {
         ctx = myGameArea.context;
 		scripts_textures(this.x, this.y, this.width, this.height, number, this.color);
 		if (!block_vision(this.x, this.y)){
-			if	(this.color == "enemy"){
+			switch (this.color){
+			case "enemy":
 				if (first_level){
 					orcSound.play();
 				}
 				else if (!first_level){
 					dragonSound.play();
 				}
-			}
-			if (this.color == "fire"){
+				break;
+			case "fire":
 				fireSound.play();
+				break;
+			case "spikes":
+				if (spikes_deadly && !soundSpikeCounter){
+					spikesSound.play();
+					soundSpikeCounter = true;
+				}
+				else if (!spikes_deadly){
+					soundSpikeCounter = false;
+				}
+				break;
 			}
 		}
 		if (block_vision(this.x, this.y) && !first_level && !ultravision){ 
@@ -266,8 +278,16 @@ function updateGameArea() {
 		immunity = true;
 		immunityCounter = 0;
 	}
+	if (extraPickaxe){
+		ctx.drawImage(woodPickaxeImage, myObstacle[mazeHeight-1][mazeWidth - 1].x ,myObstacle[mazeHeight-1][mazeWidth - 1].y ,  squareSurface, squareSurface);
+		if (myGameArea.keys && myGameArea.keys[13]){
+			if (mine()){
+				extraPickaxe = false;
+			}
+		}
+	}
 	if (end){
-	reset_game();
+		reset_game();
 	}
 	if (lives < 0){
 		forestSound.pause();
