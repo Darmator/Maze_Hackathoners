@@ -400,6 +400,3 @@ function credits(){
 	ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50);
 	ctx.drawImage(creditsImage, myGameArea.canvas.width/2-helpImageWidth/2, myGameArea.canvas.height/2-helpImageLength/2,helpImageWidth,helpImageLength);
 }
-function subHelpMenu(){
-	
-}
