@@ -27,11 +27,13 @@ heart_image.src = "img/Heart.png";
 var starImage = new Image();
 starImage.src = "img/star.jpg";
 var pickaxeImage = new Image();
-pickaxeImage.src = "img/pickaxe.png";
+pickaxeImage.src = "img/pickaxeDiamond.png";
 var speedImage = new Image();
 speedImage.src = "img/speed.png";
 var goldenHeartImage = new Image();
 goldenHeartImage.src = "img/goldenHeart.png";
+var glassesImage = new Image();
+glassesImage.src = "img/glasses pokemon.png"
 var walkLeftSound = new Audio();
 walkLeftSound.src = "mp3/OOT_Steps_Grass1.wav";
 var walkRightSound = new Audio();
@@ -62,7 +64,6 @@ function scripts_textures (x, y, width, height, number, color){
 				drawGround(x,  y,  width,  height);
 				break;
 			case "door":
-				//ctx.drawImage(ground_image,  x,  y,  width,  height);
 				if (answeredQuestions < 3){
 					ctx.drawImage(closedDoorImage,  x,  y,  width ,  height);
 				}
@@ -316,6 +317,9 @@ function drawPowerUp(x, y, width, height, number){
 	case 3:
 		ctx.drawImage(goldenHeartImage, 0, 0, 120, 150, x + squareSurface/5,y + squareSurface/5, width/2, height/2);
 		break;
+	case 4:
+		ctx.drawImage(glassesImage,  x + squareSurface/5,  y + squareSurface/5,  width/2,  height/2);
+		break;
 	}
 }
 function drawPowerUpOut(number){
@@ -324,13 +328,21 @@ function drawPowerUpOut(number){
 		ctx.drawImage(starImage, myObstacle[mazeHeight-1][6 + powerUpMove].x ,myObstacle[mazeHeight-1][6].y ,  squareSurface, squareSurface);
 		break;
 	case 1:
+		switch (pickaxeCounter){
+		case 1:
+			pickaxeImage.src = "img/pickaxeSilver.png";
+			break;
+		case 2:
+			pickaxeImage.src = "img/pickaxeWood.png";
+			break;
+		}
 		ctx.drawImage(pickaxeImage, myObstacle[mazeHeight-1][6 + powerUpMove].x ,myObstacle[mazeHeight-1][6].y ,  squareSurface, squareSurface);
 		break;
 	case 2:
 		ctx.drawImage(speedImage, myObstacle[mazeHeight-1][6 + powerUpMove].x ,myObstacle[mazeHeight-1][6].y ,  squareSurface, squareSurface);
 		break;
-	case 3:
-		ctx.drawImage(goldenHeartImage,0,0,120,150, myObstacle[mazeHeight-1][6 + powerUpMove].x ,myObstacle[mazeHeight-1][6].y ,  squareSurface, squareSurface);
+	case 4:
+		ctx.drawImage(glassesImage, myObstacle[mazeHeight-1][6 + powerUpMove].x ,myObstacle[mazeHeight-1][6].y ,  squareSurface, squareSurface);
 		break;
 	}
 }

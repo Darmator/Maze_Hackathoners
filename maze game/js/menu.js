@@ -142,6 +142,7 @@ function menu(){
 			quizSound.volume = volumePrecentage;
 			starSound.volume = volumePrecentage;
 			menuSound.volume = volumePrecentage;
+			mineSound.volume = volumePrecentage;
 			
 		}
 	});

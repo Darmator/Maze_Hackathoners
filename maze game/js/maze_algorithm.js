@@ -145,7 +145,12 @@ function draw_map(){
 			if (counter < 1){
 				get_location();
 				map[locationY][locationX] = 6;
-				chosenPowerUp = Math.floor (Math.random() * 4);
+				if (first_level){
+					chosenPowerUp = Math.floor (Math.random() * 4);
+				}
+				else {
+					chosenPowerUp = Math.floor (Math.random() * 5);
+				}
 			}
 			counter++
 			switch (map[y][x]){

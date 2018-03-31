@@ -75,7 +75,7 @@ function component(width, height, color, x, y, number) {
 				fireSound.play();
 			}
 		}
-		if (block_vision(this.x, this.y) && !first_level){ 
+		if (block_vision(this.x, this.y) && !first_level && !ultravision){ 
 			ctx.fillStyle = "black";
         ctx.fillRect(this.x, this.y, this.width, this.height);
 		}
@@ -138,9 +138,6 @@ function component(width, height, color, x, y, number) {
         };
     
 }
-
-//Start loading things
-
 
 function updateGameArea() {
 	if (questionExecuting){
@@ -275,7 +272,6 @@ function updateGameArea() {
 	if (lives < 0){
 		forestSound.pause();
 		dungeonSound.pause();
-		gameOverSound.play();
 		lives = 5;
 		myGameArea.stop();
 		menu();

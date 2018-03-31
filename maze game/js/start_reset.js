@@ -85,6 +85,7 @@ function findMazeSize(){
 	 }
 }
 function reset_game(){
+	ultravision = false;
 	activePowerUp = false;
 	extraVelocity = 0;
 	answeredQuestions = 0;
