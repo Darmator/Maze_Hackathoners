@@ -81,12 +81,13 @@ function resetAnsweredQuestions() {
 	}
 }
 function chechAnswersAvailable() {
+	var repited = false;
 	for (g = 0; g < answeredQuestions.length; g++){
 		if (answeredQuestions[g] == false){
-			return true;
+			repited = true;
 		}
 	}
-	return false;
+	return repited;
 }
 function writeText(sentence){
 	ctx.font = "20px Arial";

@@ -11,10 +11,14 @@ var enemy_locationX = [];
 var enemy_locationY = [];
 var level_counter =0;
 var end =false;
+var winImage = new Image();
+winImage.src = "img/win.jpg";
 var dungeonSound = new Audio();
 dungeonSound.src= "mp3/06 - Underground.mp3";
 var forestSound = new Audio();
 forestSound.src= "mp3/06 - Kokiri Forest.mp3";
+var winSound = new Audio();
+winSound.src = "mp3/win.mp3";
 function turn_to_2d(){
 	for (n=0;n<mazeHeight;n++) {
  myObstacle[n]=new Array();
@@ -107,7 +111,6 @@ function reset_game(){
 		velocity = 2;
 		first_level = false;
 	}
-	
 	findMazeSize();
 	turn_to_2d();
 	turn_to_3d();
@@ -126,6 +129,12 @@ function reset_game(){
 		myEnemy[t].y = myObstacle[locationY][locationX].y + squareSurface/5;
 		move_to_x[t] = myObstacle[locationY][locationX].x + squareSurface/5;
 		move_to_y[t] = myObstacle[locationY][locationX].y + squareSurface/5;
+	}
+	if (level_counter >= 6){
+		ctx.drawImage(winImage,  0,  0,  canvasWidth,  canvasHeight);
+		dungeonSound.pause();
+		winSound.play();
+		myGameArea.stop();
 	}
 }
 function get_location(){
