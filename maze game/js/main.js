@@ -191,7 +191,7 @@ function updateGameArea() {
 				check_obstacle_crash(i,b, myGamePiece);
 				break;
 			case 2:
-				if (check_obstacle_crash(i,b, myGamePiece) && answeredQuestions >= 3){
+				if (check_obstacle_crash(i,b, myGamePiece) && correctQuestions >= 3){
 					doorSound.play();
 					end = true;
 				}
@@ -200,7 +200,13 @@ function updateGameArea() {
 				if (check_obstacle_crash(i,b, myGamePiece)){
 					boxY= i;
 					boxX = b;
+					if (!chechAnswersAvailable()){
+						console.log("repited");
+						resetAnsweredQuestions();
+					}
+					do {
 					questionNumber = Math.floor(Math.random() * question.length );
+					} while (answeredQuestions[questionNumber] == true);
 					quiz();
 				}
 				break;

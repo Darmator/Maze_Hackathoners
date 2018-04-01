@@ -88,7 +88,7 @@ function reset_game(){
 	ultravision = false;
 	activePowerUp = false;
 	extraVelocity = 0;
-	answeredQuestions = 0;
+	correctQuestions = 0;
 	squareSurface -= 20;
 	level_counter++;
 	enemy_amount+= 3;

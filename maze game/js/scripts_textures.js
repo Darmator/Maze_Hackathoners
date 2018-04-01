@@ -66,7 +66,7 @@ function scripts_textures (x, y, width, height, number, color){
 				drawGround(x,  y,  width,  height);
 				break;
 			case "door":
-				if (answeredQuestions < 3){
+				if (correctQuestions < 3){
 					ctx.drawImage(closedDoorImage,  x,  y,  width ,  height);
 				}
 				else{
