@@ -113,20 +113,22 @@ function menu(){
 			timesNextClicked = 0;
 		}
 		switch (timesNextClicked){
-		case 0:
-			helpImage.src="img/help-Image.png";
-			break;
-		case 1:
-			helpImage.src="img/help-Image3.png";
-			break;
-		case 2:
-			helpImage.src="img/help-Image2.png";
-			break;
+			case 0:
+				helpImage.src="img/help-Image.png";
+				break;
+			case 1:
+				helpImage.src="img/help-Image3.png";
+				break;
+			case 2:
+				helpImage.src="img/help-Image2.png";
+				break;
 		}
 		if(helpMenu){
 			ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
 			ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50);
+			setTimeout(function() {
 			ctx.drawImage(helpImage, myGameArea.canvas.width/2-helpImageWidth/2, myGameArea.canvas.height/2-helpImageLength/2,helpImageWidth,helpImageLength);
+		},25);
 			if(timesNextClicked==0){
 				ctx.drawImage(nextButton, myGameArea.canvas.width/1.25, myGameArea.canvas.height/1.3,50,50);
 			}
