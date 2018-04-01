@@ -106,8 +106,8 @@ function menu(){
 		if(check_backNext(X, Y)&&helpMenu){
 			timesNextClicked--;			
 		}
-		if (timesNextClicked == 3){
-			timesNextClicked = 2;
+		if (timesNextClicked == 6){
+			timesNextClicked = 5;
 		}
 		if (timesNextClicked == -1){
 			timesNextClicked = 0;
@@ -122,6 +122,15 @@ function menu(){
 			case 2:
 				helpImage.src="img/help-Image2.png";
 				break;
+			case 3:
+				helpImage.src="img/help-Image4.png";
+				break;
+			case 4:
+				helpImage.src="img/help-Image5.png";
+				break;
+			case 5:
+				helpImage.src="img/help-Image6.png";
+				break;
 		}
 		if(helpMenu){
 			ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
@@ -132,7 +141,7 @@ function menu(){
 			if(timesNextClicked==0){
 				ctx.drawImage(nextButton, myGameArea.canvas.width/1.25, myGameArea.canvas.height/1.3,50,50);
 			}
-			else if(timesNextClicked==2){
+			else if(timesNextClicked==5){
 				ctx.drawImage(BackNextButton, myGameArea.canvas.width/7, myGameArea.canvas.height/1.3,50,50);
 			}
 			else{
@@ -258,7 +267,7 @@ function menu(){
 							ctx.drawImage(BackNextButton, myGameArea.canvas.width/7, myGameArea.canvas.height/1.3,50,50);
 						}
 						if(check_next(X, Y)){
-							if(timesNextClicked!=2){
+							if(timesNextClicked!=5){
 								for(i=0;i<5;i++){
 									ctx.drawImage(nextButton, myGameArea.canvas.width/1.25, myGameArea.canvas.height/1.3,50,50);
 								}
@@ -271,7 +280,7 @@ function menu(){
 								}
 							}
 						}
-						if(timesNextClicked!=0&&timesNextClicked!=2){
+						if(timesNextClicked!=0&&timesNextClicked!=5){
 							if(!check_backNext(X, Y)&&!check_back(X, Y)&&!check_next(X, Y)){
 								myGameArea.canvas.style.cursor = "default";
 							}
@@ -287,7 +296,7 @@ function menu(){
 								myGameArea.canvas.style.cursor = "pointer";
 							}
 						}
-						else if(timesNextClicked!=2){
+						else if(timesNextClicked!=5){
 							if(!check_next(X, Y)&&!check_back(X, Y)){
 								myGameArea.canvas.style.cursor = "default";
 							}
