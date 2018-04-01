@@ -280,7 +280,7 @@ function updateGameArea() {
 	}
 	if (extraPickaxe){
 		ctx.drawImage(woodPickaxeImage, myObstacle[mazeHeight-1][mazeWidth - 1].x ,myObstacle[mazeHeight-1][mazeWidth - 1].y ,  squareSurface, squareSurface);
-		if (myGameArea.keys && myGameArea.keys[13]){
+		if (myGameArea.keys && myGameArea.keys[32]){
 			if (mine()){
 				extraPickaxe = false;
 			}
