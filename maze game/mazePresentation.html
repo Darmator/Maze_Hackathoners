@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+canvas {
+    border:1px solid #d3d3d3;
+}
+</style>
+</head>
+<body onload="start()" >
+
+<script>
+var mazeHeight;
+var mazeWidth;
+var myObstacle =new Array();
+var map = new Array();
+var posX;
+var posY;
+var direction = [];
+var last_px = [];
+var last_py = [];
+var canvasHeight = 650;
+var canvasWidth = 1450;
+var move = 0;
+var wall_image = new Image();
+wall_image.src = "img/sf2-map.png";
+var ground_image = new Image();
+ground_image.src = "img/grndcobblestone.jpg";
+var grass_image = new Image();
+grass_image.src = "img/grasstile.png";
+var squareSurface = 50;
+var Continue = false;
+var partialContinue = false;
+var step = false;
+var end = false;
+var ultimateY1 = [];
+var ultimateX1 = [];
+var ultimateY2 = [];
+var ultimateX2 = [];
+function start(){
+	myGameArea.start();
+	ctx = myGameArea.context;
+	findMazeSize();
+	turn_to_2d();
+	sketch_map();
+	draw_map();
+}
+var myGameArea = {  
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = canvasWidth;
+        this.canvas.height = canvasHeight;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+    }
+};
+function turn_to_2d(){
+	for (n=0;n<mazeHeight;n++) {
+  map[n]=new Array();
+  myObstacle[n] = new Array();
+ for (m=0;m<mazeWidth;m++) {
+  map[n][m]=1;
+  myObstacle[n][m] = " ";
+ }
+}
+}
+function findMazeSize(){
+	mazeWidth = Math.floor (canvasWidth / squareSurface);
+	 mazeHeight = Math.floor (canvasHeight / squareSurface);
+	 if (mazeHeight % 2 == 0){
+		 mazeHeight--;
+	 }
+	 if (mazeWidth % 2 == 0){
+		mazeWidth--;
+	 }
+}
+function sketch_map(){
+if (!step){
+	for (v = 0; v < mazeHeight; v++){
+		for(n = 0; n < mazeWidth; n++){
+		map[v][n] = 1;
+		}
+	}
+	posX = 1;
+	posY = 1;
+	map[posX][posY] = 0;
+	}
+	else{
+
+	do {
+	do {
+	if (check_carve()){
+		carve();
+		direction.length = 0;
+		}
+		} while (partialContinue && check_carve() );
+		while ( !check_carve() && !end){
+			if (ultimate_check()){
+				end = true;
+				myObstacle[1][1] = "green";
+				myObstacle[2][1] = "green";
+				myObstacle[3][1] = "green";
+				myObstacle[1][2] = "green";
+				myObstacle[1][3] = "green";
+			}
+		}
+	} while (Continue && !end)
+	}
+  }
+  function check_carve (){
+	var direction_carve = false;
+	if (posY - 2 > 0 && map[posY - 2][posX] == 1 && map[posY-1][posX] == 1){
+		direction.push("N");
+		direction_carve = true;
+	}
+	if (posY + 2 < mazeHeight && map[posY + 2][posX] == 1 && map[posY +1][posX] == 1){
+		direction.push("S");
+		direction_carve = true;
+	}
+	if (posX - 2 > 0 && map[posY][posX - 2] == 1 && map[posY][posX - 1] == 1){
+		direction.push("W");
+		direction_carve = true;
+	}
+	if (posX + 2 < mazeWidth && map[posY][posX + 2] && map[posY][posX + 1] == 1){ 
+		direction.push("E");
+		direction_carve = true;
+	}
+	return direction_carve;
+}
+function ultimate_check(){
+	var end_sketching = true;
+	move--;
+	if (move !== 0){
+	myObstacle[ultimateY1[move]][ultimateX1[move]] = "green";
+	myObstacle[ultimateY2[move]][ultimateX2[move]] = "green";
+	posY = last_py[move];
+	posX = last_px[move];
+	end_sketching = false;
+	}
+	return end_sketching;
+	
+}
+function carve(){
+	var choose= Math.floor(Math.random() * direction.length);
+	last_py[move] = posY;
+	last_px[move] = posX;
+	
+	switch (direction[choose]){
+		case "W":
+		map[posY][posX-1] = 0;
+		map[posY][posX-2] = 0;
+		ultimateY1[move] = posY;
+		ultimateY2[move] = posY;
+		ultimateX1[move] = posX - 1;
+		ultimateX2[move] = posX - 2;
+		posX -= 2;
+		break;
+	case "E":
+		map[posY][posX+1] = 0;
+		map[posY][posX+2] = 0;
+		ultimateY1[move] = posY;
+		ultimateY2[move] = posY;
+		ultimateX1[move] = posX + 1;
+		ultimateX2[move] = posX + 2;
+		posX +=2;
+		break;
+	case "N":
+		map[posY-1][posX] = 0;
+		map[posY-2][posX] = 0;
+		last_py[move] = posY;
+		ultimateY1[move] = posY - 1;
+		ultimateY2[move] = posY - 2;
+		ultimateX1[move] = posX;
+		ultimateX2[move] = posX;
+		posY -= 2;
+		break;
+	case "S":
+		map[posY+1][posX] = 0;
+		map[posY+2][posX] = 0;
+		ultimateY1[move] = posY + 1;
+		ultimateY2[move] = posY + 2;
+		ultimateX1[move] = posX;
+		ultimateX2[move] = posX;
+		posY += 2;
+		break;
+	}
+	move++;
+}
+function draw_map(){
+	var horizontal = 0;
+	var vertical = 0;
+	for (var y = 0;  y < mazeHeight; y++){
+		for (var x = 0; x < mazeWidth; x++){
+			switch (map[y][x]){
+			case 0:
+				if (myObstacle[y][x] == "green"){
+					ctx.drawImage(grass_image,  horizontal,  vertical,  squareSurface,  squareSurface);
+				}
+				else {
+					ctx.drawImage(ground_image,  horizontal,  vertical,  squareSurface,  squareSurface);
+				}
+				break;
+			case 1:
+				ctx.drawImage(wall_image, 55, 300, 30, 30,  horizontal,  vertical, squareSurface, squareSurface);
+				break;
+}
+			horizontal += squareSurface;
+			}
+		horizontal = 0;
+		vertical += squareSurface;
+		}
+}
+
+</script>
+<button type="button" onclick= "step = true; Continue = true; partialContinue = true; sketch_map(); draw_map()">full maze</button>
+<button type="button" onclick= "step = true; partialContinue = true; sketch_map(); draw_map()">partial maze</button>
+<button type="button" onclick="step = true;partialContinue = false; sketch_map(); draw_map()">Step</button>
+</body>
+</html>

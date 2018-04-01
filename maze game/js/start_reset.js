@@ -103,7 +103,7 @@ function reset_game(){
 		dungeonSound.play();
 		spikes_counter = 2;
 		enemy_amount = 1;
-		squareSurface = 70;
+		squareSurface = 80;
 		velocity = 2;
 		first_level = false;
 	}

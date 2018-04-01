@@ -143,7 +143,9 @@ function menu(){
 			starSound.volume = volumePrecentage;
 			menuSound.volume = volumePrecentage;
 			mineSound.volume = volumePrecentage;
-			
+			poweUpSound.volume = volumePrecentage;
+			spikesSound.volume = volumePrecentage;
+			unlockSound.volume = volumePrecentage;
 		}
 	});
 	document.addEventListener('mousedown', function mouseDown(e) {
