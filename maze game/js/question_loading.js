@@ -133,7 +133,7 @@ function loadQuestion(){
     
     question[7] = "What band has sold the most albums?";
     
-    question[8] = "What is it called when you score a point in rugby?";
+    question[8] = "How many points do yo score for a try in rugby?";//Wrong  how many points
     
     question[9] = "How many players are on the field in a regular soccer game for one team?";
     
@@ -157,48 +157,45 @@ function loadQuestion(){
     
      question[19] = "What was the Montreal Canadiens' original stadium named" //The forum
     
-     question[20] = "What does chu replace in the french language"; //je suis
+     question[20] = "What system was the first Mortal Combat video game released on"; //not a system the arcade
     
-     question[21] = "What system was the first Mortal Combat video game released on"; //not a system the arcade
+     question[21] = "What part of the body deals with toxins your body ingests"; //the liver
     
-     question[22] = "What part of the body deals with toxins your body ingests"; //the liver
+     question[22] = "What was the first video game system to be released for the home"; //atari
     
-     question[23] = "What was the first video game system to be released for the home"; //atari
+     question[23] = "How old do you have to be to vote in Canada";
     
-     question[24] = "How old do you have to be to vote in Canada";
+     question[24] = "What system does the United States use to elect their president?";
     
-     question[25] = "What system does the United States use to elect their president?";
+     question[25] = "When did world war 2 start?";
     
-     question[26] = "When did world war 2 start?";
+     question[26] = "How is the Prime minister put in power in Canada?";
     
-     question[27] = "How is the Prime minister put in power in Canada?";
+     question[27] = "What country did Canada adopt its parliamentary structure from?";
     
-     question[28] = "What country did Canada adopt its parliamentary structure from?";
+     question[28] = "What person is at the top of the list of precedence in Canada?"; // the queen
     
-     question[29] = "What person is at the top of the list of precedence in Canada?"; // the queen
-    
-     question[30] = "How many keys are on a typical piano?"; //88 
+     question[29] = "How many keys are on a typical piano?"; //88 
 
-	 question[31] = "Which element is the lightest?";
+	 question[30] = "Which element is the lightest?";
 	 
-	 question[32] = "What is a cation?";
+	 question[31] = "What is a cation?";
 	 
-	 question[33] = "What SI unit is used to measure energy?";
+	 question[32] = "What is the standard unit to measure energy?";
 	 
-	 question[34] = "How fast does an object accelerate in free-fall towards earth? (in meters per seconds square)";
+	 question[33] = "How fast does an object accelerate in free-fall towards earth? (in meters per seconds square)";
 	 
-	 question[35] = "What SI unit is used to measure weight?";
+	 question[34] = "What is the standard unit used to measure weight?";
 	 
-	 question[36] = "In the metric system, how many zeroes does the prefix Giga (G) add to a unit?";
+	 question[35] = "In the metric system, how many zeroes does the prefix Giga (G) add to a unit?";
 	 
-	 question[37] = "How many planets are in the solar system?";
+	 question[36] = "How many planets are in the solar system?";
 	 
-	 question[38] = "On the periodic table, elements are arranged in order to what?";
+	 question[37] = "On the periodic table, elements are arranged in order to what?";
 	 
-	 question[39] = "During inhalation, which is true?";
+	 question[38] = "During inhalation, which is true?";
 	 
-	 question[40] = "What planet in our solar system is the hottest?";
-
+	 question[39] = "What planet in our solar system is the hottest?";
 }
 function loadAnswer(){
 	for (g = 0; g < question.length;g++){
@@ -248,9 +245,9 @@ function loadAnswer(){
     answer[7][2] = "3. The Beatles";
     correctAnswer[7] = 2;
     
-    answer[8][0] = "1. a try";
-    answer[8][1] = "2. nothing its just called scoring a point";
-    answer[8][2] = "3. a 42";
+    answer[8][0] = "1. 4";
+    answer[8][1] = "2. 6";
+    answer[8][2] = "3. 1";
     correctAnswer[8] = 0;
     
     answer[9][0] = "1. 11";
@@ -308,108 +305,103 @@ function loadAnswer(){
     answer[19][2] = "3. The Great Stadium";
     correctAnswer[19] = 0; 
     
-    answer[20][0] = "1. Bonjour";
-    answer[20][1] = "2. Je Suis";
-    answer[20][2] = "3. Avoir";
-    correctAnswer[20] = 1; 
+    answer[20][0] = "1. Nintendo Switch";
+    answer[20][1] = "2. Atari";
+    answer[20][2] = "3. It wasnt released in a system it was released in the arcade";
+    correctAnswer[20] = 2; 
     
-    answer[21][0] = "1. Nintendo Switch";
-    answer[21][1] = "2. Atari";
-    answer[21][2] = "3. It wasnt released in a system it was released in the arcade";
-    correctAnswer[21] = 2; 
+    answer[21][0] = "1. The liver";
+    answer[21][1] = "2. The heart";
+    answer[21][2] = "3. The stomach";
+    correctAnswer[21] = 0; 
     
-    answer[22][0] = "1. The liver";
-    answer[22][1] = "2. The heart";
-    answer[22][2] = "3. The stomach";
-    correctAnswer[22] = 0; 
+    answer[22][0] = "1. Atari 900";
+    answer[22][1] = "2. Magnavox Odyssey";
+    answer[22][2] = "3. Nintendo";
+    correctAnswer[22] = 1; 
     
-    answer[23][0] = "1. Atari 900";
-    answer[23][1] = "2. Magnavox Odyssey";
-    answer[23][2] = "3. Nintendo";
-    correctAnswer[23] = 1; 
+    answer[23][0] = "1. 16";
+    answer[23][1] = "2. 28";
+    answer[23][2] = "3. 18";
+    correctAnswer[23] = 2; 
     
-    answer[24][0] = "1. 16";
-    answer[24][1] = "2. 28";
-    answer[24][2] = "3. 18";
-    correctAnswer[24] = 2; 
+    answer[24][0] = "1. The base System";
+    answer[24][1] = "2. The Electoral College";
+    answer[24][2] = "3. They have no specific name for it only nicknames";
+    correctAnswer[24] = 1; 
     
-    answer[25][0] = "1. The base System";
-    answer[25][1] = "2. The Electoral College";
-    answer[25][2] = "3. They have no specific name for it only nicknames";
-    correctAnswer[25] = 1; 
+    answer[25][0] = "1. 1939";
+    answer[25][1] = "2. 1945";
+    answer[25][2] = "3. 2019";
+    correctAnswer[25] = 0; 
     
-    answer[26][0] = "1. 1939";
-    answer[26][1] = "2. 1945";
-    answer[26][2] = "3. 2019";
-    correctAnswer[26] = 0; 
+    answer[26][0] = "1. There is a special Election";
+    answer[26][1] = "2. There is a magic turtle that decides";
+    answer[26][2] = "3. Their Party has to have the most MP's Elected";
+    correctAnswer[26] = 2; 
     
-    answer[27][0] = "1. There is a special Election";
-    answer[27][1] = "2. There is a magic turtle that decides";
-    answer[27][2] = "3. Their Party has to have the most MP's Elected";
-    correctAnswer[27] = 2; 
+    answer[27][0] = "1. The British";
+    answer[27][1] = "2. Spanish";
+    answer[27][2] = "3. The Indigenous People Of Canada";
+    correctAnswer[27] = 0; 
     
-    answer[28][0] = "1. The British";
-    answer[28][1] = "2. Spanish";
-    answer[28][2] = "3. The Indigenous People Of Canada";
-    correctAnswer[28] = 0; 
+    answer[28][0] = "1. The Prime Minister";
+    answer[28][1] = "2. The Queen";
+    answer[28][2] = "3. The Governor General";
+    correctAnswer[28] = 1; 
     
-    answer[29][0] = "1. The Prime Minister";
-    answer[29][1] = "2. The Queen";
-    answer[29][2] = "3. The Governor General";
-    correctAnswer[29] = 1; 
-    
-    answer[30][0] = "1. 44";
-    answer[30][1] = "2. 188";
-    answer[30][2] = "3. 88";
-    correctAnswer[30] = 2
+    answer[29][0] = "1. 44";
+    answer[29][1] = "2. 188";
+    answer[29][2] = "3. 88";
+    correctAnswer[29] = 2
 	
-	answer[31][0] = "1. Helium";
-	answer[31][1] = "2. Hydrogen";
-	answer[31][2] = "3. Oxygen";
-	correctAnswer[31] = 1;
+	answer[30][0] = "1. Helium";
+	answer[30][1] = "2. Hydrogen";
+	answer[30][2] = "3. Oxygen";
+	correctAnswer[30] = 1;
 	
-	answer[32][0] = "1. An atom with a different number of neutrons and protons";
-	answer[32][1] = "2. An atom with more electrons than protons";
-	answer[32][2] = "3. An atom with more protons than electrons";
-	correctAnswer[32] = 2;
+	answer[31][0] = "1. An atom with a different number of neutrons and protons";
+	answer[31][1] = "2. An atom with more electrons than protons";
+	answer[31][2] = "3. An atom with more protons than electrons";
+	correctAnswer[31] = 2;
 	
-	answer[33][0] = "1. Joule (J)";
-	answer[33][1] = "2. Calorie (Cal)";
-	answer[33][2] = "3. Erg (Erg)";
-	correctAnswer[33] =  0;
+	answer[32][0] = "1. Joule (J)";
+	answer[32][1] = "2. Calorie (Cal)";
+	answer[32][2] = "3. Erg (Erg)";
+	correctAnswer[32] =  0;
 	
-	answer[34][0] = "1. 9.8";
-	answer[34][1] = "2. 10.2";
-	answer[34][2] = "3. 9.6";
-	correctAnswer[34] = 0;
+	answer[33][0] = "1. 9.8";
+	answer[33][1] = "2. 10.2";
+	answer[33][2] = "3. 9.6";
+	correctAnswer[33] = 0;
 	
-	answer[35][0] = "1. Kilogram (Kg)";
-	answer[35][1] = "2. Newton (N)";
-	answer[35][2] = "3. Pound (lb)";
-	correctAnswer[35] = 1;
+	answer[34][0] = "1. Kilogram (Kg)";
+	answer[34][1] = "2. Newton (N)";
+	answer[34][2] = "3. Pound (lb)";
+	correctAnswer[34] = 1;
 	
-	answer[36][0] = "1. 9";
-	answer[36][1] = "2. 6";
-	answer[36][2] = "3. 12";
-	correctAnswer[36] = 0;
+	answer[35][0] = "1. 9";
+	answer[35][1] = "2. 6";
+	answer[35][2] = "3. 12";
+	correctAnswer[35] = 0;
 	
-	answer[37][0] = "1. 7";
-	answer[37][1] = "2. 9";
-	answer[37][2] = "3. 8";
+	answer[36][0] = "1. 7";
+	answer[36][1] = "2. 9";
+	answer[36][2] = "3. 8";
+	correctAnswer[36] = 2;
+	
+	answer[37][0] = "1. Their mass";
+	answer[37][1] = "2. Their abundance on Earth";
+	answer[37][2] = "3. Their number of protons";
 	correctAnswer[37] = 2;
 	
-	answer[38][0] = "1. Their mass";
-	answer[38][1] = "2. Their abundance on Earth";
-	answer[38][2] = "3. Their number of protons";
-	correctAnswer[38] = 2;
+	answer[38][0] = "1. The diaphragm curves and moves upwards";
+	answer[38][1] = "2. The rib cages moves up and out";
+	answer[38][2] = "3. Air pressure in the lungs increase";
+	correctAnswer[38] = 1;
 	
-	answer[39][0] = "1. The diaphragm curves and moves upwards";
-	answer[39][1] = "2. The rib cages moves up and out";
-	answer[39][2] = "3. Air pressure in the lungs increase";
-	correctAnswer[39] = 1;
-	
-	answer[40][0] = "1. Venus";
-	answer[40][1] = "2. Mercury";
-	answer[40][2] = "3. Mars";
-	correctAnswer[40] = 0;
+	answer[39][0] = "1. Venus";
+	answer[39][1] = "2. Mercury";
+	answer[39][2] = "3. Mars";
+	correctAnswer[39] = 0;
 }

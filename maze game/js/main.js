@@ -204,7 +204,7 @@ function updateGameArea() {
 						resetAnsweredQuestions();
 					}
 					do {
-					questionNumber = Math.floor(Math.random() * question.length );
+					questionNumber = Math.floor(Math.random() * (question.length + 1) );
 					} while (answeredQuestions[questionNumber] == true);
 					quiz();
 				}
