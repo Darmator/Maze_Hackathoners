@@ -17,11 +17,14 @@ var boxY;
 var boxX;
 var correctQuestions = 0;
 var answeredQuestions = [];
+var countDown=50000;
+answered=true;
 loadQuestion();
 loadAnswer();
 function quiz(){
 	var userAnswer;
 	var answered = false;
+	countDown-=1000;
 	forestSound.pause();
 	dungeonSound.pause();
 	quizSound.play();
@@ -31,48 +34,58 @@ function quiz(){
 	ctx.drawImage(questionBackgroundImage,  0,  0,  canvasWidth,  canvasHeight);
 	
 	writeText(question[questionNumber]);
-	for (c = 0; c < 3; c++){
-		writeText(answer[questionNumber][c]);
-	}
-	questionExecuting = true;
-	if (myGameArea.keys && myGameArea.keys[49]  ) {
-				userAnswer = 0;
-				questionExecuting = false;
-				answered = true;
-	}
-	else if (myGameArea.keys && myGameArea.keys[50]  ) {
-				userAnswer = 1;
-				questionExecuting = false;
-				answered = true;
-	}
-	else if (myGameArea.keys && myGameArea.keys[51]  ) {
-				userAnswer = 2;
-				questionExecuting = false;
-				answered = true;
-	}
 	
-	if (answered){
-		quizSound.pause();
-		playBackgroundMusic();
-		myObstacle[boxY][boxX].color  = "ground";
-		map[boxY][boxX] = 0;
-		if (userAnswer != correctAnswer[questionNumber]){
-			get_location();
-			myObstacle[locationY][locationX].color  = "question";
-			map[locationY][locationX] = 3;
-			wrongSound.play();
+		
+		for (c = 0; c < 3; c++){
+			writeText(answer[questionNumber][c]);
 		}
-		else {
-			answeredQuestions[questionNumber] = true;
-			correctQuestions++;
-			if (correctQuestions == 3){
-				unlockSound.play();
+		questionExecuting = true;
+		
+		
+		if (myGameArea.keys && myGameArea.keys[49]  ) {
+					userAnswer = 0;
+					questionExecuting = false;
+					answered = true;
+		}
+		else if (myGameArea.keys && myGameArea.keys[50]  ) {
+					userAnswer = 1;
+					questionExecuting = false;
+					answered = true;
+		}
+		else if (myGameArea.keys && myGameArea.keys[51]  ) {
+					userAnswer = 2;
+					questionExecuting = false;
+					answered = true;
+		}
+		if(countDown==0){
+			questionExecuting=false;			
+		}
+		
+	
+		if (answered||countDown==0){
+			quizSound.pause();
+			playBackgroundMusic();
+			myObstacle[boxY][boxX].color  = "ground";
+			map[boxY][boxX] = 0;
+			if (userAnswer != correctAnswer[questionNumber]||countDown==0){
+				console.log("working");
+				get_location();
+				myObstacle[locationY][locationX].color  = "question";
+				map[locationY][locationX] = 3;
+				wrongSound.play();
+				countDown=50000;
 			}
-			else {
-				correctSound.play();
+			else if(userAnswer == correctAnswer[questionNumber]){
+				answeredQuestions[questionNumber] = true;
+				correctQuestions++;
+				if (correctQuestions == 3){
+					unlockSound.play();
+				}
+				else {
+					correctSound.play();
+				}
 			}
 		}
-	}
 	verticalText = canvasHeight/4;
 }
 function resetAnsweredQuestions() {
