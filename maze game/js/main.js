@@ -298,6 +298,8 @@ function updateGameArea() {
 		forestSound.pause();
 		dungeonSound.pause();
 		lives = 5;
+		fisrt_level = true;
+		level_counter = 0;
 		myGameArea.stop();
 		menu();
 	}
