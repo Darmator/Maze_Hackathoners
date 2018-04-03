@@ -17,14 +17,14 @@ var boxY;
 var boxX;
 var correctQuestions = 0;
 var answeredQuestions = [];
-var countDown=50000;
+var countDown=1200;
 answered=true;
 loadQuestion();
 loadAnswer();
 function quiz(){
 	var userAnswer;
 	var answered = false;
-	countDown-=1000;
+	countDown--;
 	forestSound.pause();
 	dungeonSound.pause();
 	quizSound.play();
@@ -73,7 +73,7 @@ function quiz(){
 				myObstacle[locationY][locationX].color  = "question";
 				map[locationY][locationX] = 3;
 				wrongSound.play();
-				countDown=50000;
+				countDown=1200;
 			}
 			else if(userAnswer == correctAnswer[questionNumber]){
 				answeredQuestions[questionNumber] = true;
