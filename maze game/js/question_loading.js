@@ -137,25 +137,25 @@ function loadQuestion(){
     
     question[9] = "How many players are on the field in a regular soccer game for one team?";
     
-    question[10] = "What company did the famous video game character mario belong to?";
+    question[10] = "What company did the famous video game character Mario belong to?";
     
-     question[11] = "Who is Batmans most famous sidekick?";
+     question[11] = "Who is Batman's most famous sidekick?";
     
      question[12] = "Who on this list has never been an avenger?";
     
      question[13] = "Who is the king of the fictional city of Wakanda?";
     
-     question[14] = "What is the god of thunders(thor) hammer namned?";
+     question[14] = "What is the Thor's hammer namned?";
     
      question[15] = "What underdog team won the english premier league in 2015-2016 season";
     
      question[16] = "How many players are on the ice for one team in hockey";
     
-     question[17] = "who was boston most famous defenseman";
+     question[17] = "Who was Boston's most famous defenseman in hockey";
     
-     question[18] = "What OHL team did wayne gretzky play for"; //the sue saint marry //greyhounds
+     question[18] = "What OHL team did Wayne Gretzky play for"; //the sue saint marry //greyhounds
     
-     question[19] = "What was the Montreal Canadiens original stadium named" //The forum
+     question[19] = "What was the Montreal Canadiens' original stadium named" //The forum
     
      question[20] = "What does chu replace in the french language"; //je suis
     
@@ -165,29 +165,29 @@ function loadQuestion(){
     
      question[23] = "What was the first video game system to be released for the home"; //atari
     
-     question[24] = "How old do you have to be to vote in canada";
+     question[24] = "How old do you have to be to vote in Canada";
     
-     question[25] = "What system does the United States use to elect their president";
+     question[25] = "What system does the United States use to elect their president?";
     
-     question[26] = "When did world war 2 start";
+     question[26] = "When did world war 2 start?";
     
-     question[27] = "How is the Prime minister put in power in canada";
+     question[27] = "How is the Prime minister put in power in Canada?";
     
-     question[28] = "What country did canada adopt its parliamentary from";
+     question[28] = "What country did Canada adopt its parliamentary structure from?";
     
-     question[29] = "What person is at the top of the list of precedence in canada"; // the queen
+     question[29] = "What person is at the top of the list of precedence in Canada?"; // the queen
     
-     question[30] = "On the average piano how many keys are there"; //88 
+     question[30] = "How many keys are on a typical piano?"; //88 
 
-	 question[31] = "Which one is the lightest element?";
+	 question[31] = "Which element is the lightest?";
 	 
 	 question[32] = "What is a cation?";
 	 
-	 question[33] = "What unit is used in the SI to measure energy?";
+	 question[33] = "What SI unit is used to measure energy?";
 	 
-	 question[34] = "What acceleration suffer an object in free-fall in earth? (in meters per seconds square)";
+	 question[34] = "How fast does an object accelerate in free-fall towards earth? (in meters per seconds square)";
 	 
-	 question[35] = "What unit is used in the SI to measure weight?";
+	 question[35] = "What SI unit is used to measure weight?";
 	 
 	 question[36] = "In the metric system, how many zeroes does the prefix Giga (G) add to a unit?";
 	 
@@ -197,7 +197,7 @@ function loadQuestion(){
 	 
 	 question[39] = "During inhalation, which is true?";
 	 
-	 question[40] = "What is the hottest planet in our solar system?";
+	 question[40] = "What planet in our solar system is the hottest?";
 
 }
 function loadAnswer(){
@@ -293,7 +293,7 @@ function loadAnswer(){
     answer[16][2] = "3. 2";
     correctAnswer[16] = 0; 
     
-    answer[17][0] = "1. Bobby Ore";
+    answer[17][0] = "1. Bobby Orr";
     answer[17][1] = "2. Waynce Gretzeka";
     answer[17][2] = "3. Erik Carleson";
     correctAnswer[17] = 0; 
@@ -315,12 +315,12 @@ function loadAnswer(){
     
     answer[21][0] = "1. Nintendo Switch";
     answer[21][1] = "2. Atari";
-    answer[21][2] = "3. It wasnt released in a  system it was released in the arcade";
+    answer[21][2] = "3. It wasnt released in a system it was released in the arcade";
     correctAnswer[21] = 2; 
     
-    answer[22][0] = "1. The Liver";
+    answer[22][0] = "1. The liver";
     answer[22][1] = "2. The heart";
-    answer[22][2] = "3. The Stomach";
+    answer[22][2] = "3. The stomach";
     correctAnswer[22] = 0; 
     
     answer[23][0] = "1. Atari 900";
@@ -345,7 +345,7 @@ function loadAnswer(){
     
     answer[27][0] = "1. There is a special Election";
     answer[27][1] = "2. There is a magic turtle that decides";
-    answer[27][2] = "3. There Party has to have the most MP's Elected";
+    answer[27][2] = "3. Their Party has to have the most MP's Elected";
     correctAnswer[27] = 2; 
     
     answer[28][0] = "1. The British";
@@ -399,8 +399,8 @@ function loadAnswer(){
 	correctAnswer[37] = 2;
 	
 	answer[38][0] = "1. Their mass";
-	answer[38][1] = "2. Their abundance in Earth";
-	answer[38][2] = "3. Their protons";
+	answer[38][1] = "2. Their abundance on Earth";
+	answer[38][2] = "3. Their number of protons";
 	correctAnswer[38] = 2;
 	
 	answer[39][0] = "1. The diaphragm curves and moves upwards";
