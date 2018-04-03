@@ -24,6 +24,7 @@ function quiz(){
 	var answered = false;
 	forestSound.pause();
 	dungeonSound.pause();
+	starSound.pause();
 	quizSound.play();
 	if (quizSound.ended){
 		quizSound.play();
@@ -53,7 +54,12 @@ function quiz(){
 	
 	if (answered){
 		quizSound.pause();
-		playBackgroundMusic();
+		if (!invencible){
+			playBackgroundMusic();
+		}
+		else {
+			starSound.play();
+		}
 		myObstacle[boxY][boxX].color  = "ground";
 		map[boxY][boxX] = 0;
 		if (userAnswer != correctAnswer[questionNumber]){
@@ -173,7 +179,25 @@ function loadQuestion(){
     
      question[30] = "On the average piano how many keys are there"; //88 
 
-
+	 question[31] = "Which one is the lightest element?";
+	 
+	 question[32] = "What is a cation?";
+	 
+	 question[33] = "What unit is used in the SI to measure energy?";
+	 
+	 question[34] = "What acceleration suffer an object in free-fall in earth? (in meters per seconds square)";
+	 
+	 question[35] = "What unit is used in the SI to measure weight?";
+	 
+	 question[36] = "In the metric system, how many zeroes does the prefix Giga (G) add to a unit?";
+	 
+	 question[37] = "How many planets are in the solar system?";
+	 
+	 question[38] = "On the periodic table, elements are arranged in order to what?";
+	 
+	 question[39] = "During inhalation, which is true?";
+	 
+	 question[40] = "What is the hottest planet in our solar system?";
 
 }
 function loadAnswer(){
@@ -338,5 +362,54 @@ function loadAnswer(){
     answer[30][1] = "2. 188";
     answer[30][2] = "3. 88";
     correctAnswer[30] = 2
-
+	
+	answer[31][0] = "1. Helium";
+	answer[31][1] = "2. Hydrogen";
+	answer[31][2] = "3. Oxygen";
+	correctAnswer[31] = 1;
+	
+	answer[32][0] = "1. An atom with a different number of neutrons and protons";
+	answer[32][1] = "2. An atom with more electrons than protons";
+	answer[32][2] = "3. An atom with more protons than electrons";
+	correctAnswer[32] = 2;
+	
+	answer[33][0] = "1. Joule (J)";
+	answer[33][1] = "2. Calorie (Cal)";
+	answer[33][2] = "3. Erg (Erg)";
+	correctAnswer[33] =  0;
+	
+	answer[34][0] = "1. 9.8";
+	answer[34][1] = "2. 10.2";
+	answer[34][2] = "3. 9.6";
+	correctAnswer[34] = 0;
+	
+	answer[35][0] = "1. Kilogram (Kg)";
+	answer[35][1] = "2. Newton (N)";
+	answer[35][2] = "3. Pound (lb)";
+	correctAnswer[35] = 1;
+	
+	answer[36][0] = "1. 9";
+	answer[36][1] = "2. 6";
+	answer[36][2] = "3. 12";
+	correctAnswer[36] = 0;
+	
+	answer[37][0] = "1. 7";
+	answer[37][1] = "2. 9";
+	answer[37][2] = "3. 8";
+	correctAnswer[37] = 2;
+	
+	answer[38][0] = "1. Their mass";
+	answer[38][1] = "2. Their abundance in Earth";
+	answer[38][2] = "3. Their protons";
+	correctAnswer[38] = 2;
+	
+	answer[39][0] = "1. The diaphragm curves and moves upwards";
+	answer[39][1] = "2. The rib cages moves up and out";
+	answer[39][2] = "3. Air pressure in the lungs increase";
+	correctAnswer[39] = 1;
+	
+	answer[40][0] = "1. Venus";
+	answer[40][1] = "2. Mercury";
+	answer[40][2] = "3. Mars";
+	correctAnswer[40] = 0;
 }

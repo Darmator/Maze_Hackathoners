@@ -105,7 +105,7 @@ function reset_game(){
 		spikes_counter = 2;
 		enemy_amount = 1;
 		squareSurface = 80;
-		velocity = 2;
+		velocity = 3;
 		first_level = false;
 	}
 	findMazeSize();
