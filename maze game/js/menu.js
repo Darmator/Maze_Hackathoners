@@ -32,6 +32,10 @@ var volume1Image = new Image();
 volume1Image.src = "img/Speaker_Icon+vol1.png";
 var volume0Image = new Image();
 volume0Image.src = "img/Speaker_Icon+vol0.png";
+var title = new Image();
+title.src = "img/The-Trudge.png";
+var soundBack = new Image();
+soundBack.src = "img/soundBack.png";
 var menuSound = new Audio();
 menuSound.src = "mp3/awesomeness.wav";
 var slider;
@@ -56,7 +60,7 @@ function menu(){
 	startGameVar=false;
     myGameArea.start();
     if(onlyOnce){
-    	slider = myGameArea.canvas.width/4+myGameArea.canvas.width/1.7-7.5;
+    	slider = myGameArea.canvas.width/9+myGameArea.canvas.width/1.7-7.5;
     	onlyOnce=false;
 	}
     buttonWidth=200;
@@ -221,7 +225,9 @@ function menu(){
 		if(startGameVar == false){
 				myGameArea.clear();
 				ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
+
 				if(subMenu==false){
+					ctx.drawImage(title, myGameArea.canvas.width/2-250/2,myGameArea.canvas.height/2-myGameArea.canvas.height/2,250,myGameArea.canvas.height/6);
 					if (check_start(X, Y)){
 						for(i = 0;i<3;i++){
 							ctx.drawImage(startGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/3,buttonWidth,buttonHeight); //start clicked
@@ -339,6 +345,7 @@ function menu(){
 						ctx.drawImage(creditsImage, myGameArea.canvas.width/2-helpImageWidth/2, myGameArea.canvas.height/2-helpImageLength/2,helpImageWidth,helpImageLength);
 					}
 					if (optionsMenu){
+						ctx.drawImage(soundBack, myGameArea.canvas.width/2-helpImageWidth/2, myGameArea.canvas.height/2-helpImageLength/2,helpImageWidth,helpImageLength);
 						ctx.fillStyle = "lightBlue";
 						ctx.fillRect(myGameArea.canvas.width/4,myGameArea.canvas.height/4,myGameArea.canvas.width/1.7,myGameArea.canvas.height/50);
 						ctx.fillStyle = "blue";
@@ -353,16 +360,16 @@ function menu(){
 							slider=myGameArea.canvas.width/4+myGameArea.canvas.width/1.7-7.5-1;
 						}
 						if (volumePrecentage==1){
-							ctx.drawImage(volume3Image, myGameArea.canvas.width/4-30, myGameArea.canvas.height/4-2.5,25,25);
+							ctx.drawImage(volume3Image, myGameArea.canvas.width/3, myGameArea.canvas.height/2-20,25,25);
 						}
 						else if(volumePrecentage<1 && volumePrecentage >= 0.5){
-							ctx.drawImage(volume2Image, myGameArea.canvas.width/4-30, myGameArea.canvas.height/4-2.5,25,25);
+							ctx.drawImage(volume2Image, myGameArea.canvas.width/3, myGameArea.canvas.height/2-20,25,25);;
 						}
 						else if (volumePrecentage<0.5 && volumePrecentage >0){
-							ctx.drawImage(volume1Image, myGameArea.canvas.width/4-30, myGameArea.canvas.height/4-2.5,25,25);
+							ctx.drawImage(volume1Image, myGameArea.canvas.width/3, myGameArea.canvas.height/2-20,25,25);
 						}
 						else if(volumePrecentage==0){
-							ctx.drawImage(volume0Image, myGameArea.canvas.width/4-30, myGameArea.canvas.height/4-2.5,25,25);
+							ctx.drawImage(volume0Image, myGameArea.canvas.width/3, myGameArea.canvas.height/2-20,25,25);
 						}
 					}
             	}
@@ -376,6 +383,7 @@ function draw_menu(){
 	ctx.drawImage(helpGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/14.5,buttonWidth,buttonHeight);
 	ctx.drawImage(creditGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/15.5,buttonWidth,buttonHeight); //credits not clicked
 	ctx.drawImage(exitGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/5,buttonWidth,buttonHeight); //exit non clicked
+	ctx.drawImage(title, myGameArea.canvas.width/2-250/2,myGameArea.canvas.height/2-myGameArea.canvas.height/2,250,myGameArea.canvas.height/6);
 }
 function check_start(x,y){
 	if ((x>= myGameArea.canvas.width/2-buttonWidth/2 && x<= myGameArea.canvas.width/2-buttonWidth/2+buttonWidth)&&(y >= myGameArea.canvas.height/2-myGameArea.canvas.height/3 && y <= myGameArea.canvas.height/2-myGameArea.canvas.height/3+buttonHeight)){
@@ -448,11 +456,12 @@ function help(){
 function options(){
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
 	ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50);
-	ctx.drawImage(volume3Image, myGameArea.canvas.width/4-30, myGameArea.canvas.height/4-2.5,25,25);
+	ctx.drawImage(soundBack, myGameArea.canvas.width/2-helpImageWidth/2, myGameArea.canvas.height/2-helpImageLength/2,helpImageWidth,helpImageLength);
+	ctx.drawImage(volume3Image, myGameArea.canvas.width/3, myGameArea.canvas.height/2-20,25,25);
 	ctx.fillStyle = "lightBlue";
-	ctx.fillRect(myGameArea.canvas.width/4,myGameArea.canvas.height/4,myGameArea.canvas.width/1.7,myGameArea.canvas.height/50);
+	ctx.fillRect(myGameArea.canvas.width/2.7,myGameArea.canvas.height/2-17,myGameArea.canvas.width/3,myGameArea.canvas.height/50);
 	ctx.fillStyle = "blue";
-	ctx.fillRect(slider-1,myGameArea.canvas.height/4-7.5,15,30);
+	ctx.fillRect(slider-1,myGameArea.canvas.height/2-23,15,30);
 }
 function credits(){
 	ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
