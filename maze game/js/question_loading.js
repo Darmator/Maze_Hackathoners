@@ -90,7 +90,7 @@ function chechAnswersAvailable() {
 	return repited;
 }
 function writeText(sentence){
-	ctx.font = "20px Arial";
+	ctx.font = "40px Arial";
     ctx.fillStyle = 'white';
 	var words = sentence.split(" ");
 	var horizontalText = 0;
@@ -99,11 +99,11 @@ function writeText(sentence){
 		horizontalText += ctx.measureText(words[counter - 1]).width + 10;
 		if (horizontalText + ctx.measureText(words[counter ]).width + 10 > canvasWidth){
 			horizontalText = 0;
-			verticalText += 20;
+			verticalText += 40;
 		}
 		ctx.fillText(words[counter], horizontalText, verticalText); 
 	}
-	verticalText += 20;
+	verticalText += 40;
 }
 function loadQuestion(){
 	resetAnsweredQuestions();
@@ -272,7 +272,7 @@ function loadAnswer(){
     answer[17][0] = "1. Bobby Ore";
     answer[17][1] = "2. Waynce Gretzeka";
     answer[17][2] = "3. Erik Carleson";
-    correctAnswer[17] = 1; 
+    correctAnswer[17] = 0; 
     
     answer[18][0] = "1. 11";
     answer[18][1] = "2. 15";

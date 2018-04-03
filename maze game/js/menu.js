@@ -43,8 +43,12 @@ var onlyOnce=true;
 var buttonHeight;
 var buttonWidth;
 var timesNextClicked;
+var nextExists;
+var nextBackExist;
 function menu(){
-		menuSound.play();
+	menuSound.play();
+	var nextExists=true;
+	var nextBackExist=false;
 	optionsMenu=false;
 	subMenu=false;
 	helpMenu=false;
@@ -100,7 +104,13 @@ function menu(){
 			document.removeEventListener('mouseup', mouseUp);
 			menu();
 		}
-		if(check_next(X, Y)&&helpMenu){
+		if (timesNextClicked == 6){
+			timesNextClicked = 5;
+		}
+		if (timesNextClicked == -1){
+			timesNextClicked = 0;
+		}
+		if(check_next(X, Y)&&helpMenu&&nextExists){
 			timesNextClicked++;
 			ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
 			ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50);
@@ -108,40 +118,47 @@ function menu(){
 			ctx.drawImage(helpImage, myGameArea.canvas.width/2-helpImageWidth/2, myGameArea.canvas.height/2-helpImageLength/2,helpImageWidth,helpImageLength);
 		},25);
 			if(timesNextClicked==0){
+				nextExists=true;
+				nextBackExist=false;
 				ctx.drawImage(nextButton, myGameArea.canvas.width/1.25, myGameArea.canvas.height/1.3,50,50);
 			}
 			else if(timesNextClicked==5){
+				nextBackExist=true;
+				nextExists=false;
 				ctx.drawImage(BackNextButton, myGameArea.canvas.width/7, myGameArea.canvas.height/1.3,50,50);
 			}
 			else{
+				nextExists=true;
+				nextBackExist=true;
 				ctx.drawImage(nextButton, myGameArea.canvas.width/1.25, myGameArea.canvas.height/1.3,50,50);
 				ctx.drawImage(BackNextButton, myGameArea.canvas.width/7, myGameArea.canvas.height/1.3,50,50);
 			}
 		}
-		if(check_backNext(X, Y)&&helpMenu){
+		if(check_backNext(X, Y)&&helpMenu&&nextBackExist){
 			timesNextClicked--;	
 			ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
 			ctx.drawImage(backButtonImage, myGameArea.canvas.width/7.5, myGameArea.canvas.height/5.5,50,50);
 			setTimeout(function() {
 			ctx.drawImage(helpImage, myGameArea.canvas.width/2-helpImageWidth/2, myGameArea.canvas.height/2-helpImageLength/2,helpImageWidth,helpImageLength);
-		},25);
+		},75);
 			if(timesNextClicked==0){
+				nextExists=true;
+				nextBackExist=false;
 				ctx.drawImage(nextButton, myGameArea.canvas.width/1.25, myGameArea.canvas.height/1.3,50,50);
 			}
 			else if(timesNextClicked==5){
+				nextBackExist=true;
+				nextExists=false;
 				ctx.drawImage(BackNextButton, myGameArea.canvas.width/7, myGameArea.canvas.height/1.3,50,50);
 			}
 			else{
+				nextExists=true;
+				nextBackExist=true;
 				ctx.drawImage(nextButton, myGameArea.canvas.width/1.25, myGameArea.canvas.height/1.3,50,50);
 				ctx.drawImage(BackNextButton, myGameArea.canvas.width/7, myGameArea.canvas.height/1.3,50,50);
 			}		
 		}
-		if (timesNextClicked == 6){
-			timesNextClicked = 5;
-		}
-		if (timesNextClicked == -1){
-			timesNextClicked = 0;
-		}
+
 		switch (timesNextClicked){
 			case 0:
 				helpImage.src="img/help-Image.png";
@@ -272,7 +289,7 @@ function menu(){
 						if(timesNextClicked==0){
 							ctx.drawImage(nextButton, myGameArea.canvas.width/1.25, myGameArea.canvas.height/1.3,50,50);
 						}
-						else if(timesNextClicked==2){
+						else if(timesNextClicked==5){
 							ctx.drawImage(BackNextButton, myGameArea.canvas.width/7, myGameArea.canvas.height/1.3,50,50);
 						}
 						else{

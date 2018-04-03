@@ -1,4 +1,4 @@
-var first_level = true;
+var first_level = false;
 var myEnemy = [];
 var enemy_amount = 1;
 var spikes_counter = 2;
@@ -99,6 +99,9 @@ function reset_game(){
 	spikes_counter+= 4;
 	extraPickaxe = true;
 	starOff();
+	if (level_counter === 2){
+		velocity++;
+	}
 	if (level_counter === 3){
 		forestSound.pause();
 		dungeonSound.play();
