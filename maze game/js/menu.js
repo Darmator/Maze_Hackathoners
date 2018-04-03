@@ -60,7 +60,7 @@ function menu(){
 	startGameVar=false;
     myGameArea.start();
     if(onlyOnce){
-    	slider = myGameArea.canvas.width/9+myGameArea.canvas.width/1.7-7.5;
+    	slider = myGameArea.canvas.width/2.7+myGameArea.canvas.width/3-7.5;
     	onlyOnce=false;
 	}
     buttonWidth=200;
@@ -185,9 +185,10 @@ function menu(){
 		}
 		if(optionsMenu&&sliderClicked){
 			sliderClicked = false;
-			sliderDifferencePos=slider-(myGameArea.canvas.width/4+1);
-			sliderDifferencePosMax=(myGameArea.canvas.width/4+myGameArea.canvas.width/1.7-7.5-1)-(myGameArea.canvas.width/4+1);
+			sliderDifferencePos=slider-(myGameArea.canvas.width/2.7+1);
+			sliderDifferencePosMax=(myGameArea.canvas.width/2.7+myGameArea.canvas.width/3-7.5-1)-(myGameArea.canvas.width/2.7+1);
 			volumePrecentage=sliderDifferencePos/sliderDifferencePosMax;
+			console.log(volumePrecentage);
 			gameOverSound.volume = volumePrecentage;
 			dungeonSound.volume = volumePrecentage;
 			forestSound.volume = volumePrecentage;
@@ -347,17 +348,17 @@ function menu(){
 					if (optionsMenu){
 						ctx.drawImage(soundBack, myGameArea.canvas.width/2-helpImageWidth/2, myGameArea.canvas.height/2-helpImageLength/2,helpImageWidth,helpImageLength);
 						ctx.fillStyle = "lightBlue";
-						ctx.fillRect(myGameArea.canvas.width/4,myGameArea.canvas.height/4,myGameArea.canvas.width/1.7,myGameArea.canvas.height/50);
+						ctx.fillRect(myGameArea.canvas.width/2.7,myGameArea.canvas.height/2-17,myGameArea.canvas.width/3,myGameArea.canvas.height/50);
 						ctx.fillStyle = "blue";
-						ctx.fillRect(slider,myGameArea.canvas.height/4-7.5,15,30);
+						ctx.fillRect(slider,myGameArea.canvas.height/2-23,15,30);
 						if(sliderClicked&&slider>=myGameArea.canvas.width/4&&slider<=myGameArea.canvas.width/4+myGameArea.canvas.width/1.7-7.5){
 							slider = X-7.5;
 						}
-						if(slider<=myGameArea.canvas.width/4){
-							slider=myGameArea.canvas.width/4+1;
+						if(slider<=myGameArea.canvas.width/2.7){
+							slider=myGameArea.canvas.width/2.7+1;
 						}
-						if(slider>=myGameArea.canvas.width/4+myGameArea.canvas.width/1.7-7.5){
-							slider=myGameArea.canvas.width/4+myGameArea.canvas.width/1.7-7.5-1;
+						if(slider>=myGameArea.canvas.width/2.7+myGameArea.canvas.width/3-7.5){
+							slider=myGameArea.canvas.width/2.7+myGameArea.canvas.width/3-7.5-1;
 						}
 						if (volumePrecentage==1){
 							ctx.drawImage(volume3Image, myGameArea.canvas.width/3, myGameArea.canvas.height/2-20,25,25);
@@ -428,7 +429,7 @@ function check_back(x,y){
 }
 
 function check_slider(x,y){
-	if ((x>= slider-1 && x<= slider+15)&&(y>=myGameArea.canvas.height/4 && y<= myGameArea.canvas.height/4+30)){
+	if ((x>= slider-1 && x<= slider+15)&&(y>=myGameArea.canvas.height/2-23 && y<= myGameArea.canvas.height/2-23+30)){
 		return true;
 	}
 	return false;
