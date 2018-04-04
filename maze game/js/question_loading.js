@@ -200,7 +200,7 @@ function loadQuestion(){
 	 
 	 question[38] = "During inhalation, which is true?";
 	 
-	 question[39] = "Which oe is the hottest planet in our Solar Sistem?";
+	 question[39] = "Which one is the hottest planet in our Solar Sistem?";
 }
 function loadAnswer(){
 	for (g = 0; g < question.length;g++){
