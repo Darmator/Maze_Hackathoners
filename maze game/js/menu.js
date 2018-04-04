@@ -49,6 +49,9 @@ var buttonWidth;
 var timesNextClicked;
 var nextExists;
 var nextBackExist;
+
+var titleLength;
+var titleWidth;
 function menu(){
 	resetEverything();
 	menuSound.play();
@@ -64,6 +67,8 @@ function menu(){
     	slider = myGameArea.canvas.width/2.7+myGameArea.canvas.width/3-7.5;
     	onlyOnce=false;
 	}
+	titleLength=myGameArea.canvas.height/2;
+	titleWidth=titleLength*1.7;
     buttonWidth=200;
 	buttonHeight=myGameArea.canvas.height/8;
 	helpImageWidth=myGameArea.canvas.width/2;
@@ -229,46 +234,46 @@ function menu(){
 				ctx.drawImage(backImage, 0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
 
 				if(subMenu==false){
-					ctx.drawImage(title, myGameArea.canvas.width/2-250/2,myGameArea.canvas.height/2-myGameArea.canvas.height/2,250,myGameArea.canvas.height/6);
+					ctx.drawImage(title, myGameArea.canvas.width/2-titleWidth/1.5,myGameArea.canvas.height/2-titleLength/2,titleWidth,titleLength);
 					if (check_start(X, Y)){
 						for(i = 0;i<3;i++){
-							ctx.drawImage(startGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/3,buttonWidth,buttonHeight); //start clicked
+							ctx.drawImage(startGameImage, myGameArea.canvas.width/1.3-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/3,buttonWidth,buttonHeight); //start clicked
 						}
 					}
 					else{
-						ctx.drawImage(startGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/3,buttonWidth,buttonHeight); //start not clicked
+						ctx.drawImage(startGameImage, myGameArea.canvas.width/1.3-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/3,buttonWidth,buttonHeight); //start not clicked
 					}
 					if (check_options(X, Y)){
 						for(i = 0;i<3;i++){		
-							ctx.drawImage(optionsGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/5,buttonWidth,buttonHeight); //scores clicked
+							ctx.drawImage(optionsGameImage, myGameArea.canvas.width/1.3-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/5,buttonWidth,buttonHeight); //scores clicked
 						}
 					}
 					else{						
-						ctx.drawImage(optionsGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/5,buttonWidth,buttonHeight); //options not clicked
+						ctx.drawImage(optionsGameImage, myGameArea.canvas.width/1.3-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/5,buttonWidth,buttonHeight); //options not clicked
 					}
 					if (check_help(X, Y)){
 						for(i = 0;i<3;i++){
-							ctx.drawImage(helpGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/14.5,buttonWidth,buttonHeight); //help clicked
+							ctx.drawImage(helpGameImage, myGameArea.canvas.width/1.3-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/14.5,buttonWidth,buttonHeight); //help clicked
 						}
 					}
 					else{
-						ctx.drawImage(helpGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/14.5,buttonWidth,buttonHeight); //help non clicked
+						ctx.drawImage(helpGameImage, myGameArea.canvas.width/1.3-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/14.5,buttonWidth,buttonHeight); //help non clicked
 					}
 					if (check_credits(X, Y)){
 						for(i = 0;i<3;i++){
-							ctx.drawImage(creditGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/15.5,buttonWidth,buttonHeight); //credits clicked
+							ctx.drawImage(creditGameImage, myGameArea.canvas.width/1.3-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/15.5,buttonWidth,buttonHeight); //credits clicked
 						}
 					}
 					else{
-						ctx.drawImage(creditGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/15.5,buttonWidth,buttonHeight); //credits not clicked
+						ctx.drawImage(creditGameImage, myGameArea.canvas.width/1.3-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/15.5,buttonWidth,buttonHeight); //credits not clicked
 					}
 					if (check_exit(X, Y)){
 						for(i = 0;i<3;i++){
-							ctx.drawImage(exitGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/5,buttonWidth,buttonHeight); //exit clicked
+							ctx.drawImage(exitGameImage, myGameArea.canvas.width/1.3-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/5,buttonWidth,buttonHeight); //exit clicked
 						}						
 					}
 					else{
-						ctx.drawImage(exitGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/5,buttonWidth,buttonHeight); //exit non clicked						
+						ctx.drawImage(exitGameImage, myGameArea.canvas.width/1.3-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/5,buttonWidth,buttonHeight); //exit non clicked						
 					}
 					if(!check_start(X, Y) && !check_options(X,Y) && !check_help(X,Y) && !check_credits(X,Y) && !check_exit(X,Y)){
 						myGameArea.canvas.style.cursor = "default";
@@ -380,43 +385,43 @@ function menu(){
 	
 }
 function draw_menu(){
-	ctx.drawImage(startGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/3,buttonWidth,buttonHeight); //start not clicked
-	ctx.drawImage(optionsGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/5,buttonWidth,buttonHeight); //options not clicked
-	ctx.drawImage(helpGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/14.5,buttonWidth,buttonHeight);
-	ctx.drawImage(creditGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/15.5,buttonWidth,buttonHeight); //credits not clicked
-	ctx.drawImage(exitGameImage, myGameArea.canvas.width/2-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/5,buttonWidth,buttonHeight); //exit non clicked
-	ctx.drawImage(title, myGameArea.canvas.width/2-250/2,myGameArea.canvas.height/2-myGameArea.canvas.height/2,250,myGameArea.canvas.height/6);
+	ctx.drawImage(startGameImage, myGameArea.canvas.width/1.3-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/3,buttonWidth,buttonHeight); //start not clicked
+	ctx.drawImage(optionsGameImage, myGameArea.canvas.width/1.3-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/5,buttonWidth,buttonHeight); //options not clicked
+	ctx.drawImage(helpGameImage, myGameArea.canvas.width/1.3-buttonWidth/2,myGameArea.canvas.height/2-myGameArea.canvas.height/14.5,buttonWidth,buttonHeight);
+	ctx.drawImage(creditGameImage, myGameArea.canvas.width/1.3-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/15.5,buttonWidth,buttonHeight); //credits not clicked
+	ctx.drawImage(exitGameImage, myGameArea.canvas.width/1.3-buttonWidth/2,myGameArea.canvas.height/2+myGameArea.canvas.height/5,buttonWidth,buttonHeight); //exit non clicked
+	ctx.drawImage(title, myGameArea.canvas.width/2-titleWidth/1.5,myGameArea.canvas.height/2-titleLength/2,titleWidth,titleLength);
 }
 function check_start(x,y){
-	if ((x>= myGameArea.canvas.width/2-buttonWidth/2 && x<= myGameArea.canvas.width/2-buttonWidth/2+buttonWidth)&&(y >= myGameArea.canvas.height/2-myGameArea.canvas.height/3 && y <= myGameArea.canvas.height/2-myGameArea.canvas.height/3+buttonHeight)){
+	if ((x>= myGameArea.canvas.width/1.3-buttonWidth/2 && x<= myGameArea.canvas.width/1.3-buttonWidth/2+buttonWidth)&&(y >= myGameArea.canvas.height/2-myGameArea.canvas.height/3 && y <= myGameArea.canvas.height/2-myGameArea.canvas.height/3+buttonHeight)){
 		return true;
 	}
 	return false;
 }
 
 function check_options(x,y){
-	if ((x>= myGameArea.canvas.width/2-buttonWidth/2 && x<= myGameArea.canvas.width/2-buttonWidth/2+buttonWidth)&&(y >= myGameArea.canvas.height/2-myGameArea.canvas.height/5 && y <= myGameArea.canvas.height/2-myGameArea.canvas.height/5+buttonHeight)){
+	if ((x>= myGameArea.canvas.width/1.3-buttonWidth/2 && x<= myGameArea.canvas.width/1.3-buttonWidth/2+buttonWidth)&&(y >= myGameArea.canvas.height/2-myGameArea.canvas.height/5 && y <= myGameArea.canvas.height/2-myGameArea.canvas.height/5+buttonHeight)){
 		return true;
 	}
 	return false;
 }
 
 function check_help(x,y){
-	if ((x>= myGameArea.canvas.width/2-buttonWidth/2 && x<= myGameArea.canvas.width/2-buttonWidth/2+buttonWidth)&&(y>= myGameArea.canvas.height/2-myGameArea.canvas.height/14.5 && y<= myGameArea.canvas.height/2-myGameArea.canvas.height/14.5+buttonHeight)){
+	if ((x>= myGameArea.canvas.width/1.3-buttonWidth/2 && x<= myGameArea.canvas.width/1.3-buttonWidth/2+buttonWidth)&&(y>= myGameArea.canvas.height/2-myGameArea.canvas.height/14.5 && y<= myGameArea.canvas.height/2-myGameArea.canvas.height/14.5+buttonHeight)){
 		return true;
 	}
 	return false;
 }
 
 function check_credits(x,y){
-	if ((x>= myGameArea.canvas.width/2-buttonWidth/2 && x<= myGameArea.canvas.width/2-buttonWidth/2+buttonWidth)&&(y>= myGameArea.canvas.height/2+myGameArea.canvas.height/15.5 && y<= myGameArea.canvas.height/2+myGameArea.canvas.height/15.5+buttonHeight)){
+	if ((x>= myGameArea.canvas.width/1.3-buttonWidth/2 && x<= myGameArea.canvas.width/1.3-buttonWidth/2+buttonWidth)&&(y>= myGameArea.canvas.height/2+myGameArea.canvas.height/15.5 && y<= myGameArea.canvas.height/2+myGameArea.canvas.height/15.5+buttonHeight)){
 		return true;
 	}
 	return false;
 }
 
 function check_exit(x,y){
-	if ((x>= myGameArea.canvas.width/2-buttonWidth/2 && x<= myGameArea.canvas.width/2-buttonWidth/2+buttonWidth)&&(y>= myGameArea.canvas.height/2+myGameArea.canvas.height/5 && y<= myGameArea.canvas.height/2+myGameArea.canvas.height/5+buttonHeight)){
+	if ((x>= myGameArea.canvas.width/1.3-buttonWidth/2 && x<= myGameArea.canvas.width/1.3-buttonWidth/2+buttonWidth)&&(y>= myGameArea.canvas.height/2+myGameArea.canvas.height/5 && y<= myGameArea.canvas.height/2+myGameArea.canvas.height/5+buttonHeight)){
 		return true;
 	}
 	return false;
