@@ -10,22 +10,22 @@ function check_enemyDirection(number){
 	visited[number][enemyLocationY[number]][enemyLocationX[number]] = true;
 	var walk = false;
 	if ((map[enemyLocationY[number] - 1][enemyLocationX[number]] == 0)&&
-		/*(map[enemyLocationY[number] - 1][enemyLocationX[number]] != 2)&&*/ !visited[number][enemyLocationY[number] - 1][enemyLocationX[number]]){
+		 !visited[number][enemyLocationY[number] - 1][enemyLocationX[number]]){
 		enemyDirection[number].push("N");
 		walk = true;
 	}
 	if ((map[enemyLocationY[number] + 1][enemyLocationX[number]] == 0) &&
-	/*(map[enemyLocationY[number] + 1][enemyLocationX[number]] != 2)&&*/	!visited[number][enemyLocationY[number] + 1][enemyLocationX[number]]){
+		!visited[number][enemyLocationY[number] + 1][enemyLocationX[number]]){
 		enemyDirection[number].push("S");
 		walk = true
 	}
 	if ((map[enemyLocationY[number]][enemyLocationX[number] - 1] == 0) &&
-		/*(map[enemyLocationY[number]][enemyLocationX[number] - 1] != 2)&&*/!visited[number][enemyLocationY[number]][enemyLocationX[number] - 1]){
+		!visited[number][enemyLocationY[number]][enemyLocationX[number] - 1]){
 		enemyDirection[number].push("W");
 		walk = true;
 	}
 	if ((map[enemyLocationY[number]][enemyLocationX[number] + 1] == 0) &&
-		/*(map[enemyLocationY[number]][enemyLocationX[number] + 1] != 2)&&*/ !visited[number][enemyLocationY[number]][enemyLocationX[number] + 1]){
+		 !visited[number][enemyLocationY[number]][enemyLocationX[number] + 1]){
 		enemyDirection[number].push("E");
 		walk = true;
 	}
