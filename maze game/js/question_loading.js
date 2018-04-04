@@ -61,7 +61,7 @@ function quiz(){
 			questionExecuting=false;			
 		}
 		
-	
+		ctx.fillText(Math.floor(countDown*25/1000),canvasWidth-canvasWidth/13 ,canvasHeight/25);
 		if (answered||countDown==0){
 			quizSound.pause();
 			playBackgroundMusic();
