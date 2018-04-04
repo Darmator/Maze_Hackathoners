@@ -133,7 +133,7 @@ function loadQuestion(){
     
     question[7] = "What band has sold the most albums?";
     
-    question[8] = "How many points do yo score for a try in rugby?";//Wrong  how many points
+    question[8] = "How many points do yo score for a try in rugby?";
     
     question[9] = "How many players are on the field in a regular soccer game for one team?";
     
