@@ -50,6 +50,7 @@ var timesNextClicked;
 var nextExists;
 var nextBackExist;
 function menu(){
+	resetEverything();
 	menuSound.play();
 	var nextExists=true;
 	var nextBackExist=false;

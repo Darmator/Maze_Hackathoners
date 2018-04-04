@@ -1,4 +1,6 @@
 var questionExecuting = false;
+var gameOverImage = new Image();
+gameOverImage.src = "img/GameOver.png";
 var woodPickaxeImage = new Image();
 woodPickaxeImage.src = "img/pickaxeWood.png";
 var doorSound = new Audio();
@@ -10,7 +12,7 @@ dragonSound.src = "mp3/burp.wav";
 var fireSound = new Audio();
 fireSound.src = "mp3/foom_0.wav";
 var gameOverSound = new Audio();
-gameOverSound.src = "mp3/Mario Paint - Gnat Attack Game Over.mp3";
+gameOverSound.src = "mp3/GameOver.mp3";
 var getHeartSound = new Audio();
 getHeartSound.src="mp3/OOT_Get_Heart.wav";
 var immunityCounter = 0;
@@ -22,6 +24,7 @@ var canvasHeight = window.innerHeight - window.innerHeight/33;
 var canvasWidth = window.innerWidth - window.innerHeight/64;
 var velocity;
 var soundSpikeCounter = false;
+var GameOver = false;
 
 var myGameArea = {  
     canvas : document.createElement("canvas"),
@@ -151,7 +154,15 @@ function component(width, height, color, x, y, number) {
 }
 
 function updateGameArea() {
-	if (questionExecuting){
+	if (GameOver){
+		ctx.drawImage(gameOverImage, 0 ,0 ,  canvasWidth, canvasHeight);
+		if (gameOverSound.ended){
+			GameOver = false;
+			myGameArea.stop();
+			menu();
+		}
+	}
+	else if (questionExecuting){
 		quiz();
 	}
 	else{
@@ -297,11 +308,8 @@ function updateGameArea() {
 	if (lives < 0){
 		forestSound.pause();
 		dungeonSound.pause();
-		lives = 5;
-		fisrt_level = true;
-		level_counter = 0;
-		myGameArea.stop();
-		menu();
+		GameOver = true;
+		gameOverSound.play();
 	}
 	}
 }

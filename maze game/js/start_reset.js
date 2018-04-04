@@ -1,4 +1,4 @@
-var first_level = true;
+var first_level;
 var myEnemy = [];
 var enemy_amount;
 var spikes_counter;
@@ -67,7 +67,6 @@ function create_enemies(){
 }
 
 function startGame() {
-	resetEverything();
 	findMazeSize();
 	myGameArea.start();
     myGameArea.interval = setInterval(updateGameArea, 20);
@@ -140,6 +139,8 @@ function resetValues(){
 	end = false;
 }
 function resetEverything(){
+	first_level = true;
+	extraPickaxe = true;
 	enemy_amount = 1;
 	spikes_counter = 2;
 	squareSurface = 80;

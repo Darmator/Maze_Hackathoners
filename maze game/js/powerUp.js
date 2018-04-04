@@ -6,7 +6,7 @@ var invencibleCounter = 0;
 var invencible = false;
 var pickaxeCounter = 0;
 var ultravision = false;
-var extraPickaxe = true;
+var extraPickaxe;
 var starSound = new Audio();
 starSound.src = "mp3/star.mp3";
 var mineSound = new Audio();
