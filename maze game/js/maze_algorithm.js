@@ -1,9 +1,9 @@
-var myObstacle =new Array();//This are going to be the obstacles
-var map = new Array();//This is going to be the maze written with, 0, 1 and 2, then the program will translate it into squares
-var posX;//x position of the square that the program is going to modify in order to create the map
-var posY;//y position of the square that the program is going to modify in order to create the map
-//This function will manage the algorithm that will write ones, or zeroes to the screen
-var direction = [];//This array will be used to generate random mazes,
+var myObstacle =new Array();
+var map = new Array();
+var posX;
+var posY;
+
+var direction = [];
 var lastPX = [];
 var lastPY = [];
 move = 0;
@@ -132,7 +132,7 @@ function draw_map(){
 				get_location();
 				map[locationY][locationX] = 4;
 			}
-			if (counter < 3){
+			if (counter < 3 && !cameraPresentation){
 				get_location();
 				map[locationY][locationX] = 3;
 			}
