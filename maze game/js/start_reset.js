@@ -1,15 +1,15 @@
-var first_level = true;
+var first_level;
 var myEnemy = [];
-var enemy_amount = 1;
-var spikes_counter = 2;
-var squareSurface = 80;
+var enemy_amount;
+var spikes_counter;
+var squareSurface;
 var mazeWidth;
 var mazeHeight;
 var locationX;
 var locationY;
 var enemy_locationX = [];
 var enemy_locationY = [];
-var level_counter =0;
+var level_counter;
 var end =false;
 var winImage = new Image();
 winImage.src = "img/win.jpg";
@@ -67,7 +67,7 @@ function create_enemies(){
 }
 
 function startGame() {
-	 findMazeSize();
+	findMazeSize();
 	myGameArea.start();
     myGameArea.interval = setInterval(updateGameArea, 20);
 	turn_to_2d();
@@ -89,15 +89,11 @@ function findMazeSize(){
 	 }
 }
 function reset_game(){
-	ultravision = false;
-	activePowerUp = false;
-	extraVelocity = 0;
-	correctQuestions = 0;
+	resetValues();
 	squareSurface -= 20;
 	level_counter++;
 	enemy_amount+= 3;
 	spikes_counter+= 4;
-	extraPickaxe = true;
 	starOff();
 	if (level_counter === 3){
 		forestSound.pause();
@@ -105,7 +101,7 @@ function reset_game(){
 		spikes_counter = 2;
 		enemy_amount = 1;
 		squareSurface = 80;
-		velocity = 2;
+		velocity = 3;
 		first_level = false;
 	}
 	findMazeSize();
@@ -113,7 +109,7 @@ function reset_game(){
 	turn_to_3d();
 	create_enemies();
 	myGameArea.start();
-	end = false;
+	
 	sketch_map();
 	draw_map();
 	get_location();
@@ -133,6 +129,27 @@ function reset_game(){
 		winSound.play();
 		myGameArea.stop();
 	}
+}
+function resetValues(){
+	ultravision = false;
+	activePowerUp = false;
+	extraVelocity = 0;
+	correctQuestions = 0
+	extraPickaxe = true;
+	end = false;
+}
+function resetEverything(){
+	first_level = true;
+	extraPickaxe = true;
+	enemy_amount = 1;
+	spikes_counter = 2;
+	squareSurface = 80;
+	level_counter =0;
+	velocity = 3;
+	correctQuestions = 0;
+	lives = 5;
+	maxLives = 6;
+	powerUpMove = 0;
 }
 function get_location(){
 	do {

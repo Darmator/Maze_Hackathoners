@@ -1,5 +1,5 @@
-var lives = 5;
-var maxLives = 6;
+var lives;
+var maxLives;
 var immunity = false;
 var subsLive = false;
 var damageSound = new Audio();

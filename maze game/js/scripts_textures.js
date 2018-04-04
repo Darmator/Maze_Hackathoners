@@ -262,19 +262,19 @@ function dragon_sprites( x,  y,  width,  height, number){
 function flame_sprites (x, y, width, height, number){
 	switch(fire_direction[number]){
 	case "down":
-		fire_ball[number].speedY = 4;
+		fire_ball[number].speedY = velocity + 2;
 		ctx.drawImage(dragon_image, 0, 144, 25, 25,x, y, width, height); //down fire
 		break;
 	case "up":
-		fire_ball[number].speedY = -4;
+		fire_ball[number].speedY = -(velocity + 2);
 		ctx.drawImage(dragon_image, 96, 145, 25, 22,x, y, width, height); //up fire
 		break;
 	case "left":
-		fire_ball[number].speedX = -4;
+		fire_ball[number].speedX = -(velocity + 2);
 		ctx.drawImage(dragon_image, 48, 144, 25, 25,x, y, width, height); //left fire
 		break;
 	case "right":
-		fire_ball[number].speedX = 4;
+		fire_ball[number].speedX = velocity + 2;
 		ctx.drawImage(dragon_image, 144, 144, 25, 25,x, y, width, height); //right fire
 		break;
 	}
