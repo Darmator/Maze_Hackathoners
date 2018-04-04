@@ -3,6 +3,10 @@ var question = new Array();
 var correctAnswer = new Array();
 var verticalText = canvasHeight/4;
 var questionNumber;
+var quizForestBackImage = new Image();
+quizForestBackImage.src = "img/quiz_forest.png";
+var quizDungeonBackImage = new Image();
+quizDungeonBackImage.src = "img/quiz_dungeon.png";
 var questionBackgroundImage = new Image();
 questionBackgroundImage.src = "img/mario_blocks_wallpaper_by_jayjaxon.png";
 var correctSound = new Audio();
@@ -31,8 +35,12 @@ function quiz(){
 	if (quizSound.ended){
 		quizSound.play();
 	}
-	ctx.drawImage(questionBackgroundImage,  0,  0,  canvasWidth,  canvasHeight);
-	
+	if (firstLevel){
+		ctx.drawImage(quizForestBackImage,  0,  0,  canvasWidth,  canvasHeight);
+	}
+	else{
+		ctx.drawImage(quizDungeonBackImage,  0,  0,  canvasWidth,  canvasHeight);
+	}
 	writeText(question[questionNumber]);
 	
 		
