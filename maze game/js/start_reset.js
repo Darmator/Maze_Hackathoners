@@ -146,13 +146,21 @@ function resetEverything(){
 		firstLevel = true;
 	}
 	extraPickaxe = true;
-	if (shortcut){
+	if (cameraPresentation){
+		enemyAmount = 0;
+	}
+	else if (shortcut){
 		enemyAmount = 2;
 	}
 	else {
 		enemyAmount = 1;
 	}
-	spikesCounter = 2;
+	if (cameraPresentation){
+		spikesCounter = 0;
+	}
+	else {
+		spikesCounter = 2;
+	}
 	squareSurface = 80;
 	levelCounter =0;
 	velocity = 3;

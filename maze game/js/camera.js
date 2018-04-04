@@ -1,5 +1,8 @@
 var visible = new Array();
 var tempVisible = new Array();
+var first = false;
+var second = false;
+var third = false;
 
 function visibility (){
 	var heroVision = 3;
@@ -16,7 +19,8 @@ function visibility (){
 			}
 		}
 	}
-	
+	if (((myGameArea.keys && myGameArea.keys[90]) || first) || !cameraPresentation){
+		first = true;
 	for (t = 0; t < mazeHeight; t++){
 		for (u = 0; u < mazeWidth; u++){
 			if (u === heroX && (t >= heroY - heroVision && t <= heroY + heroVision)){
@@ -27,6 +31,8 @@ function visibility (){
 			}
 		}
 	}
+	if (((myGameArea.keys && myGameArea.keys[88]) || second) ||!cameraPresentation ){
+		second = true;
 	for (t = 0; t < mazeHeight; t++){
 		for (u = 0; u < mazeWidth; u++){
 			if (visible[t][u]){
@@ -45,6 +51,8 @@ function visibility (){
 			}
 		}
 	}
+	if (((myGameArea.keys && myGameArea.keys[67]) || third) || !cameraPresentation){
+		third = true;
 	for (t = 0; t < mazeHeight; t++){
 		for (u = 0; u < mazeWidth; u++){
 			if (visible[t][u]){
@@ -66,6 +74,9 @@ function visibility (){
 				}
 			}
 		}
+	}
+	}
+	}
 	}
 }
 function block_vision( x, y){
