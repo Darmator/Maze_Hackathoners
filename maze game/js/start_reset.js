@@ -1,15 +1,15 @@
-var first_level;
+var firstLevel;
 var myEnemy = [];
-var enemy_amount;
-var spikes_counter;
+var enemyAmount;
+var spikesCounter;
 var squareSurface;
 var mazeWidth;
 var mazeHeight;
 var locationX;
 var locationY;
-var enemy_locationX = [];
-var enemy_locationY = [];
-var level_counter;
+var enemyLocationX = [];
+var enemyLocationY = [];
+var levelCounter;
 var end =false;
 var winImage = new Image();
 winImage.src = "img/win.jpg";
@@ -24,17 +24,17 @@ function turn_to_2d(){
  myObstacle[n]=new Array();
   map[n]=new Array();
   visible[n] = new Array();
-  temp_visible[n] = new Array();
+  tempVisible[n] = new Array();
  for (m=0;m<mazeWidth;m++) {
   myObstacle[n][m]=0;
   map[n][m]=0;
   visible[n][m] = false;
-  temp_visible[n][m] = false;
+  tempVisible[n][m] = false;
  }
 }
 }
 function turn_to_3d(){
-	for (j = 0; j < enemy_amount; j++){
+	for (j = 0; j < enemyAmount; j++){
 	visited[j] = new Array();
 	for (n = 0; n < mazeHeight; n++){
 		visited[j][n] = new Array();
@@ -45,24 +45,24 @@ function turn_to_3d(){
 }
 }
 function create_enemies(){
-	for (t = 0; t < enemy_amount; t++){
+	for (t = 0; t < enemyAmount; t++){
 	fire_ball[t] = 0;
 	enemy_foot[t] = 0;
 	fire_timer[t] = 0;
-	enemy_look[t] = "down";
-	enemy_direction[t] = new Array();
+	enemyLook[t] = "down";
+	enemyDirection[t] = new Array();
 	for (v = 0; v < 4; v++){
-		enemy_direction[t][v] = 0;
+		enemyDirection[t][v] = 0;
 	}
-	enemy_direction[t].length = 0;
+	enemyDirection[t].length = 0;
 }
-	for (t = 0; t < enemy_amount; t++){
+	for (t = 0; t < enemyAmount; t++){
 		get_location();
-		enemy_locationX[t] = locationX
-		enemy_locationY[t] = locationY
+		enemyLocationX[t] = locationX
+		enemyLocationY[t] = locationY
 		myEnemy[t] = new component(squareSurface/2, squareSurface/2, "enemy", myObstacle[locationY][locationX].x + squareSurface/5  , myObstacle[locationY][locationX].y + squareSurface/5, t );
-		move_to_x[t] = myObstacle[locationY][locationX].x + squareSurface/5;
-		move_to_y[t] = myObstacle[locationY][locationX].y + squareSurface/5;
+		moveToX[t] = myObstacle[locationY][locationX].x + squareSurface/5;
+		moveToY[t] = myObstacle[locationY][locationX].y + squareSurface/5;
 	}
 }
 
@@ -91,18 +91,18 @@ function findMazeSize(){
 function reset_game(){
 	resetValues();
 	squareSurface -= 20;
-	level_counter++;
-	enemy_amount+= 3;
-	spikes_counter+= 4;
+	levelCounter++;
+	enemyAmount+= 3;
+	spikesCounter+= 4;
 	starOff();
-	if (level_counter === 3){
+	if (levelCounter === 3){
 		forestSound.pause();
 		dungeonSound.play();
-		spikes_counter = 2;
-		enemy_amount = 1;
+		spikesCounter = 2;
+		enemyAmount = 1;
 		squareSurface = 80;
 		velocity = 3;
-		first_level = false;
+		firstLevel = false;
 	}
 	findMazeSize();
 	turn_to_2d();
@@ -114,16 +114,16 @@ function reset_game(){
 	draw_map();
 	get_location();
 	myGamePiece = new component(squareSurface/2, squareSurface/2, "hero", myObstacle[locationY][locationX].x + 4 , myObstacle[locationY][locationX].y + 4 );
-	for (t = 0; t < enemy_amount; t++){
+	for (t = 0; t < enemyAmount; t++){
 		get_location();
-		enemy_locationX[t] = locationX
-		enemy_locationY[t] = locationY
+		enemyLocationX[t] = locationX
+		enemyLocationY[t] = locationY
 		myEnemy[t].x = myObstacle[locationY][locationX].x + squareSurface/5;
 		myEnemy[t].y = myObstacle[locationY][locationX].y + squareSurface/5;
-		move_to_x[t] = myObstacle[locationY][locationX].x + squareSurface/5;
-		move_to_y[t] = myObstacle[locationY][locationX].y + squareSurface/5;
+		moveToX[t] = myObstacle[locationY][locationX].x + squareSurface/5;
+		moveToY[t] = myObstacle[locationY][locationX].y + squareSurface/5;
 	}
-	if (level_counter >= 6){
+	if (levelCounter >= 6){
 		ctx.drawImage(winImage,  0,  0,  canvasWidth,  canvasHeight);
 		dungeonSound.pause();
 		winSound.play();
@@ -139,12 +139,22 @@ function resetValues(){
 	end = false;
 }
 function resetEverything(){
-	first_level = true;
+	if (shortcut){
+		firstLevel = false;
+	}
+	else {
+		firstLevel = true;
+	}
 	extraPickaxe = true;
-	enemy_amount = 1;
-	spikes_counter = 2;
+	if (shortcut){
+		enemyAmount = 2;
+	}
+	else {
+		enemyAmount = 1;
+	}
+	spikesCounter = 2;
 	squareSurface = 80;
-	level_counter =0;
+	levelCounter =0;
 	velocity = 3;
 	correctQuestions = 0;
 	lives = 5;

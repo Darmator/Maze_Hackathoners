@@ -68,10 +68,10 @@ function component(width, height, color, x, y, number) {
 		if (!block_vision(this.x, this.y)){
 			switch (this.color){
 			case "enemy":
-				if (first_level){
+				if (firstLevel){
 					orcSound.play();
 				}
-				else if (!first_level){
+				else if (!firstLevel){
 					dragonSound.play();
 				}
 				break;
@@ -89,7 +89,7 @@ function component(width, height, color, x, y, number) {
 				break;
 			}
 		}
-		if (block_vision(this.x, this.y) && !first_level && !ultravision){ 
+		if (block_vision(this.x, this.y) && !firstLevel && !ultravision){ 
 			ctx.fillStyle = "black";
         ctx.fillRect(this.x, this.y, this.width, this.height);
 		}
@@ -166,7 +166,7 @@ function updateGameArea() {
 		quiz();
 	}
 	else{
-	if (first_level){
+	if (firstLevel){
 		if(forestSound.ended){
 			forestSound.play()
 		}
@@ -265,10 +265,10 @@ function updateGameArea() {
     } 	
 	myGamePiece.newPos();
     myGamePiece.update();
-	for ( t = 0; t < enemy_amount; t++){
+	for ( t = 0; t < enemyAmount; t++){
 		if (myEnemy[t] != "dead"){
-		if (myEnemy[t].x === move_to_x[t] && myEnemy[t].y === move_to_y[t]){
-			check_enemy_direction(t);
+		if (myEnemy[t].x === moveToX[t] && myEnemy[t].y === moveToY[t]){
+			check_enemyDirection(t);
 			enemy_move(t);
 		}
 		myEnemy[t].newPos();
@@ -315,7 +315,7 @@ function updateGameArea() {
 }
 
 function playBackgroundMusic(){
-	if (first_level){
+	if (firstLevel){
 		forestSound.play();
 	}
 	else{

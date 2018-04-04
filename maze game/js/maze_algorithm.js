@@ -4,8 +4,8 @@ var posX;//x position of the square that the program is going to modify in order
 var posY;//y position of the square that the program is going to modify in order to create the map
 //This function will manage the algorithm that will write ones, or zeroes to the screen
 var direction = [];//This array will be used to generate random mazes,
-var last_px = [];
-var last_py = [];
+var lastPX = [];
+var lastPY = [];
 move = 0;
 function sketch_map(){
 	for (v = 0; v < mazeHeight; v++){
@@ -64,8 +64,8 @@ function ultimate_check(){
 	move--;
 	//If you can keep following backwards the path
 	if (move !== 0){
-	posY = last_py[move];//Go to the last square that you carved
-	posX = last_px[move];
+	posY = lastPY[move];//Go to the last square that you carved
+	posX = lastPX[move];
 	end_sketching = false;
 	}
 	//Output if there's still path for you to follow
@@ -76,8 +76,8 @@ function ultimate_check(){
 function carve(){
 //	Pick your available directions and choose one randomly
 	var choose= Math.floor(Math.random() * direction.length);
-	last_py[move] = posY;//Record your square
-	last_px[move] = posX;
+	lastPY[move] = posY;//Record your square
+	lastPX[move] = posX;
 	switch (direction[choose]){
 	//	carve the squares at your left
 		case "W":
@@ -95,7 +95,7 @@ function carve(){
 	case "N":
 		map[posY-1][posX] = 0;
 		map[posY-2][posX] = 0;
-		last_py[move] = posY;
+		lastPY[move] = posY;
 		posY -= 2;
 		break;
 		//carve the squares under you
@@ -128,7 +128,7 @@ function draw_map(){
 	}
 	for (var y = 0;  y < mazeHeight; y++){
 		for (var x = 0; x < mazeWidth; x++){
-			if (counter < spikes_counter){
+			if (counter < spikesCounter){
 				get_location();
 				map[locationY][locationX] = 4;
 			}
@@ -143,7 +143,7 @@ function draw_map(){
 			if (counter < 1){
 				get_location();
 				map[locationY][locationX] = 6;
-				if (first_level){
+				if (firstLevel){
 					chosenPowerUp = Math.floor (Math.random() * 4);
 				}
 				else {

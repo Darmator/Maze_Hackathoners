@@ -1,32 +1,32 @@
 
 var visited = new Array();
-var move_to_x = [];
-var move_to_y = [];
-var enemy_look = [];
-var enemy_direction = [];
+var moveToX = [];
+var moveToY = [];
+var enemyLook = [];
+var enemyDirection = [];
 var enemyVelocity;
 
-function check_enemy_direction(number){
-	visited[number][enemy_locationY[number]][enemy_locationX[number]] = true;
+function check_enemyDirection(number){
+	visited[number][enemyLocationY[number]][enemyLocationX[number]] = true;
 	var walk = false;
-	if ((map[enemy_locationY[number] - 1][enemy_locationX[number]] == 0)&&
-		/*(map[enemy_locationY[number] - 1][enemy_locationX[number]] != 2)&&*/ !visited[number][enemy_locationY[number] - 1][enemy_locationX[number]]){
-		enemy_direction[number].push("N");
+	if ((map[enemyLocationY[number] - 1][enemyLocationX[number]] == 0)&&
+		/*(map[enemyLocationY[number] - 1][enemyLocationX[number]] != 2)&&*/ !visited[number][enemyLocationY[number] - 1][enemyLocationX[number]]){
+		enemyDirection[number].push("N");
 		walk = true;
 	}
-	if ((map[enemy_locationY[number] + 1][enemy_locationX[number]] == 0) &&
-	/*(map[enemy_locationY[number] + 1][enemy_locationX[number]] != 2)&&*/	!visited[number][enemy_locationY[number] + 1][enemy_locationX[number]]){
-		enemy_direction[number].push("S");
+	if ((map[enemyLocationY[number] + 1][enemyLocationX[number]] == 0) &&
+	/*(map[enemyLocationY[number] + 1][enemyLocationX[number]] != 2)&&*/	!visited[number][enemyLocationY[number] + 1][enemyLocationX[number]]){
+		enemyDirection[number].push("S");
 		walk = true
 	}
-	if ((map[enemy_locationY[number]][enemy_locationX[number] - 1] == 0) &&
-		/*(map[enemy_locationY[number]][enemy_locationX[number] - 1] != 2)&&*/!visited[number][enemy_locationY[number]][enemy_locationX[number] - 1]){
-		enemy_direction[number].push("W");
+	if ((map[enemyLocationY[number]][enemyLocationX[number] - 1] == 0) &&
+		/*(map[enemyLocationY[number]][enemyLocationX[number] - 1] != 2)&&*/!visited[number][enemyLocationY[number]][enemyLocationX[number] - 1]){
+		enemyDirection[number].push("W");
 		walk = true;
 	}
-	if ((map[enemy_locationY[number]][enemy_locationX[number] + 1] == 0) &&
-		/*(map[enemy_locationY[number]][enemy_locationX[number] + 1] != 2)&&*/ !visited[number][enemy_locationY[number]][enemy_locationX[number] + 1]){
-		enemy_direction[number].push("E");
+	if ((map[enemyLocationY[number]][enemyLocationX[number] + 1] == 0) &&
+		/*(map[enemyLocationY[number]][enemyLocationX[number] + 1] != 2)&&*/ !visited[number][enemyLocationY[number]][enemyLocationX[number] + 1]){
+		enemyDirection[number].push("E");
 		walk = true;
 	}
 	if (!walk) {
@@ -43,32 +43,32 @@ function enemy_move(number){
 	}
 	myEnemy[number].speedX = 0;
 	myEnemy[number].speedY = 0;
-	var choose_direction = Math.floor(Math.random() * enemy_direction[number].length );
-	switch (enemy_direction[number][choose_direction]){
+	var choose_direction = Math.floor(Math.random() * enemyDirection[number].length );
+	switch (enemyDirection[number][choose_direction]){
 	case "N":
-		enemy_look[number] = "up";
+		enemyLook[number] = "up";
 		myEnemy[number].speedY = -enemyVelocity;
-		enemy_locationY[number]--;
-		move_to_y[number] = myObstacle[enemy_locationY[number]][enemy_locationX[number]].y + squareSurface/5;
+		enemyLocationY[number]--;
+		moveToY[number] = myObstacle[enemyLocationY[number]][enemyLocationX[number]].y + squareSurface/5;
 		break;
 	case "S":
-		enemy_look[number] = "down";
+		enemyLook[number] = "down";
 		myEnemy[number].speedY = enemyVelocity;
-		enemy_locationY[number]++;
-		move_to_y[number] = myObstacle[enemy_locationY[number]][enemy_locationX[number]].y + squareSurface/5;
+		enemyLocationY[number]++;
+		moveToY[number] = myObstacle[enemyLocationY[number]][enemyLocationX[number]].y + squareSurface/5;
 		break;
 	case "W":
-		enemy_look[number] = "left";
+		enemyLook[number] = "left";
 		myEnemy[number].speedX = -enemyVelocity;
-		enemy_locationX[number]--;
-		move_to_x[number] = myObstacle[enemy_locationY[number]][enemy_locationX[number]].x + squareSurface/5;
+		enemyLocationX[number]--;
+		moveToX[number] = myObstacle[enemyLocationY[number]][enemyLocationX[number]].x + squareSurface/5;
 		break;
 	case "E":
-		enemy_look[number] = "right";
+		enemyLook[number] = "right";
 		myEnemy[number].speedX = enemyVelocity;
-		enemy_locationX[number]++;
-		move_to_x[number] = myObstacle[enemy_locationY[number]][enemy_locationX[number]].x + squareSurface/5;
+		enemyLocationX[number]++;
+		moveToX[number] = myObstacle[enemyLocationY[number]][enemyLocationX[number]].x + squareSurface/5;
 		break;
 	}
-	enemy_direction[number].length = 0;
+	enemyDirection[number].length = 0;
 }
