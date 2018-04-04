@@ -132,7 +132,7 @@ function draw_map(){
 				get_location();
 				map[locationY][locationX] = 4;
 			}
-			if (counter < 3){
+			if (counter < 3 && !cameraPresentation){
 				get_location();
 				map[locationY][locationX] = 3;
 			}
