@@ -4,7 +4,7 @@ var move_to_x = [];
 var move_to_y = [];
 var enemy_look = [];
 var enemy_direction = [];
-var enemyVelocity = 1;
+var enemyVelocity;
 
 function check_enemy_direction(number){
 	visited[number][enemy_locationY[number]][enemy_locationX[number]] = true;

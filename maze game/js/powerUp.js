@@ -1,7 +1,7 @@
 var chosenPowerUp;
 var extraVelocity = 0;
 var activePowerUp = false;
-var powerUpMove = 0;
+var powerUpMove;
 var invencibleCounter = 0;
 var invencible = false;
 var pickaxeCounter = 0;

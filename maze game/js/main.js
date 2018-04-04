@@ -20,7 +20,7 @@ var crashTop = false;
 var crashBottom = false;
 var canvasHeight = window.innerHeight - window.innerHeight/33;
 var canvasWidth = window.innerWidth - window.innerHeight/64;
-var velocity = 3;
+var velocity;
 var soundSpikeCounter = false;
 
 var myGameArea = {  

@@ -15,7 +15,7 @@ var unlockSound = new Audio();
 unlockSound.src = "mp3/unlock.wav";
 var boxY;
 var boxX;
-var correctQuestions = 0;
+var correctQuestions;
 var answeredQuestions = [];
 loadQuestion();
 loadAnswer();
@@ -195,7 +195,7 @@ function loadQuestion(){
 	 
 	 question[38] = "During inhalation, which is true?";
 	 
-	 question[39] = "What planet in our solar system is the hottest?";
+	 question[39] = "Which oe is the hottest planet in our Solar Sistem?";
 }
 function loadAnswer(){
 	for (g = 0; g < question.length;g++){
@@ -216,8 +216,8 @@ function loadAnswer(){
     correctAnswer[1] = 0; 
     
     answer[2][0] = "1. 0.34";
-    answer[2][1] = "1. 0.85";
-    answer[2][2] = "1. 2";
+    answer[2][1] = "2. 0.85";
+    answer[2][2] = "3. 2";
     correctAnswer[2] = 1;
     
     answer[3][0] = "1. Brasil";
