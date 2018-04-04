@@ -1,7 +1,7 @@
 var answer = new Array();
 var question = new Array();
 var correctAnswer = new Array();
-var verticalText = canvasHeight/4;
+var verticalText = canvasHeight/3;
 var questionNumber;
 var quizForestBackImage = new Image();
 quizForestBackImage.src = "img/quiz_forest.png";
@@ -92,7 +92,7 @@ function quiz(){
 				}
 			}
 		}
-	verticalText = canvasHeight/4;
+	verticalText = canvasHeight/3.5;
 }
 function resetAnsweredQuestions() {
 	for (t = 0; t < question.length; t++){
@@ -110,7 +110,7 @@ function chechAnswersAvailable() {
 }
 function writeText(sentence){
 	ctx.font = "40px Arial";
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = "orange";
 	var words = sentence.split(" ");
 	var horizontalText = 0;
 	ctx.fillText(words[0], horizontalText , verticalText); 
