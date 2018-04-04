@@ -44,31 +44,29 @@ function quiz(){
 		
 		if (myGameArea.keys && myGameArea.keys[49]  ) {
 					userAnswer = 0;
-					questionExecuting = false;
 					answered = true;
 		}
 		else if (myGameArea.keys && myGameArea.keys[50]  ) {
 					userAnswer = 1;
-					questionExecuting = false;
 					answered = true;
 		}
 		else if (myGameArea.keys && myGameArea.keys[51]  ) {
 					userAnswer = 2;
-					questionExecuting = false;
 					answered = true;
 		}
 		if(countDown==0){
-			questionExecuting=false;			
+			userAnswer = 4;
+			answered = true;
 		}
 		
 		ctx.fillText(Math.floor(countDown*25/1000),canvasWidth-canvasWidth/13 ,canvasHeight/25);
-		if (answered||countDown==0){
+		if (answered){
 			quizSound.pause();
 			playBackgroundMusic();
 			myObstacle[boxY][boxX].color  = "ground";
 			map[boxY][boxX] = 0;
-			if (userAnswer != correctAnswer[questionNumber]||countDown==0){
-				console.log("working");
+			questionExecuting = false;
+			if (userAnswer != correctAnswer[questionNumber]){
 				get_location();
 				myObstacle[locationY][locationX].color  = "question";
 				map[locationY][locationX] = 3;
