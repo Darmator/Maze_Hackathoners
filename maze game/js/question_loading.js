@@ -15,16 +15,18 @@ var unlockSound = new Audio();
 unlockSound.src = "mp3/unlock.wav";
 var boxY;
 var boxX;
-var correctQuestions;
+var correctQuestions = 0;
 var answeredQuestions = [];
+var countDown=1200;
+answered=true;
 loadQuestion();
 loadAnswer();
 function quiz(){
 	var userAnswer;
 	var answered = false;
+	countDown--;
 	forestSound.pause();
 	dungeonSound.pause();
-	starSound.pause();
 	quizSound.play();
 	if (quizSound.ended){
 		quizSound.play();
@@ -32,53 +34,56 @@ function quiz(){
 	ctx.drawImage(questionBackgroundImage,  0,  0,  canvasWidth,  canvasHeight);
 	
 	writeText(question[questionNumber]);
-	for (c = 0; c < 3; c++){
-		writeText(answer[questionNumber][c]);
-	}
-	questionExecuting = true;
-	if (myGameArea.keys && myGameArea.keys[49]  ) {
-				userAnswer = 0;
-				questionExecuting = false;
-				answered = true;
-	}
-	else if (myGameArea.keys && myGameArea.keys[50]  ) {
-				userAnswer = 1;
-				questionExecuting = false;
-				answered = true;
-	}
-	else if (myGameArea.keys && myGameArea.keys[51]  ) {
-				userAnswer = 2;
-				questionExecuting = false;
-				answered = true;
-	}
 	
-	if (answered){
-		quizSound.pause();
-		if (!invencible){
+		
+		for (c = 0; c < 3; c++){
+			writeText(answer[questionNumber][c]);
+		}
+		questionExecuting = true;
+		
+		
+		if (myGameArea.keys && myGameArea.keys[49]  ) {
+					userAnswer = 0;
+					answered = true;
+		}
+		else if (myGameArea.keys && myGameArea.keys[50]  ) {
+					userAnswer = 1;
+					answered = true;
+		}
+		else if (myGameArea.keys && myGameArea.keys[51]  ) {
+					userAnswer = 2;
+					answered = true;
+		}
+		if(countDown==0){
+			userAnswer = 4;
+			answered = true;
+		}
+		
+		ctx.fillText(Math.floor(countDown*25/1000),canvasWidth-canvasWidth/13 ,canvasHeight/25);
+		if (answered){
+			quizSound.pause();
 			playBackgroundMusic();
-		}
-		else {
-			starSound.play();
-		}
-		myObstacle[boxY][boxX].color  = "ground";
-		map[boxY][boxX] = 0;
-		if (userAnswer != correctAnswer[questionNumber]){
-			get_location();
-			myObstacle[locationY][locationX].color  = "question";
-			map[locationY][locationX] = 3;
-			wrongSound.play();
-		}
-		else {
-			answeredQuestions[questionNumber] = true;
-			correctQuestions++;
-			if (correctQuestions == 3){
-				unlockSound.play();
+			myObstacle[boxY][boxX].color  = "ground";
+			map[boxY][boxX] = 0;
+			questionExecuting = false;
+			if (userAnswer != correctAnswer[questionNumber]){
+				get_location();
+				myObstacle[locationY][locationX].color  = "question";
+				map[locationY][locationX] = 3;
+				wrongSound.play();
+				countDown=1200;
 			}
-			else {
-				correctSound.play();
+			else if(userAnswer == correctAnswer[questionNumber]){
+				answeredQuestions[questionNumber] = true;
+				correctQuestions++;
+				if (correctQuestions == 3){
+					unlockSound.play();
+				}
+				else {
+					correctSound.play();
+				}
 			}
 		}
-	}
 	verticalText = canvasHeight/4;
 }
 function resetAnsweredQuestions() {
